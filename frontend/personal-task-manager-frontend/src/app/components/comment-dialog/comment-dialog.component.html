@@ -1,0 +1,84 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Modifier le commentaire' : 'Ajouter un commentaire' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="commentForm" class="comment-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Commentaire *</mat-label>
+      <textarea matInput formControlName="content" placeholder="Saisissez votre commentaire..." rows="4"></textarea>
+      <mat-error *ngIf="commentForm.get('content')?.hasError('required')">
+        Le commentaire est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom de l'auteur</mat-label>
+      <input matInput formControlName="authorName" placeholder="Votre nom">
+      <mat-error *ngIf="commentForm.get('authorName')?.hasError('required')">
+        Le nom de l'auteur est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <div class="file-upload-section">
+      <label class="file-upload-label" for="fileInput">
+        <mat-icon>attach_file</mat-icon>
+        <span>Joindre des fichiers</span>
+      </label>
+      <input id="fileInput" type="file" (change)="onFilesSelected($event)" accept="*/*" multiple hidden />
+
+      <!-- Prévisualisation des fichiers -->
+      <div class="file-previews" *ngIf="filePreviews && filePreviews.length > 0">
+        <h4>Fichiers sélectionnés :</h4>
+        <div class="file-preview-grid">
+          <div class="file-preview-item" *ngFor="let preview of filePreviews; let i = index">
+            <!-- Image -->
+            <div *ngIf="preview.isImage" class="image-preview">
+              <img [src]="preview.url" [alt]="preview.name" class="preview-image">
+              <div class="file-info">
+                <span class="file-name">{{ preview.name }}</span>
+                <span class="file-size">{{ formatFileSize(preview.size) }}</span>
+              </div>
+              <button mat-icon-button (click)="removeFile(i)" class="remove-btn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            
+            <!-- PDF -->
+            <div *ngIf="preview.isPdf" class="pdf-preview">
+              <div class="pdf-icon">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </div>
+              <div class="file-info">
+                <span class="file-name">{{ preview.name }}</span>
+                <span class="file-size">{{ formatFileSize(preview.size) }}</span>
+              </div>
+              <button mat-icon-button (click)="removeFile(i)" class="remove-btn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            
+            <!-- Autres fichiers -->
+            <div *ngIf="!preview.isImage && !preview.isPdf" class="generic-preview">
+              <div class="file-icon">
+                <mat-icon>insert_drive_file</mat-icon>
+              </div>
+              <div class="file-info">
+                <span class="file-name">{{ preview.name }}</span>
+                <span class="file-size">{{ formatFileSize(preview.size) }}</span>
+              </div>
+              <button mat-icon-button (click)="removeFile(i)" class="remove-btn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!commentForm.valid">
+    {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+  </button>
+</mat-dialog-actions>

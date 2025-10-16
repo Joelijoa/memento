@@ -1,0 +1,31 @@
+.schedule-form {
+  min-width: 500px;
+  max-width: 600px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  
+  mat-form-field {
+    flex: 1;
+  }
+  
+  mat-checkbox {
+    margin-top: 8px;
+  }
+}
+
+mat-dialog-content {
+  padding: 20px 0;
+}
+
+mat-dialog-actions {
+  padding: 16px 0 0 0;
+  margin: 0;
+}

@@ -1,0 +1,39 @@
+<div class="schedule-container">
+  <div class="schedule-header">
+    <h2>Mon Planning</h2>
+    <button mat-raised-button color="primary" (click)="openAddScheduleDialog()">
+      <mat-icon>add</mat-icon>
+      Nouveau Planning
+    </button>
+  </div>
+
+  <div class="schedule-content">
+    <div class="week-view">
+      <div *ngFor="let day of weekDays" class="day-column">
+        <h3>{{ day.name }}</h3>
+        <div class="day-schedules">
+          <mat-card *ngFor="let schedule of getSchedulesForDay(day.value)" class="schedule-card">
+            <mat-card-content>
+              <div class="schedule-time">
+                {{ schedule.startTime }} - {{ schedule.endTime }}
+              </div>
+              <div class="schedule-title">{{ schedule.title }}</div>
+              <div *ngIf="schedule.description" class="schedule-description">
+                {{ schedule.description }}
+              </div>
+              <mat-chip *ngIf="schedule.isWorkSchedule" class="work-chip">Travail</mat-chip>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-icon-button (click)="editSchedule(schedule)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteSchedule(schedule)" color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

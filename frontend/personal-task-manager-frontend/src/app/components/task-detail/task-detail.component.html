@@ -1,0 +1,140 @@
+<div class="task-detail-container">
+  <!-- En-tête de la tâche -->
+  <div class="task-header" [ngClass]="'header-' + task.status.toLowerCase()">
+    <div class="header-content">
+      <h2 class="task-title">{{ task.title }}</h2>
+      <div class="task-badges">
+        <span class="status-badge" [ngClass]="'status-' + task.status.toLowerCase()">
+          {{ getStatusLabel(task.status) }}
+        </span>
+        <span class="priority-badge" [ngClass]="'priority-' + task.priority.toLowerCase()">
+          {{ getPriorityLabel(task.priority) }}
+        </span>
+      </div>
+    </div>
+    <button mat-icon-button (click)="close()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="task-content">
+    <!-- Informations de base -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>Informations de la tâche</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item" *ngIf="task.description">
+            <mat-icon>description</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Description</span>
+              <p class="info-value">{{ task.description }}</p>
+            </div>
+          </div>
+          
+          <div class="info-item" *ngIf="task.dueDate">
+            <mat-icon>event</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Date d'échéance</span>
+              <span class="info-value">{{ formatDate(task.dueDate) }}</span>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>local_fire_department</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Priorité</span>
+              <span class="info-value">{{ getPriorityLabel(task.priority) }}</span>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>trending_up</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Difficulté</span>
+              <span class="info-value">{{ getDifficultyLabel(task.difficulty) }}</span>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>schedule</mat-icon>
+            <div class="info-content">
+              <span class="info-label">Créée le</span>
+              <span class="info-value">{{ formatDate(task.createdAt) }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Commentaires et fichiers -->
+    <div class="comments-section" *ngIf="task.comments && task.comments.length > 0">
+      <h3>Commentaires et fichiers joints</h3>
+      
+      <div class="comment" *ngFor="let comment of task.comments">
+        <mat-card class="comment-card">
+          <mat-card-header>
+            <div class="comment-header">
+              <div class="comment-author">
+                <mat-icon>person</mat-icon>
+                <span>{{ comment.authorName }}</span>
+              </div>
+              <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
+            </div>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <p class="comment-content">{{ comment.content }}</p>
+            
+            <!-- Fichiers joints -->
+            <div class="attached-files" *ngIf="comment.files && comment.files.length > 0">
+              <h4>Fichiers joints :</h4>
+              <div class="files-grid">
+                <div class="file-item" *ngFor="let file of comment.files">
+                  <div class="file-preview">
+                    <!-- Image -->
+                    <div *ngIf="file.type.startsWith('image/')" class="image-file">
+                      <img [src]="file.url" [alt]="file.name" class="file-thumbnail">
+                    </div>
+                    
+                    <!-- PDF -->
+                    <div *ngIf="file.type === 'application/pdf'" class="pdf-file">
+                      <mat-icon>picture_as_pdf</mat-icon>
+                    </div>
+                    
+                    <!-- Autres fichiers -->
+                    <div *ngIf="!file.type.startsWith('image/') && file.type !== 'application/pdf'" class="generic-file">
+                      <mat-icon>{{ getFileIcon(file.type) }}</mat-icon>
+                    </div>
+                  </div>
+                  
+                  <div class="file-info">
+                    <span class="file-name">{{ file.name }}</span>
+                    <div class="file-actions">
+                      <button mat-button (click)="viewFile(file)" matTooltip="Voir">
+                        <mat-icon>visibility</mat-icon>
+                        Voir
+                      </button>
+                      <button mat-button (click)="downloadFile(file)" matTooltip="Télécharger">
+                        <mat-icon>download</mat-icon>
+                        Télécharger
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Message si aucun commentaire -->
+    <div class="no-comments" *ngIf="!task.comments || task.comments.length === 0">
+      <mat-icon>comment_outline</mat-icon>
+      <p>Aucun commentaire pour cette tâche</p>
+    </div>
+  </div>
+</div>

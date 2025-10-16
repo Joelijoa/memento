@@ -1,0 +1,142 @@
+<div class="task-container">
+  <!-- Header avec bouton d'ajout -->
+  <div class="task-header">
+    <h2>Gestion des Tâches</h2>
+    <button mat-raised-button color="primary" (click)="openAddTaskDialog()">
+      <mat-icon>add</mat-icon>
+      Nouvelle Tâche
+    </button>
+  </div>
+
+  <!-- Filtres -->
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Statut</mat-label>
+          <mat-select [(value)]="selectedStatus" (selectionChange)="filterTasks()">
+            <mat-option value="">Tous</mat-option>
+            <mat-option value="PENDING">En attente</mat-option>
+            <mat-option value="IN_PROGRESS">En cours</mat-option>
+            <mat-option value="COMPLETED">Terminée</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Difficulté</mat-label>
+          <mat-select [(value)]="selectedDifficulty" (selectionChange)="filterTasks()">
+            <mat-option value="">Toutes</mat-option>
+            <mat-option value="EASY">Facile</mat-option>
+            <mat-option value="MEDIUM">Moyenne</mat-option>
+            <mat-option value="HARD">Difficile</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rechercher</mat-label>
+          <input matInput [ngModel]="searchTerm" (ngModelChange)="searchTerm = $event; filterTasks()" placeholder="Titre ou description...">
+          <button mat-icon-button matSuffix tabindex="-1" *ngIf="searchTerm" (click)="searchTerm=''; filterTasks()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-icon matSuffix *ngIf="!searchTerm">search</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Liste des tâches -->
+  <div class="tasks-grid">
+    <mat-card *ngFor="let task of filteredTasks" class="task-card" [ngClass]="getTaskCardClass(task)">
+      <!-- En-tête coloré selon le statut -->
+      <div class="task-header" [ngClass]="'header-' + task.status.toLowerCase()">
+        <div class="task-title-section">
+          <h3 class="task-title">{{ task.title }}</h3>
+          <span class="status-badge" [ngClass]="'status-' + task.status.toLowerCase()">
+            {{ getStatusLabel(task.status) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Section d'informations -->
+      <mat-card-content class="task-content">
+        <div class="task-info">
+          <div class="info-item" *ngIf="task.dueDate">
+            <mat-icon>event</mat-icon>
+            <span>{{ formatDate(task.dueDate) }}</span>
+            <span class="overdue" *ngIf="isOverdue(task)">⚠️ En retard</span>
+          </div>
+          
+          <div class="info-item">
+            <mat-icon>local_fire_department</mat-icon>
+            <span class="priority-badge" [ngClass]="'priority-' + task.priority.toLowerCase()">
+              {{ getPriorityLabel(task.priority) }}
+            </span>
+          </div>
+          
+          <div class="info-item" *ngIf="task.description">
+            <mat-icon>description</mat-icon>
+            <span class="description">{{ task.description }}</span>
+          </div>
+        </div>
+
+        <!-- Commentaires -->
+        <div class="comments-section" *ngIf="task.comments && task.comments.length > 0">
+          <h4>Commentaires</h4>
+          <div class="comment" *ngFor="let comment of task.comments">
+            <div class="comment-header">
+              <span class="comment-author">{{ comment.authorName }}</span>
+              <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
+            </div>
+            <p class="comment-content">{{ comment.content }}</p>
+            <div class="comment-file" *ngIf="comment.fileName">
+              <mat-icon>attach_file</mat-icon>
+              <span>{{ comment.fileName }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      
+      <!-- Pied de carte avec boutons -->
+      <mat-card-actions class="task-actions">
+        <button mat-button (click)="editTask(task)" matTooltip="Modifier la tâche">
+          <mat-icon>edit</mat-icon>
+          Modifier
+        </button>
+        
+        <button mat-button (click)="openStatusMenu(task)" matTooltip="Changer le statut">
+          <mat-icon>swap_horiz</mat-icon>
+          Changer le statut
+        </button>
+        
+        <button mat-button 
+                (click)="openCommentDialog(task)" 
+                matTooltip="Ajouter un commentaire"
+                *ngIf="task.status === 'COMPLETED'"
+                class="comment-button">
+          <mat-icon>comment</mat-icon>
+          Ajouter un commentaire
+        </button>
+        
+        <button mat-button 
+                (click)="openTaskDetail(task)" 
+                matTooltip="Voir les détails"
+                *ngIf="task.status === 'COMPLETED' && task.comments && task.comments.length > 0"
+                class="detail-button">
+          <mat-icon>visibility</mat-icon>
+          Voir les détails
+        </button>
+        
+        <button mat-icon-button (click)="deleteTask(task)" matTooltip="Supprimer" color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Message si aucune tâche -->
+  <div *ngIf="filteredTasks.length === 0" class="no-tasks">
+    <mat-icon>assignment_turned_in</mat-icon>
+    <h3>Aucune tâche trouvée</h3>
+    <p>Commencez par créer votre première tâche !</p>
+  </div>
+</div>

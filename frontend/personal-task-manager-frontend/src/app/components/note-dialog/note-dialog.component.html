@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Modifier la note' : 'Nouvelle note' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="noteForm" class="note-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre *</mat-label>
+      <input matInput formControlName="title" placeholder="Titre de la note">
+      <mat-error *ngIf="noteForm.get('title')?.hasError('required')">
+        Le titre est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Contenu</mat-label>
+      <textarea matInput formControlName="content" placeholder="Contenu de la note" rows="4"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="TEXT">Texte</mat-option>
+          <mat-option value="VOICE">Vocal</mat-option>
+          <mat-option value="IMAGE">Image</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isPinned">
+        Épingler cette note
+      </mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!noteForm.valid">
+    {{ isEdit ? 'Modifier' : 'Créer' }}
+  </button>
+</mat-dialog-actions>

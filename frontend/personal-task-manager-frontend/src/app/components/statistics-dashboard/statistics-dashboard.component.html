@@ -1,0 +1,107 @@
+<div class="statistics-container">
+  <div class="statistics-header">
+    <h2>Tableau de Bord</h2>
+    <button mat-raised-button color="primary" (click)="refreshData()">
+      <mat-icon>refresh</mat-icon>
+      Actualiser
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <!-- Cartes de statistiques -->
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-card-title>Tâches Complétées</mat-card-title>
+        <mat-card-subtitle>Aujourd'hui</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ todayStats.tasksCompleted }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-card-title>Temps Productif</mat-card-title>
+        <mat-card-subtitle>Minutes</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ todayStats.productiveTimeMinutes }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-card-title>Notes Créées</mat-card-title>
+        <mat-card-subtitle>Aujourd'hui</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ todayStats.notesCreated }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-card-title>Efficacité</mat-card-title>
+        <mat-card-subtitle>Score</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ getEfficiencyScore() }}%</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Graphiques et données détaillées -->
+  <div class="charts-section">
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Répartition des Tâches par Difficulté</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="difficulty-stats">
+          <div class="stat-item" *ngFor="let diff of difficultyStats">
+            <div class="stat-label">{{ diff.label }}</div>
+            <div class="stat-bar">
+              <div class="stat-fill" [style.width.%]="diff.percentage" [ngClass]="diff.class"></div>
+            </div>
+            <div class="stat-value">{{ diff.count }}</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Types de Notes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="note-type-stats">
+          <div class="stat-item" *ngFor="let type of noteTypeStats">
+            <div class="stat-label">{{ type.label }}</div>
+            <div class="stat-bar">
+              <div class="stat-fill" [style.width.%]="type.percentage" [ngClass]="type.class"></div>
+            </div>
+            <div class="stat-value">{{ type.count }}</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Historique des 7 derniers jours -->
+  <mat-card class="history-card">
+    <mat-card-header>
+      <mat-card-title>Historique des 7 derniers jours</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="history-grid">
+        <div class="history-item" *ngFor="let day of last7Days">
+          <div class="day-name">{{ day.name }}</div>
+          <div class="day-stats">
+            <span class="task-count">{{ day.tasksCompleted }} tâches</span>
+            <span class="note-count">{{ day.notesCreated }} notes</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

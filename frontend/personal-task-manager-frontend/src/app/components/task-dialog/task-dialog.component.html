@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Modifier la tâche' : 'Nouvelle tâche' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="taskForm" class="task-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre *</mat-label>
+      <input matInput formControlName="title" placeholder="Titre de la tâche">
+      <mat-error *ngIf="taskForm.get('title')?.hasError('required')">
+        Le titre est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" placeholder="Description de la tâche" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Statut</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of TaskStatus | keyvalue" [value]="status.key">
+            {{ status.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Difficulté *</mat-label>
+        <mat-select formControlName="difficulty">
+          <mat-option *ngFor="let difficulty of TaskDifficulty | keyvalue" [value]="difficulty.key">
+            {{ difficulty.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="taskForm.get('difficulty')?.hasError('required')">
+          La difficulté est obligatoire
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Priorité *</mat-label>
+        <mat-select formControlName="priority">
+          <mat-option *ngFor="let priority of TaskPriority | keyvalue" [value]="priority.key">
+            {{ priority.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="taskForm.get('priority')?.hasError('required')">
+          La priorité est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date d'échéance</mat-label>
+        <input matInput type="date" formControlName="dueDate">
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!taskForm.valid">
+    {{ isEdit ? 'Modifier' : 'Créer' }}
+  </button>
+</mat-dialog-actions>

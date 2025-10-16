@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Modifier le planning' : 'Nouveau planning' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="scheduleForm" class="schedule-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre *</mat-label>
+      <input matInput formControlName="title" placeholder="Titre du planning">
+      <mat-error *ngIf="scheduleForm.get('title')?.hasError('required')">
+        Le titre est obligatoire
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" placeholder="Description du planning" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Jour de la semaine *</mat-label>
+        <mat-select formControlName="dayOfWeek">
+          <mat-option value="MONDAY">Lundi</mat-option>
+          <mat-option value="TUESDAY">Mardi</mat-option>
+          <mat-option value="WEDNESDAY">Mercredi</mat-option>
+          <mat-option value="THURSDAY">Jeudi</mat-option>
+          <mat-option value="FRIDAY">Vendredi</mat-option>
+          <mat-option value="SATURDAY">Samedi</mat-option>
+          <mat-option value="SUNDAY">Dimanche</mat-option>
+        </mat-select>
+        <mat-error *ngIf="scheduleForm.get('dayOfWeek')?.hasError('required')">
+          Le jour est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isWorkSchedule">
+        Planning de travail
+      </mat-checkbox>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Heure de début *</mat-label>
+        <input matInput type="time" formControlName="startTime">
+        <mat-error *ngIf="scheduleForm.get('startTime')?.hasError('required')">
+          L'heure de début est obligatoire
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Heure de fin *</mat-label>
+        <input matInput type="time" formControlName="endTime">
+        <mat-error *ngIf="scheduleForm.get('endTime')?.hasError('required')">
+          L'heure de fin est obligatoire
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!scheduleForm.valid">
+    {{ isEdit ? 'Modifier' : 'Créer' }}
+  </button>
+</mat-dialog-actions>
