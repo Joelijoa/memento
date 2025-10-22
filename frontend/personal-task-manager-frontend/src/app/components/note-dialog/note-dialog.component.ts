@@ -7,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { Note, NoteType } from '../../models/note.model';
+import { AudioRecorderComponent } from '../audio-recorder/audio-recorder.component';
 
 export interface NoteDialogData {
   note?: Note;
@@ -25,7 +27,9 @@ export interface NoteDialogData {
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule,
+    AudioRecorderComponent
   ],
   templateUrl: './note-dialog.component.html',
   styleUrl: './note-dialog.component.scss'
@@ -33,6 +37,8 @@ export interface NoteDialogData {
 export class NoteDialogComponent implements OnInit {
   noteForm!: FormGroup;
   isEdit = false;
+  showAudioRecorder = false;
+  audioFile: Blob | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -59,9 +65,52 @@ export class NoteDialogComponent implements OnInit {
     });
   }
 
+  onTypeChange(event: any): void {
+    const selectedType = event.value;
+    if (selectedType !== NoteType.VOICE) {
+      this.showAudioRecorder = false;
+      this.audioFile = null;
+    }
+  }
+
+  toggleAudioRecorder(): void {
+    this.showAudioRecorder = !this.showAudioRecorder;
+    if (!this.showAudioRecorder) {
+      this.audioFile = null;
+    }
+  }
+
+  onAudioRecorded(audioBlob: Blob): void {
+    this.audioFile = audioBlob;
+    this.showAudioRecorder = false;
+  }
+
+  onRecordingCancelled(): void {
+    this.showAudioRecorder = false;
+    this.audioFile = null;
+  }
+
+  removeAudio(): void {
+    this.audioFile = null;
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
   onSave(): void {
     if (this.noteForm.valid) {
       const noteData = this.noteForm.value;
+      
+      // Ajouter le fichier audio si présent
+      if (this.audioFile) {
+        noteData.audioFile = this.audioFile;
+      }
+      
       this.dialogRef.close(noteData);
     }
   }

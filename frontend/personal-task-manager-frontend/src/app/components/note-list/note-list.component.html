@@ -52,8 +52,15 @@
         </mat-card-subtitle>
       </mat-card-header>
 
-      <mat-card-content *ngIf="note.content">
-        <p class="note-content">{{ note.content }}</p>
+      <mat-card-content *ngIf="note.content || note.type === 'VOICE'">
+        <p class="note-content" *ngIf="note.content">{{ note.content }}</p>
+        
+        <!-- Lecteur audio pour les notes vocales -->
+        <app-audio-player 
+          *ngIf="note.type === 'VOICE' && note.mediaPath"
+          [audioUrl]="getAudioUrl(note.mediaPath)"
+          [fileName]="note.title">
+        </app-audio-player>
       </mat-card-content>
 
       <mat-card-actions align="end">

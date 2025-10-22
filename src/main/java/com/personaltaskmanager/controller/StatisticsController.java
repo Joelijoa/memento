@@ -7,14 +7,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/statistics")
+@CrossOrigin(origins = {"http://localhost:4200", "http://192.168.1.34:4200"})
 public class StatisticsController {
     private final StatisticsService statisticsService;
 
     public StatisticsController(StatisticsService statisticsService) {
         this.statisticsService = statisticsService;
+    }
+
+    @GetMapping
+    public List<Statistics> getAllStatistics() {
+        return statisticsService.getAllStatistics();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Statistics> getStatisticsById(@PathVariable Long id) {
+        Statistics statistics = statisticsService.getStatisticsById(id);
+        return statistics != null ? ResponseEntity.ok(statistics) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/date/{date}")
@@ -29,6 +42,11 @@ public class StatisticsController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return statisticsService.getStatisticsBetweenDates(startDate, endDate);
+    }
+
+    @GetMapping("/dashboard")
+    public Map<String, Object> getDashboardData() {
+        return statisticsService.getDashboardData();
     }
 
     @PostMapping

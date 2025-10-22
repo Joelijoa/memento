@@ -1,0 +1,29 @@
+<div class="install-prompt" *ngIf="showPrompt && !isInstalled">
+  <mat-card class="prompt-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>get_app</mat-icon>
+      <mat-card-title>Installer l'application</mat-card-title>
+      <mat-card-subtitle>Pour une meilleure expérience mobile</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <p>Installez Personal Task Manager sur votre appareil pour :</p>
+      <ul>
+        <li>Accès rapide depuis l'écran d'accueil</li>
+        <li>Fonctionnement hors ligne</li>
+        <li>Notifications push</li>
+        <li>Interface optimisée mobile</li>
+      </ul>
+    </mat-card-content>
+    
+    <mat-card-actions align="end">
+      <button mat-button (click)="dismissPrompt()">
+        Plus tard
+      </button>
+      <button mat-raised-button color="primary" (click)="installApp()">
+        <mat-icon>get_app</mat-icon>
+        Installer
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

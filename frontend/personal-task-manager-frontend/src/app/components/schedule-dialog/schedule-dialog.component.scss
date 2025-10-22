@@ -1,31 +1,235 @@
+// Dialogues minimalistes
+.mat-mdc-dialog-container {
+  border-radius: var(--border-radius-xl) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--primary-200) !important;
+  max-width: 600px !important;
+  width: 90vw !important;
+}
+
+.mat-mdc-dialog-title {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--primary-800) !important;
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-md) var(--spacing-xl) !important;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--primary-200);
+  background-color: var(--primary-50);
+}
+
+.mat-mdc-dialog-content {
+  padding: var(--spacing-xl) !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+}
+
+.mat-mdc-dialog-actions {
+  padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-xl) var(--spacing-xl) !important;
+  border-top: 1px solid var(--primary-200);
+  background-color: var(--primary-50);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  
+  button {
+    border-radius: var(--border-radius-md) !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    padding: var(--spacing-sm) var(--spacing-lg) !important;
+    transition: all 0.2s ease !important;
+    
+    &[mat-button] {
+      color: var(--primary-600) !important;
+      
+      &:hover {
+        background-color: var(--primary-100) !important;
+        color: var(--primary-700) !important;
+      }
+    }
+    
+    &[mat-raised-button] {
+      background-color: var(--accent-blue) !important;
+      color: white !important;
+      
+      &:hover:not(:disabled) {
+        background-color: var(--accent-blue) !important;
+        opacity: 0.9 !important;
+        transform: translateY(-1px) !important;
+      }
+      
+      &:disabled {
+        background-color: var(--primary-300) !important;
+        color: var(--primary-500) !important;
+      }
+    }
+  }
+}
+
+// Formulaires minimalistes
 .schedule-form {
-  min-width: 500px;
-  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .full-width {
   width: 100%;
 }
 
-.form-row {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  
-  mat-form-field {
-    flex: 1;
+// Champs de formulaire améliorés
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    border-radius: var(--border-radius-md) !important;
+    border: 1px solid var(--primary-300) !important;
+    background-color: white !important;
+    transition: all 0.2s ease !important;
+    
+    &:hover {
+      border-color: var(--primary-400) !important;
+    }
+    
+    &.mdc-text-field--focused {
+      border-color: var(--accent-blue) !important;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+    }
   }
   
-  mat-checkbox {
-    margin-top: 8px;
+  .mat-mdc-form-field-label {
+    color: var(--primary-600) !important;
+    font-weight: 500 !important;
+  }
+  
+  .mat-mdc-input-element {
+    color: var(--primary-800) !important;
+    font-size: 14px !important;
+    
+    &::placeholder {
+      color: var(--primary-400) !important;
+    }
+  }
+  
+  .mat-mdc-form-field-error {
+    color: var(--accent-red) !important;
+    font-size: 12px !important;
+    margin-top: var(--spacing-xs) !important;
+  }
+  
+  .mat-mdc-form-field-hint {
+    color: var(--primary-500) !important;
+    font-size: 12px !important;
   }
 }
 
-mat-dialog-content {
-  padding: 20px 0;
+// Selects améliorés
+.mat-mdc-select {
+  .mat-mdc-select-trigger {
+    border-radius: var(--border-radius-md) !important;
+  }
+  
+  .mat-mdc-select-value {
+    color: var(--primary-800) !important;
+    font-size: 14px !important;
+  }
+  
+  .mat-mdc-select-placeholder {
+    color: var(--primary-400) !important;
+  }
+  
+  .mat-mdc-select-arrow {
+    color: var(--primary-500) !important;
+  }
 }
 
-mat-dialog-actions {
-  padding: 16px 0 0 0;
-  margin: 0;
+// Options de select améliorées
+.mat-mdc-option {
+  font-size: 14px !important;
+  color: var(--primary-700) !important;
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  
+  &:hover {
+    background-color: var(--primary-100) !important;
+  }
+  
+  &.mdc-list-item--selected {
+    background-color: var(--accent-blue-light) !important;
+    color: var(--accent-blue) !important;
+    font-weight: 500 !important;
+  }
+}
+
+// Textarea améliorée
+textarea.mat-mdc-input-element {
+  resize: vertical !important;
+  min-height: 80px !important;
+  line-height: 1.5 !important;
+}
+
+// Champs de date et heure améliorés
+input[type="date"].mat-mdc-input-element,
+input[type="time"].mat-mdc-input-element {
+  color-scheme: light !important;
+  
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(0.5) !important;
+  }
+}
+
+// Checkbox amélioré
+.mat-mdc-checkbox {
+  .mat-mdc-checkbox-label {
+    color: var(--primary-700) !important;
+    font-size: 14px !important;
+  }
+}
+
+// Responsive design pour les dialogues
+@media (max-width: 768px) {
+  .mat-mdc-dialog-container {
+    width: 95vw !important;
+    max-width: none !important;
+  }
+  
+  .mat-mdc-dialog-title {
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md) var(--spacing-lg) !important;
+    font-size: 18px !important;
+  }
+  
+  .mat-mdc-dialog-content {
+    padding: var(--spacing-lg) !important;
+  }
+  
+  .mat-mdc-dialog-actions {
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg) var(--spacing-lg) !important;
+    flex-direction: column-reverse;
+    
+    button {
+      width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .mat-mdc-dialog-title {
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm) var(--spacing-md) !important;
+    font-size: 16px !important;
+  }
+  
+  .mat-mdc-dialog-content {
+    padding: var(--spacing-md) !important;
+  }
+  
+  .mat-mdc-dialog-actions {
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md) var(--spacing-md) !important;
+  }
 }

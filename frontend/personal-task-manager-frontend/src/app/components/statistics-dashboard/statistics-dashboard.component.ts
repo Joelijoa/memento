@@ -36,28 +36,28 @@ export class StatisticsDashboardComponent implements OnInit {
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.loadTodayStatistics();
-    this.generateMockData();
+    this.loadDashboardData();
   }
 
-  loadTodayStatistics(): void {
-    const today = new Date().toISOString().split('T')[0];
-    this.statisticsService.getStatisticsByDate(today).subscribe({
-      next: (stats) => {
-        this.todayStats = stats;
+  loadDashboardData(): void {
+    this.statisticsService.getDashboardData().subscribe({
+      next: (data) => {
+        this.todayStats = data['todayStats'] || this.todayStats;
+        this.difficultyStats = this.formatDifficultyStats(data['difficultyStats'] || {});
+        this.noteTypeStats = this.formatNoteTypeStats(data['noteTypeStats'] || {});
+        this.last7Days = data['last7Days'] || [];
         this.updateCharts();
       },
       error: (error) => {
-        console.error('Erreur lors du chargement des statistiques:', error);
-        // Utiliser les valeurs par défaut en cas d'erreur
-        this.updateCharts();
+        console.error('Erreur lors du chargement des données du dashboard:', error);
+        // Utiliser les données par défaut en cas d'erreur
+        this.generateMockData();
       }
     });
   }
 
   refreshData(): void {
-    this.loadTodayStatistics();
-    this.generateMockData();
+    this.loadDashboardData();
   }
 
   getEfficiencyScore(): number {
@@ -92,8 +92,67 @@ export class StatisticsDashboardComponent implements OnInit {
     ];
   }
 
+  private formatDifficultyStats(difficultyData: any): any[] {
+    const total = Object.values(difficultyData).reduce((sum: number, count: any) => sum + count, 0);
+    if (total === 0) return [];
+    
+    return Object.entries(difficultyData).map(([key, count]: [string, any]) => ({
+      label: this.getDifficultyLabel(key),
+      count: count,
+      percentage: Math.round((count / total) * 100),
+      class: this.getDifficultyClass(key)
+    }));
+  }
+
+  private formatNoteTypeStats(noteTypeData: any): any[] {
+    const total = Object.values(noteTypeData).reduce((sum: number, count: any) => sum + count, 0);
+    if (total === 0) return [];
+    
+    return Object.entries(noteTypeData).map(([key, count]: [string, any]) => ({
+      label: this.getNoteTypeLabel(key),
+      count: count,
+      percentage: Math.round((count / total) * 100),
+      class: this.getNoteTypeClass(key)
+    }));
+  }
+
+  private getDifficultyLabel(key: string): string {
+    const labels: { [key: string]: string } = {
+      'EASY': 'Facile',
+      'MEDIUM': 'Moyenne',
+      'HARD': 'Difficile'
+    };
+    return labels[key] || key;
+  }
+
+  private getDifficultyClass(key: string): string {
+    const classes: { [key: string]: string } = {
+      'EASY': 'easy',
+      'MEDIUM': 'medium',
+      'HARD': 'hard'
+    };
+    return classes[key] || 'medium';
+  }
+
+  private getNoteTypeLabel(key: string): string {
+    const labels: { [key: string]: string } = {
+      'TEXT': 'Texte',
+      'VOICE': 'Vocal',
+      'IMAGE': 'Image'
+    };
+    return labels[key] || key;
+  }
+
+  private getNoteTypeClass(key: string): string {
+    const classes: { [key: string]: string } = {
+      'TEXT': 'text',
+      'VOICE': 'voice',
+      'IMAGE': 'image'
+    };
+    return classes[key] || 'text';
+  }
+
   private updateCharts(): void {
-    // Mise à jour des graphiques basée sur les vraies données
-    // Pour l'instant, on garde les données simulées
+    // Les graphiques sont automatiquement mis à jour via les données formatées
   }
 }

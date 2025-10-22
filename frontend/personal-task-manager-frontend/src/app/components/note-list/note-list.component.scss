@@ -1,0 +1,273 @@
+.note-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  
+  h2 {
+    margin: 0;
+    color: var(--primary-800);
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -0.025em;
+  }
+}
+
+.filters-card {
+  margin-bottom: var(--spacing-xl);
+  background-color: white;
+  border: 1px solid var(--primary-200);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  
+  .filters-row {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    align-items: center;
+    
+    mat-form-field {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    mat-checkbox {
+      margin-left: var(--spacing-md);
+      color: var(--primary-600);
+    }
+  }
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.note-card {
+  background-color: white;
+  border: 1px solid var(--primary-200);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-300);
+  }
+  
+  &.pinned {
+    border-left: 3px solid var(--accent-orange);
+    background-color: var(--accent-orange-light);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-top: 20px solid var(--accent-orange);
+    }
+  }
+}
+
+// En-tête de note minimaliste
+.mat-mdc-card-header {
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md) var(--spacing-lg) !important;
+  background-color: var(--primary-50);
+  border-bottom: 1px solid var(--primary-200);
+}
+
+.mat-mdc-card-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--primary-800) !important;
+  margin-bottom: var(--spacing-sm) !important;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.pin-icon {
+  color: var(--accent-orange) !important;
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mat-mdc-card-subtitle {
+  margin-top: 0 !important;
+}
+
+// Chips de type minimalistes
+.mat-mdc-chip-set {
+  .mat-mdc-chip {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    border-radius: var(--border-radius-sm) !important;
+    padding: var(--spacing-xs) var(--spacing-sm) !important;
+    
+    &.mat-mdc-chip-selected {
+      &.mat-primary {
+        background-color: var(--accent-blue-light) !important;
+        color: var(--accent-blue) !important;
+      }
+      
+      &.mat-accent {
+        background-color: var(--accent-green-light) !important;
+        color: var(--accent-green) !important;
+      }
+      
+      &.mat-warn {
+        background-color: var(--accent-orange-light) !important;
+        color: var(--accent-orange) !important;
+      }
+    }
+  }
+}
+
+// Contenu de la note
+.mat-mdc-card-content {
+  padding: var(--spacing-md) var(--spacing-lg) !important;
+}
+
+.note-content {
+  color: var(--primary-600);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Actions minimalistes
+.mat-mdc-card-actions {
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-md) var(--spacing-lg) !important;
+  border-top: 1px solid var(--primary-200);
+  background-color: var(--primary-50);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-xs);
+  
+  button {
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: var(--primary-100);
+    }
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// Footer avec date
+.mat-mdc-card-footer {
+  padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-md) var(--spacing-lg) !important;
+  background-color: var(--primary-50);
+  border-top: 1px solid var(--primary-200);
+}
+
+.note-date {
+  color: var(--primary-500);
+  font-size: 12px;
+  font-style: italic;
+}
+
+// Message vide minimaliste
+.no-notes {
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  color: var(--primary-500);
+  
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-300);
+  }
+  
+  h3 {
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    color: var(--primary-600);
+    font-weight: 500;
+  }
+  
+  p {
+    margin: 0;
+    color: var(--primary-500);
+    font-size: 14px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .note-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+    
+    h2 {
+      text-align: center;
+    }
+  }
+  
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+    
+    mat-form-field {
+      min-width: 100%;
+    }
+    
+    mat-checkbox {
+      margin-left: 0;
+      margin-top: var(--spacing-sm);
+    }
+  }
+  
+  .notes-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .note-container {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .mat-mdc-card-header {
+    padding: var(--spacing-md) !important;
+  }
+  
+  .mat-mdc-card-content {
+    padding: var(--spacing-sm) var(--spacing-md) !important;
+  }
+  
+  .mat-mdc-card-actions {
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm) var(--spacing-md) !important;
+  }
+  
+  .mat-mdc-card-footer {
+    padding: var(--spacing-xs) var(--spacing-md) var(--spacing-sm) var(--spacing-md) !important;
+  }
+}

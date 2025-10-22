@@ -1,0 +1,81 @@
+<div class="audio-recorder" *ngIf="isVisible">
+  <div class="recorder-header">
+    <h3>Enregistrement Vocal</h3>
+    <button mat-icon-button (click)="cancelRecording()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="recorder-content">
+    <!-- État d'enregistrement -->
+    <div class="recording-status" [ngClass]="{'recording': isRecording, 'paused': isPaused}">
+      <div class="status-indicator">
+        <div class="pulse-dot" *ngIf="isRecording && !isPaused"></div>
+        <mat-icon *ngIf="!isRecording && !isPaused">mic</mat-icon>
+        <mat-icon *ngIf="isPaused">pause</mat-icon>
+      </div>
+      <div class="status-text">
+        <span *ngIf="!isRecording && !isPaused">Prêt à enregistrer</span>
+        <span *ngIf="isRecording && !isPaused">Enregistrement en cours...</span>
+        <span *ngIf="isPaused">Enregistrement en pause</span>
+      </div>
+    </div>
+
+    <!-- Durée d'enregistrement -->
+    <div class="recording-duration">
+      <span class="duration-text">{{ recordingDuration }}</span>
+    </div>
+
+    <!-- Barre de progression -->
+    <div class="progress-container" *ngIf="isRecording || isPaused">
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="recordingProgress"
+        class="recording-progress">
+      </mat-progress-bar>
+    </div>
+
+    <!-- Contrôles d'enregistrement -->
+    <div class="recording-controls">
+      <button 
+        *ngIf="!isRecording"
+        mat-fab 
+        color="primary" 
+        (click)="startRecording()"
+        class="record-button">
+        <mat-icon>mic</mat-icon>
+      </button>
+
+      <div *ngIf="isRecording" class="active-controls">
+        <button 
+          mat-fab 
+          color="warn" 
+          (click)="isPaused ? resumeRecording() : pauseRecording()"
+          class="control-button">
+          <mat-icon>{{ isPaused ? 'play_arrow' : 'pause' }}</mat-icon>
+        </button>
+
+        <button 
+          mat-fab 
+          color="accent" 
+          (click)="stopRecording()"
+          class="control-button">
+          <mat-icon>stop</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instructions">
+      <p *ngIf="!isRecording && !isPaused">
+        Cliquez sur le bouton pour commencer l'enregistrement
+      </p>
+      <p *ngIf="isRecording && !isPaused">
+        Cliquez sur pause pour mettre en pause ou stop pour terminer
+      </p>
+      <p *ngIf="isPaused">
+        Cliquez sur play pour reprendre l'enregistrement
+      </p>
+    </div>
+  </div>
+</div>

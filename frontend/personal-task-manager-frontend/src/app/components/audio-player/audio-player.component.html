@@ -1,0 +1,74 @@
+<div class="audio-player" *ngIf="audioUrl">
+  <div class="player-header">
+    <div class="file-info">
+      <mat-icon>audiotrack</mat-icon>
+      <span class="file-name">{{ fileName || 'Enregistrement vocal' }}</span>
+    </div>
+    <div class="loading-indicator" *ngIf="isLoading">
+      <mat-icon class="spinning">refresh</mat-icon>
+    </div>
+  </div>
+
+  <div class="player-controls">
+    <!-- Contrôles principaux -->
+    <div class="main-controls">
+      <button 
+        mat-icon-button 
+        (click)="togglePlayPause()"
+        [disabled]="isLoading"
+        class="play-button">
+        <mat-icon>{{ isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
+      </button>
+
+      <button 
+        mat-icon-button 
+        (click)="stop()"
+        [disabled]="isLoading || (!isPlaying && !isPaused)"
+        class="stop-button">
+        <mat-icon>stop</mat-icon>
+      </button>
+    </div>
+
+    <!-- Barre de progression -->
+    <div class="progress-section">
+      <div class="time-display">
+        <span class="current-time">{{ formatTime(currentTime) }}</span>
+        <span class="duration">{{ formatTime(duration) }}</span>
+      </div>
+      
+      <div class="progress-bar-container" (click)="seek($event)">
+        <div class="progress-bar">
+          <div 
+            class="progress-fill" 
+            [style.width.%]="progress">
+          </div>
+          <div 
+            class="progress-handle" 
+            [style.left.%]="progress">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contrôles de volume -->
+    <div class="volume-controls">
+      <button 
+        mat-icon-button 
+        (click)="toggleMute()"
+        class="mute-button">
+        <mat-icon>{{ isMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
+      </button>
+      
+      <div class="volume-slider">
+        <input 
+          type="range" 
+          min="0" 
+          max="1" 
+          step="0.1" 
+          [value]="volume"
+          (input)="setVolume($event)"
+          class="volume-range">
+      </div>
+    </div>
+  </div>
+</div>

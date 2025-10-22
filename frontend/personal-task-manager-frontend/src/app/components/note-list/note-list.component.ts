@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NoteService } from '../../services/note.service';
 import { Note, NoteType } from '../../models/note.model';
 import { NoteDialogComponent, NoteDialogData } from '../note-dialog/note-dialog.component';
+import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 
 @Component({
   selector: 'app-note-list',
@@ -30,7 +31,8 @@ import { NoteDialogComponent, NoteDialogData } from '../note-dialog/note-dialog.
     MatInputModule,
     MatChipsModule,
     MatTooltipModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AudioPlayerComponent
   ],
   templateUrl: './note-list.component.html',
   styleUrl: './note-list.component.scss'
@@ -106,7 +108,10 @@ export class NoteListComponent implements OnInit {
   }
 
   private createNote(noteData: any): void {
-    this.noteService.createNote(noteData).subscribe({
+    const audioFile = noteData.audioFile;
+    delete noteData.audioFile; // Retirer le fichier audio des données de la note
+    
+    this.noteService.createNote(noteData, audioFile).subscribe({
       next: (newNote) => {
         this.notes.push(newNote);
         this.filterNotes();
@@ -193,5 +198,10 @@ export class NoteListComponent implements OnInit {
 
   formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('fr-FR');
+  }
+
+  getAudioUrl(mediaPath: string): string {
+    if (!mediaPath) return '';
+    return `http://localhost:8080/api/notes/audio/${mediaPath}`;
   }
 }

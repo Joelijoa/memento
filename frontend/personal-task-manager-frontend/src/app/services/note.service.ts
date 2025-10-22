@@ -19,8 +19,19 @@ export class NoteService {
     return this.http.get<Note>(`${this.apiUrl}/${id}`);
   }
 
-  createNote(note: Note): Observable<Note> {
+  createNote(note: Note, audioFile?: Blob): Observable<Note> {
+    if (audioFile && note.type === 'VOICE') {
+      return this.createNoteWithAudio(note, audioFile);
+    }
     return this.http.post<Note>(this.apiUrl, note);
+  }
+
+  private createNoteWithAudio(note: Note, audioFile: Blob): Observable<Note> {
+    const formData = new FormData();
+    formData.append('note', JSON.stringify(note));
+    formData.append('audioFile', audioFile, 'recording.webm');
+    
+    return this.http.post<Note>(`${this.apiUrl}/with-audio`, formData);
   }
 
   updateNote(id: number, note: Note): Observable<Note> {

@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/schedules")
+@CrossOrigin(origins = {"http://localhost:4200", "http://192.168.1.34:4200"})
 public class ScheduleController {
     private final ScheduleService scheduleService;
 

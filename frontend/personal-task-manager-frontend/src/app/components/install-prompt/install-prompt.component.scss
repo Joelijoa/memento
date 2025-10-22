@@ -1,0 +1,95 @@
+.install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.prompt-card {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-light));
+  color: white;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--border-radius-xl);
+  
+  mat-card-header {
+    .mat-mdc-card-title {
+      color: white;
+      font-weight: 600;
+    }
+    
+    .mat-mdc-card-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    mat-icon {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+  
+  mat-card-content {
+    color: rgba(255, 255, 255, 0.9);
+    
+    ul {
+      margin: var(--spacing-sm) 0;
+      padding-left: var(--spacing-lg);
+      
+      li {
+        margin-bottom: var(--spacing-xs);
+        font-size: 14px;
+      }
+    }
+  }
+  
+  mat-card-actions {
+    button {
+      color: white;
+      
+      &[mat-button] {
+        color: rgba(255, 255, 255, 0.8);
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+      
+      &[mat-raised-button] {
+        background-color: white;
+        color: var(--accent-blue);
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.9);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .install-prompt {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+  
+  .prompt-card {
+    mat-card-content {
+      ul {
+        padding-left: var(--spacing-md);
+      }
+    }
+  }
+}

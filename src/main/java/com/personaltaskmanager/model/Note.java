@@ -3,6 +3,7 @@ package com.personaltaskmanager.model;
 import com.personaltaskmanager.enums.NoteType;
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,6 +21,7 @@ public class Note {
     private String content;
 
     @Column(name = "is_pinned")
+    @JsonProperty("isPinned")
     private boolean isPinned = false;
 
     @Column(name = "note_type")
