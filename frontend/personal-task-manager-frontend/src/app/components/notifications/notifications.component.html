@@ -1,0 +1,67 @@
+<button 
+  mat-icon-button 
+  [matMenuTriggerFor]="notificationMenu" 
+  class="notification-button"
+  [matBadge]="unreadCount" 
+  [matBadgeHidden]="unreadCount === 0"
+  matBadgeColor="warn">
+  <mat-icon>notifications</mat-icon>
+</button>
+
+<mat-menu #notificationMenu="matMenu" class="notification-menu">
+  <div class="notification-header">
+    <div class="notification-title-section">
+      <h3>Notifications</h3>
+      <span class="unread-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+    </div>
+    <div class="notification-actions">
+      <button mat-icon-button (click)="markAllAsRead()" *ngIf="unreadCount > 0" matTooltip="Tout marquer comme lu">
+        <mat-icon>done_all</mat-icon>
+      </button>
+      <button mat-icon-button (click)="clearAll()" *ngIf="notifications.length > 0" matTooltip="Tout effacer">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="notification-list">
+    <div *ngIf="notifications.length === 0" class="no-notifications">
+      <div class="empty-icon">
+        <mat-icon>notifications_none</mat-icon>
+      </div>
+      <p>Aucune notification</p>
+    </div>
+
+    <div 
+      *ngFor="let notification of notifications" 
+      class="notification-card"
+      [class.unread]="!notification.read"
+      [class.high-priority]="notification.priority === 'high'"
+      [class.medium-priority]="notification.priority === 'medium'"
+      (click)="onNotificationClick(notification)">
+      
+      <div class="notification-icon-square" [class.high-priority]="notification.priority === 'high'"
+           [class.medium-priority]="notification.priority === 'medium'">
+        <mat-icon>{{ getTypeIcon(notification.type) }}</mat-icon>
+      </div>
+      
+      <div class="notification-content-wrapper">
+        <div class="notification-header-row">
+          <strong class="notification-title">{{ notification.title }}</strong>
+          <span class="notification-time">{{ formatTimestamp(notification.timestamp) }}</span>
+        </div>
+        <p class="notification-message">{{ notification.message }}</p>
+        <div class="notification-footer">
+          <button 
+            mat-icon-button 
+            (click)="deleteNotification(notification, $event)"
+            class="delete-button"
+            matTooltip="Supprimer">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-menu>
+

@@ -58,6 +58,8 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
     this.currentUserSubject.next(null);
+    // Force un refresh pour vider complètement la session
+    window.location.href = '/login';
   }
 
   getToken(): string | null {

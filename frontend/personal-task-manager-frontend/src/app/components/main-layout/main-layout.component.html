@@ -47,21 +47,35 @@
       
       <span class="spacer"></span>
       
+      <!-- Notifications -->
+      <app-notifications></app-notifications>
+      
       <!-- User Menu -->
-      <button mat-icon-button [matMenuTriggerFor]="userMenu">
-        <mat-icon>account_circle</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" [matTooltip]="getDisplayName()" class="profile-menu-button">
+        <div class="profile-menu-wrapper">
+          <img *ngIf="getProfileImageUrl()" [src]="getProfileImageUrl()" alt="Photo de profil" class="profile-menu-image">
+          <div *ngIf="!getProfileImageUrl()" class="profile-menu-placeholder">
+            <span class="profile-menu-initials">{{ getInitials() }}</span>
+          </div>
+          <span class="online-indicator"></span>
+        </div>
       </button>
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item>
+        <div class="user-info" *ngIf="currentUser">
+          <div class="user-name">{{ getDisplayName() }}</div>
+          <div class="user-email">{{ currentUser.email }}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="onProfileClick()">
           <mat-icon>person</mat-icon>
           <span>Profil</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onSettingsClick()">
           <mat-icon>settings</mat-icon>
           <span>Paramètres</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onLogout()">
           <mat-icon>logout</mat-icon>
           <span>Déconnexion</span>
         </button>

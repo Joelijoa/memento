@@ -22,14 +22,14 @@
   }
 }
 
-// En-tête coloré pour les tâches
+// En-tête coloré pour les tâches (comme note-dialog)
 ::ng-deep .task-dialog .mat-mdc-dialog-title {
   font-size: 22px !important;
   font-weight: 700 !important;
   color: white !important;
   padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg) var(--spacing-xl) !important;
   margin: 0 !important;
-  background: var(--gradient-warning);
+  background: var(--gradient-warning) !important;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -38,6 +38,7 @@
     font-size: 28px;
     width: 28px;
     height: 28px;
+    color: white !important;
   }
 }
 

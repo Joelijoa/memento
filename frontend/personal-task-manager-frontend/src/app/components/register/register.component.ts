@@ -63,7 +63,22 @@ export class RegisterComponent implements OnInit {
           this.snackBar.open('Inscription réussie ! Connectez-vous maintenant', 'Fermer', { duration: 3000 });
         },
         error: (error: any) => {
-          this.snackBar.open('Erreur lors de l\'inscription', 'Fermer', { duration: 3000 });
+          console.error('Erreur lors de l\'inscription:', error);
+          let errorMessage = 'Erreur lors de l\'inscription';
+          
+          if (error.error && error.error.error) {
+            errorMessage = error.error.error;
+          } else if (error.message) {
+            errorMessage = error.message;
+          } else if (error.status === 0) {
+            errorMessage = 'Impossible de contacter le serveur. Vérifiez que le serveur backend est démarré.';
+          } else if (error.status === 400) {
+            errorMessage = error.error?.error || 'Données invalides. Vérifiez vos informations.';
+          } else if (error.status >= 500) {
+            errorMessage = 'Erreur serveur. Veuillez réessayer plus tard.';
+          }
+          
+          this.snackBar.open(errorMessage, 'Fermer', { duration: 5000 });
         }
       });
     }

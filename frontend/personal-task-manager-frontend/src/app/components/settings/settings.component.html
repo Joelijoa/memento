@@ -1,0 +1,159 @@
+<div class="settings-container">
+  <div class="settings-card">
+    <div class="settings-header">
+      <mat-icon class="settings-icon">settings</mat-icon>
+      <h1>Paramètres</h1>
+    </div>
+
+    <!-- Apparence -->
+    <mat-card class="settings-section-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>palette</mat-icon>
+          Apparence
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">
+              <mat-icon>dark_mode</mat-icon>
+              <span>
+                <strong>Mode nuit</strong>
+                <small>Activez le thème sombre pour une meilleure expérience en basse luminosité</small>
+              </span>
+            </div>
+          </div>
+          <mat-slide-toggle [(ngModel)]="darkMode" (change)="onDarkModeToggle()" [checked]="darkMode"></mat-slide-toggle>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Disposition de navigation -->
+    <mat-card class="settings-section-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>view_quilt</mat-icon>
+          Disposition de la navigation
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">
+              <mat-icon>menu</mat-icon>
+              <span>
+                <strong>Position de la barre de navigation</strong>
+                <small>Choisissez où afficher la barre de navigation</small>
+              </span>
+            </div>
+          </div>
+          <mat-form-field appearance="outline" class="setting-control">
+            <mat-select [(ngModel)]="navigationPosition" (selectionChange)="onNavigationPositionChange($event.value)">
+              <mat-option value="left">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+                Gauche
+              </mat-option>
+              <mat-option value="right">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+                Droite
+              </mat-option>
+              <mat-option value="top">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+                Haut
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mat-divider style="margin: 24px 0;"></mat-divider>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">
+              <mat-icon>view_sidebar</mat-icon>
+              <span>
+                <strong>État de la barre latérale</strong>
+                <small>Choisissez si la barre latérale doit être étendue ou réduite par défaut</small>
+              </span>
+            </div>
+          </div>
+          <mat-form-field appearance="outline" class="setting-control">
+            <mat-select [(ngModel)]="sidebarState" (selectionChange)="onSidebarStateChange($event.value)">
+              <mat-option value="expanded">
+                <mat-icon>unfold_more</mat-icon>
+                Étendue
+              </mat-option>
+              <mat-option value="collapsed">
+                <mat-icon>unfold_less</mat-icon>
+                Réduite
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Informations personnelles -->
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          Informations personnelles
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nom d'utilisateur</mat-label>
+            <input matInput formControlName="username" placeholder="Nom d'utilisateur">
+            <mat-icon matPrefix>badge</mat-icon>
+            <mat-error *ngIf="settingsForm.get('username')?.hasError('required')">
+              Le nom d'utilisateur est obligatoire
+            </mat-error>
+            <mat-error *ngIf="settingsForm.get('username')?.hasError('minlength')">
+              Le nom d'utilisateur doit contenir au moins 3 caractères
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Email">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-error *ngIf="settingsForm.get('email')?.hasError('required')">
+              L'email est obligatoire
+            </mat-error>
+            <mat-error *ngIf="settingsForm.get('email')?.hasError('email')">
+              Format d'email invalide
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Prénom</mat-label>
+            <input matInput formControlName="firstName" placeholder="Prénom (optionnel)">
+            <mat-icon matPrefix>account_box</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="lastName" placeholder="Nom (optionnel)">
+            <mat-icon matPrefix>account_box</mat-icon>
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button mat-button type="button" (click)="onCancel()">
+              <mat-icon>cancel</mat-icon>
+              <span>Annuler</span>
+            </button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!settingsForm.valid || loading">
+              <mat-icon>save</mat-icon>
+              <span>{{ loading ? 'Enregistrement...' : 'Enregistrer' }}</span>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

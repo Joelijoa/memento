@@ -1,0 +1,87 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h1>Mon Profil</h1>
+    </div>
+
+    <!-- Photo de profil -->
+    <div class="profile-image-section">
+      <div class="profile-image-container">
+        <div class="profile-image-wrapper">
+          <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="Photo de profil" class="profile-image">
+          <div *ngIf="!profileImageUrl" class="profile-image-placeholder">
+            <span class="profile-initials">{{ getInitials() }}</span>
+          </div>
+        </div>
+        <div class="profile-image-actions">
+          <input type="file" accept="image/*" #fileInput (change)="onImageSelected($event)" style="display: none;">
+          <button mat-icon-button color="primary" (click)="fileInput.click()" matTooltip="Changer la photo">
+            <mat-icon>camera_alt</mat-icon>
+          </button>
+          <button *ngIf="profileImageUrl" mat-icon-button color="warn" (click)="removeProfileImage()" matTooltip="Supprimer la photo">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <mat-card class="info-card" *ngIf="user">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          Informations personnelles
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="info-row">
+          <div class="info-label">
+            <mat-icon>badge</mat-icon>
+            <span>Nom d'utilisateur</span>
+          </div>
+          <div class="info-value">{{ user.username }}</div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">
+            <mat-icon>email</mat-icon>
+            <span>Email</span>
+          </div>
+          <div class="info-value">{{ user.email }}</div>
+        </div>
+
+        <div class="info-row" *ngIf="user.firstName">
+          <div class="info-label">
+            <mat-icon>account_box</mat-icon>
+            <span>Prénom</span>
+          </div>
+          <div class="info-value">{{ user.firstName }}</div>
+        </div>
+
+        <div class="info-row" *ngIf="user.lastName">
+          <div class="info-label">
+            <mat-icon>account_box</mat-icon>
+            <span>Nom</span>
+          </div>
+          <div class="info-value">{{ user.lastName }}</div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">
+            <mat-icon>fingerprint</mat-icon>
+            <span>ID</span>
+          </div>
+          <div class="info-value">#{{ user.id }}</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="profile-actions">
+      <button mat-raised-button color="primary" [routerLink]="['/settings']">
+        <mat-icon>settings</mat-icon>
+        <span>Modifier mes informations</span>
+      </button>
+    </div>
+  </div>
+</div>
+

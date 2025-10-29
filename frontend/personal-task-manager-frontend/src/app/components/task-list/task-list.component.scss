@@ -8,6 +8,9 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-xl);
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
   
   h2 {
     margin: 0;
@@ -15,6 +18,7 @@
     font-weight: 600;
     font-size: 24px;
     letter-spacing: -0.025em;
+    background: transparent !important;
   }
 }
 

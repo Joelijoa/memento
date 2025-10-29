@@ -6,16 +6,21 @@ import { ScheduleViewComponent } from './components/schedule-view/schedule-view.
 import { StatisticsDashboardComponent } from './components/statistics-dashboard/statistics-dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: '',
@@ -26,7 +31,9 @@ export const routes: Routes = [
       { path: 'tasks', component: TaskListComponent },
       { path: 'notes', component: NoteListComponent },
       { path: 'schedule', component: ScheduleViewComponent },
-      { path: 'statistics', component: StatisticsDashboardComponent }
+      { path: 'statistics', component: StatisticsDashboardComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'settings', component: SettingsComponent }
     ]
   },
   {
