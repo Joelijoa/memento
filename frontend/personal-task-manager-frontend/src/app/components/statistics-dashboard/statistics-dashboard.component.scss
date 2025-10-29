@@ -31,29 +31,60 @@
   border: 1px solid var(--primary-200);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    transition: opacity 0.3s ease;
+  }
   
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--primary-300);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-xl);
+    border-color: transparent;
+    
+    &::before {
+      opacity: 1;
+    }
   }
   
   &:nth-child(1) {
-    border-left: 3px solid var(--accent-green);
+    border-left: 4px solid var(--accent-green);
+    
+    &::before {
+      background: var(--gradient-success);
+    }
   }
   
   &:nth-child(2) {
-    border-left: 3px solid var(--accent-blue);
+    border-left: 4px solid var(--accent-blue);
+    
+    &::before {
+      background: var(--gradient-info);
+    }
   }
   
   &:nth-child(3) {
-    border-left: 3px solid var(--accent-orange);
+    border-left: 4px solid var(--accent-amber);
+    
+    &::before {
+      background: var(--gradient-warning);
+    }
   }
   
   &:nth-child(4) {
-    border-left: 3px solid var(--accent-red);
+    border-left: 4px solid var(--accent-rose);
+    
+    &::before {
+      background: var(--gradient-danger);
+    }
   }
 }
 
@@ -81,11 +112,15 @@
 }
 
 .stat-number {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--primary-800);
+  font-size: 36px;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
   margin: var(--spacing-md) 0;
+  text-shadow: 0 2px 4px rgba(124, 107, 255, 0.1);
 }
 
 // Section des graphiques
@@ -139,30 +174,31 @@
 .stat-fill {
   height: 100%;
   border-radius: var(--border-radius-sm);
-  transition: width 0.6s ease-in-out;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   &.easy {
-    background-color: var(--accent-green);
+    background: var(--gradient-success);
   }
   
   &.medium {
-    background-color: var(--accent-orange);
+    background: var(--gradient-warning);
   }
   
   &.hard {
-    background-color: var(--accent-red);
+    background: var(--gradient-danger);
   }
   
   &.text {
-    background-color: var(--accent-blue);
+    background: var(--gradient-info);
   }
   
   &.voice {
-    background-color: var(--accent-green);
+    background: var(--gradient-success);
   }
   
   &.image {
-    background-color: var(--accent-orange);
+    background: var(--gradient-warning);
   }
 }
 

@@ -38,4 +38,7 @@ public class Schedule {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @Column(name = "user_id")
+    private Long userId;
 } 

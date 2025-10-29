@@ -67,23 +67,51 @@
   border: 1px solid var(--primary-200);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: var(--spacing-sm);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    transition: all 0.3s ease;
+  }
   
   &:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-    border-color: var(--primary-300);
+    border-color: var(--primary-400);
   }
   
   &.work-schedule {
-    border-left: 3px solid var(--accent-blue);
-    background-color: var(--accent-blue-light);
+    background: linear-gradient(to right, var(--accent-blue-light), white);
+    
+    &::before {
+      background: var(--gradient-info);
+    }
+    
+    .schedule-time {
+      background: var(--gradient-info);
+      color: white;
+    }
   }
   
   &.personal-schedule {
-    border-left: 3px solid var(--accent-green);
-    background-color: var(--accent-green-light);
+    background: linear-gradient(to right, var(--accent-green-light), white);
+    
+    &::before {
+      background: var(--gradient-success);
+    }
+    
+    .schedule-time {
+      background: var(--gradient-success);
+      color: white;
+    }
   }
 }
 
@@ -93,13 +121,15 @@
 
 .schedule-time {
   font-size: 12px;
-  font-weight: 600;
-  color: var(--primary-600);
+  font-weight: 700;
+  color: white;
   margin-bottom: var(--spacing-xs);
-  background-color: var(--primary-100);
+  background: var(--gradient-primary);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-sm);
   display: inline-block;
+  box-shadow: var(--shadow-sm);
+  letter-spacing: 0.5px;
 }
 
 .schedule-title {
@@ -118,12 +148,13 @@
 }
 
 .work-chip {
-  background-color: var(--accent-blue) !important;
+  background: var(--gradient-info) !important;
   color: white !important;
   font-size: 10px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   border-radius: var(--border-radius-sm) !important;
   padding: var(--spacing-xs) var(--spacing-sm) !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
 .mat-mdc-card-actions {

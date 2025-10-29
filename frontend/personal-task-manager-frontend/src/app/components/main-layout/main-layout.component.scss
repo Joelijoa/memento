@@ -14,10 +14,11 @@
   display: flex;
   align-items: center;
   padding: var(--spacing-lg);
-  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  background: var(--gradient-primary);
   color: white;
   margin-bottom: var(--spacing-sm);
   border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .app-icon {
@@ -40,14 +41,16 @@
   border-bottom: 1px solid var(--primary-200);
   box-shadow: var(--shadow-sm);
   height: 64px;
+  backdrop-filter: blur(10px);
 }
 
 .menu-button {
   margin-right: var(--spacing-md);
-  color: var(--primary-600);
+  color: var(--primary-700);
   
   &:hover {
-    background-color: var(--primary-100);
+    background: var(--accent-purple-light);
+    color: var(--accent-purple);
   }
 }
 
@@ -96,18 +99,24 @@
   }
 }
 
-// Navigation active state - minimaliste
+// Navigation active state - moderne
 .active {
-  background-color: var(--accent-blue-light) !important;
-  color: var(--accent-blue) !important;
+  background: linear-gradient(135deg, var(--accent-purple-light), var(--accent-pink-light)) !important;
+  color: var(--primary-800) !important;
+  font-weight: 600 !important;
+  box-shadow: var(--shadow-sm);
   
   .mat-mdc-list-item-icon {
-    color: var(--accent-blue) !important;
+    color: var(--accent-purple) !important;
   }
   
   .mat-mdc-list-item-title {
-    color: var(--accent-blue) !important;
+    color: var(--primary-800) !important;
     font-weight: 600 !important;
+  }
+  
+  &:hover {
+    background: linear-gradient(135deg, var(--accent-purple-light), var(--accent-pink-light)) !important;
   }
 }
 
@@ -161,3 +170,5 @@
     font-size: 16px;
   }
 }
+
+

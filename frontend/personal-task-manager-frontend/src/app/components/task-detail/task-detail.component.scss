@@ -4,27 +4,28 @@
   overflow-y: auto;
 }
 
-// En-tête de la tâche
+// En-tête de la tâche avec dégradés modernes
 .task-header {
   padding: 24px;
   color: white;
   position: relative;
   border-radius: 12px 12px 0 0;
+  box-shadow: var(--shadow-md);
   
   &.header-pending {
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: var(--gradient-warning);
   }
   
   &.header-in_progress {
-    background: linear-gradient(135deg, #2196f3, #21cbf3);
+    background: var(--gradient-info);
   }
   
   &.header-completed {
-    background: linear-gradient(135deg, #4caf50, #8bc34a);
+    background: var(--gradient-success);
   }
   
   &.header-overdue {
-    background: linear-gradient(135deg, #f44336, #ff5722);
+    background: var(--gradient-danger);
   }
 }
 
@@ -47,11 +48,15 @@
 }
 
 .status-badge, .priority-badge {
-  padding: 4px 12px;
-  border-radius: 16px;
+  padding: 6px 14px;
+  border-radius: 20px;
   font-size: 0.8em;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .close-btn {

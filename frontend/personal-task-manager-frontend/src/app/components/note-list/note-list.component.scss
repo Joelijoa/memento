@@ -55,29 +55,45 @@
   border: 1px solid var(--primary-200);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   position: relative;
   
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--primary-300);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-400);
+    
+    &::before {
+      opacity: 1;
+    }
   }
   
   &.pinned {
-    border-left: 3px solid var(--accent-orange);
-    background-color: var(--accent-orange-light);
+    border-left: 4px solid var(--accent-amber);
+    background: linear-gradient(to right, var(--accent-amber-light), white);
     
     &::before {
-      content: '';
+      content: '📌';
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-top: 20px solid var(--accent-orange);
+      top: 8px;
+      right: 12px;
+      opacity: 1;
+      background: transparent;
+      font-size: 18px;
+      line-height: 1;
     }
   }
 }
@@ -100,10 +116,11 @@
 }
 
 .pin-icon {
-  color: var(--accent-orange) !important;
+  color: var(--accent-amber) !important;
   font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
+  filter: drop-shadow(0 2px 2px rgba(245, 158, 11, 0.3));
 }
 
 .mat-mdc-card-subtitle {
@@ -120,18 +137,21 @@
     
     &.mat-mdc-chip-selected {
       &.mat-primary {
-        background-color: var(--accent-blue-light) !important;
+        background: linear-gradient(135deg, var(--accent-blue-light), #e0f2fe) !important;
         color: var(--accent-blue) !important;
+        box-shadow: var(--shadow-sm) !important;
       }
       
       &.mat-accent {
-        background-color: var(--accent-green-light) !important;
+        background: linear-gradient(135deg, var(--accent-green-light), #f0fdf4) !important;
         color: var(--accent-green) !important;
+        box-shadow: var(--shadow-sm) !important;
       }
       
       &.mat-warn {
-        background-color: var(--accent-orange-light) !important;
-        color: var(--accent-orange) !important;
+        background: linear-gradient(135deg, var(--accent-amber-light), #fffbeb) !important;
+        color: var(--accent-amber) !important;
+        box-shadow: var(--shadow-sm) !important;
       }
     }
   }
@@ -149,6 +169,7 @@
   font-size: 14px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

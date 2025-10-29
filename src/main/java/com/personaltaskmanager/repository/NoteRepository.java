@@ -13,6 +13,7 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findByIsPinned(boolean isPinned);
     List<Note> findByType(NoteType type);
+    List<Note> findByUserId(Long userId);
     
     @Query("SELECT n FROM Note n WHERE n.createdAt BETWEEN :startDate AND :endDate")
     List<Note> findByCreatedAtBetween(@Param("startDate") LocalDateTime startDate, 

@@ -14,6 +14,8 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByStatus(TaskStatus status);
     List<Task> findByDifficulty(TaskDifficulty difficulty);
+    List<Task> findByUserId(Long userId);
+    List<Task> findByStatusAndUserId(TaskStatus status, Long userId);
     
     @Query("SELECT t FROM Task t WHERE t.status = :status AND t.createdAt BETWEEN :startDate AND :endDate")
     List<Task> findByStatusAndCreatedAtBetween(@Param("status") TaskStatus status, 

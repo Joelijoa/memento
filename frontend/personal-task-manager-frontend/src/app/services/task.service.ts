@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task, TaskStatus } from '../models/task.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,18 @@ import { Task, TaskStatus } from '../models/task.model';
 export class TaskService {
   private apiUrl = 'http://localhost:8080/api/tasks';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
+  
+  private addUserId(task: any): any {
+    const user = this.authService.getCurrentUser();
+    if (user && user.id) {
+      task.userId = user.id;
+    }
+    return task;
+  }
 
   getAllTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl);
@@ -20,7 +32,8 @@ export class TaskService {
   }
 
   createTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, task);
+    const taskWithUserId = this.addUserId(task);
+    return this.http.post<Task>(this.apiUrl, taskWithUserId);
   }
 
   updateTask(id: number, task: Task): Observable<Task> {

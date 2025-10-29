@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Note } from '../models/note.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,18 @@ import { Note } from '../models/note.model';
 export class NoteService {
   private apiUrl = 'http://localhost:8080/api/notes';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
+  
+  private addUserId(note: any): any {
+    const user = this.authService.getCurrentUser();
+    if (user && user.id) {
+      note.userId = user.id;
+    }
+    return note;
+  }
 
   getAllNotes(): Observable<Note[]> {
     return this.http.get<Note[]>(this.apiUrl);
@@ -20,10 +32,11 @@ export class NoteService {
   }
 
   createNote(note: Note, audioFile?: Blob): Observable<Note> {
+    const noteWithUserId = this.addUserId(note);
     if (audioFile && note.type === 'VOICE') {
-      return this.createNoteWithAudio(note, audioFile);
+      return this.createNoteWithAudio(noteWithUserId, audioFile);
     }
-    return this.http.post<Note>(this.apiUrl, note);
+    return this.http.post<Note>(this.apiUrl, noteWithUserId);
   }
 
   private createNoteWithAudio(note: Note, audioFile: Blob): Observable<Note> {

@@ -83,7 +83,8 @@ export class TaskListComponent implements OnInit {
 
   openAddTaskDialog(): void {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
-      width: '500px',
+      width: '600px',
+      panelClass: 'task-dialog',
       data: { isEdit: false } as TaskDialogData
     });
 
@@ -96,7 +97,8 @@ export class TaskListComponent implements OnInit {
 
   editTask(task: Task): void {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
-      width: '500px',
+      width: '600px',
+      panelClass: 'task-dialog',
       data: { task: task, isEdit: true } as TaskDialogData
     });
 

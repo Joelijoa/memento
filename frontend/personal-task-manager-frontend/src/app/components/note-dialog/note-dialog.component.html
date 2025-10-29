@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>{{ isEdit ? 'Modifier la note' : 'Nouvelle note' }}</h2>
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEdit ? 'edit' : 'note_add' }}</mat-icon>
+  <span>{{ isEdit ? 'Modifier la note' : 'Nouvelle note' }}</span>
+</h2>
 
 <mat-dialog-content>
   <form [formGroup]="noteForm" class="note-form">

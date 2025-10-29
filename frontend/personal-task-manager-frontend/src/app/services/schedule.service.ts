@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Schedule } from '../models/schedule.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,18 @@ import { Schedule } from '../models/schedule.model';
 export class ScheduleService {
   private apiUrl = 'http://localhost:8080/api/schedules';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
+  
+  private addUserId(schedule: any): any {
+    const user = this.authService.getCurrentUser();
+    if (user && user.id) {
+      schedule.userId = user.id;
+    }
+    return schedule;
+  }
 
   getAllSchedules(): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(this.apiUrl);
@@ -20,7 +32,8 @@ export class ScheduleService {
   }
 
   createSchedule(schedule: Schedule): Observable<Schedule> {
-    return this.http.post<Schedule>(this.apiUrl, schedule);
+    const scheduleWithUserId = this.addUserId(schedule);
+    return this.http.post<Schedule>(this.apiUrl, scheduleWithUserId);
   }
 
   updateSchedule(id: number, schedule: Schedule): Observable<Schedule> {

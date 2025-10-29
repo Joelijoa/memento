@@ -83,7 +83,8 @@ export class NoteListComponent implements OnInit {
 
   openAddNoteDialog(): void {
     const dialogRef = this.dialog.open(NoteDialogComponent, {
-      width: '500px',
+      width: '600px',
+      panelClass: 'note-dialog',
       data: { isEdit: false } as NoteDialogData
     });
 
@@ -96,7 +97,8 @@ export class NoteListComponent implements OnInit {
 
   editNote(note: Note): void {
     const dialogRef = this.dialog.open(NoteDialogComponent, {
-      width: '500px',
+      width: '600px',
+      panelClass: 'note-dialog',
       data: { note: note, isEdit: true } as NoteDialogData
     });
 

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { Schedule, DayOfWeek } from '../../models/schedule.model';
 
 export interface ScheduleDialogData {
@@ -25,7 +26,8 @@ export interface ScheduleDialogData {
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   templateUrl: './schedule-dialog.component.html',
   styleUrl: './schedule-dialog.component.scss'

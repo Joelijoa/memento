@@ -45,6 +45,7 @@ export interface Task {
   dueDate?: string;
   createdAt?: string;
   updatedAt?: string;
+  userId?: number;
   comments?: Comment[];
   isOverdue?: boolean;
 }

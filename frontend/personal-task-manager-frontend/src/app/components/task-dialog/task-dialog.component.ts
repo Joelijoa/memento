@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Task, TaskStatus, TaskDifficulty, TaskPriority } from '../../models/task.model';
 
 export interface TaskDialogData {
@@ -23,7 +24,8 @@ export interface TaskDialogData {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './task-dialog.component.html',
   styleUrl: './task-dialog.component.scss'

@@ -1,36 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 
-// Variables de couleurs minimalistes
+// Variables de couleurs modernes et tendance
 :root {
-  // Palette principale - tons neutres et doux
-  --primary-50: #f8fafc;
-  --primary-100: #f1f5f9;
-  --primary-200: #e2e8f0;
-  --primary-300: #cbd5e1;
-  --primary-400: #94a3b8;
-  --primary-500: #64748b;
-  --primary-600: #475569;
-  --primary-700: #334155;
-  --primary-800: #1e293b;
-  --primary-900: #0f172a;
+  // Palette principale - dégradés modernes
+  --primary-50: #f8f7ff;
+  --primary-100: #f0efff;
+  --primary-200: #e8e6ff;
+  --primary-300: #d4d1ff;
+  --primary-400: #b8b3ff;
+  --primary-500: #9c93ff;
+  --primary-600: #7e6aff;
+  --primary-700: #5f4fff;
+  --primary-800: #483db8;
+  --primary-900: #2e2570;
 
-  // Accents subtils
+  // Palette d'accents vibrante et moderne
+  --accent-purple: #a855f7;
+  --accent-purple-light: #f3e8ff;
+  --accent-pink: #ec4899;
+  --accent-pink-light: #fce7f3;
   --accent-blue: #3b82f6;
   --accent-blue-light: #dbeafe;
+  --accent-cyan: #06b6d4;
+  --accent-cyan-light: #cffafe;
   --accent-green: #10b981;
   --accent-green-light: #d1fae5;
-  --accent-orange: #f59e0b;
-  --accent-orange-light: #fef3c7;
+  --accent-amber: #f59e0b;
+  --accent-amber-light: #fef3c7;
+  --accent-orange: #f97316;
+  --accent-orange-light: #ffedd5;
   --accent-red: #ef4444;
   --accent-red-light: #fee2e2;
+  --accent-rose: #f43f5e;
+  --accent-rose-light: #fff1f2;
 
-  // Couleurs de statut
-  --status-pending: #f59e0b;
-  --status-pending-bg: #fef3c7;
+  // Couleurs de statut avec dégradés
+  --status-pending: #f97316;
+  --status-pending-bg: linear-gradient(135deg, #fff7ed, #ffedd5);
   --status-progress: #3b82f6;
-  --status-progress-bg: #dbeafe;
+  --status-progress-bg: linear-gradient(135deg, #eff6ff, #dbeafe);
   --status-completed: #10b981;
-  --status-completed-bg: #d1fae5;
+  --status-completed-bg: linear-gradient(135deg, #f0fdf4, #d1fae5);
+  
+  // Couleurs de statut simples pour les fonds
+  --status-pending-bg-solid: #fff7ed;
+  --status-progress-bg-solid: #eff6ff;
+  --status-completed-bg-solid: #f0fdf4;
 
   // Espacements
   --spacing-xs: 4px;
@@ -46,10 +61,18 @@
   --border-radius-lg: 12px;
   --border-radius-xl: 16px;
 
-  // Ombres subtiles
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  // Ombres modernes avec couleur
+  --shadow-sm: 0 1px 3px 0 rgba(124, 107, 255, 0.1), 0 1px 2px 0 rgba(124, 107, 255, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(124, 107, 255, 0.1), 0 2px 4px -1px rgba(124, 107, 255, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(124, 107, 255, 0.15), 0 4px 6px -2px rgba(124, 107, 255, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(124, 107, 255, 0.15), 0 10px 10px -5px rgba(124, 107, 255, 0.08);
+  
+  // Dégradés modernes
+  --gradient-primary: linear-gradient(135deg, #7e6aff 0%, #a855f7 50%, #ec4899 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-info: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-warning: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
 html, body { 
@@ -60,12 +83,32 @@ html, body {
 
 body { 
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--primary-50);
+  background: linear-gradient(180deg, #ffffff 0%, var(--primary-50) 50%, #ffffff 100%);
+  background-attachment: fixed;
   color: var(--primary-700);
   line-height: 1.6;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+// Effet de flou en arrière-plan pour les modales
+.cdk-overlay-backdrop {
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+// Styles globaux pour les dialogues avec icônes dans les titres
+.mat-mdc-dialog-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-sm) !important;
+  
+  mat-icon {
+    font-size: 28px !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
 }
 
 // Typographie minimaliste
@@ -83,25 +126,40 @@ h4 { font-size: 1.125rem; }
 h5 { font-size: 1rem; }
 h6 { font-size: 0.875rem; }
 
-// Styles pour les cartes Material
+// Styles pour les cartes Material avec effets modernes
 .mat-mdc-card {
   border-radius: var(--border-radius-lg) !important;
   box-shadow: var(--shadow-sm) !important;
   border: 1px solid var(--primary-200) !important;
-  transition: all 0.2s ease-in-out !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  background: white !important;
   
   &:hover {
-    box-shadow: var(--shadow-md) !important;
-    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg) !important;
+    transform: translateY(-2px);
+    border-color: var(--primary-300);
   }
 }
 
-// Styles pour les boutons Material
+// Styles pour les boutons Material avec dégradés
 .mat-mdc-button, .mat-mdc-raised-button {
   border-radius: var(--border-radius-md) !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.mat-mdc-raised-button {
+  &.mat-primary {
+    background: var(--gradient-primary) !important;
+    box-shadow: var(--shadow-sm) !important;
+    
+    &:hover:not(:disabled) {
+      box-shadow: var(--shadow-md) !important;
+      transform: translateY(-2px) !important;
+    }
+  }
 }
 
 // Styles pour les formulaires Material
@@ -429,6 +487,7 @@ h6 { font-size: 0.875rem; }
 // Styles PWA
 body {
   -webkit-user-select: none;
+  user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -475,3 +534,301 @@ body {
     }
   }
 }
+
+// Styles globaux pour les dialogues modernisés
+.task-dialog .mat-mdc-dialog-container,
+.note-dialog .mat-mdc-dialog-container,
+.schedule-dialog .mat-mdc-dialog-container {
+  border-radius: var(--border-radius-xl) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 0.2) !important;
+  border: none !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+// Style pour le contenu des dialogues (MINIMALISTE)
+.task-dialog .mat-mdc-dialog-content,
+.note-dialog .mat-mdc-dialog-content,
+.schedule-dialog .mat-mdc-dialog-content {
+  background: white !important;
+  padding: 40px !important;
+}
+
+// En-tête coloré pour TÂCHES
+.task-dialog {
+  .mat-mdc-dialog-container {
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    }
+  }
+  
+  .mat-mdc-dialog-title {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+    color: white !important;
+    padding: 24px 32px 20px 32px !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    font-size: 22px !important;
+    
+    mat-icon {
+      color: white !important;
+    }
+  }
+  
+  .mat-mdc-dialog-actions button[mat-raised-button] {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+}
+
+// En-tête coloré pour NOTES
+.note-dialog {
+  .mat-mdc-dialog-container {
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(135deg, #7e6aff 0%, #a855f7 50%, #ec4899 100%);
+    }
+  }
+  
+  .mat-mdc-dialog-title {
+    background: linear-gradient(135deg, #7e6aff 0%, #a855f7 50%, #ec4899 100%) !important;
+    color: white !important;
+    padding: 24px 32px 20px 32px !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    font-size: 22px !important;
+    
+    mat-icon {
+      color: white !important;
+    }
+  }
+  
+  .mat-mdc-dialog-actions button[mat-raised-button] {
+    background: linear-gradient(135deg, #7e6aff 0%, #a855f7 50%, #ec4899 100%) !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+}
+
+// En-tête coloré pour PLANNING
+.schedule-dialog {
+  .mat-mdc-dialog-container {
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    }
+  }
+  
+  .mat-mdc-dialog-title {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    color: white !important;
+    padding: 24px 32px 20px 32px !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    font-size: 22px !important;
+    
+    mat-icon {
+      color: white !important;
+    }
+  }
+  
+  .mat-mdc-dialog-actions button[mat-raised-button] {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+}
+
+// Style MINIMALISTE pour les inputs (bordures invisibles, focus discret)
+.mat-dialog-container {
+  .mat-mdc-form-field {
+    margin-bottom: 28px !important;
+    
+    .mat-mdc-text-field-wrapper {
+      border-radius: 0 !important;
+      border: none !important;
+      border-bottom: 2px solid #e5e7eb !important;
+      background-color: transparent !important;
+      padding: 0 0 8px 0 !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      min-height: 56px !important;
+      
+      &:hover {
+        border-bottom-color: #d1d5db !important;
+      }
+      
+      &.mdc-text-field--focused {
+        border-bottom-color: #7e6aff !important;
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+    }
+    
+    // Label minimaliste
+    .mat-mdc-floating-label {
+      background-color: transparent !important;
+      padding: 0 !important;
+      font-weight: 500 !important;
+      font-size: 13px !important;
+      color: #9ca3af !important;
+    }
+    
+    // Label au focus
+    &.mdc-text-field--focused .mat-mdc-floating-label {
+      color: #7e6aff !important;
+    }
+    
+    .mat-mdc-input-element {
+      font-size: 16px !important;
+      color: #111827 !important;
+      padding: 12px 0 8px 0 !important;
+      font-weight: 400 !important;
+      
+      &::placeholder {
+        color: #d1d5db !important;
+        opacity: 1 !important;
+      }
+    }
+    
+    textarea.mat-mdc-input-element {
+      min-height: 100px !important;
+      line-height: 1.6 !important;
+      resize: vertical !important;
+    }
+    
+    // Erreur minimaliste
+    .mat-mdc-form-field-error {
+      font-size: 13px !important;
+      color: #ef4444 !important;
+      margin-top: 4px !important;
+    }
+  }
+}
+
+// Styles pour les selects MINIMALISTES (même style que les inputs)
+.mat-dialog-container .mat-mdc-form-field {
+  .mat-mdc-select-trigger {
+    border-radius: 0 !important;
+    border: none !important;
+    border-bottom: 2px solid #e5e7eb !important;
+    background-color: transparent !important;
+    padding: 12px 0 8px 0 !important;
+    min-height: 56px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    
+    &:hover {
+      border-bottom-color: #d1d5db !important;
+    }
+  }
+  
+  &.mdc-text-field--focused .mat-mdc-select-trigger {
+    border-bottom-color: #7e6aff !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  
+  .mat-mdc-select-value {
+    font-size: 16px !important;
+    color: #111827 !important;
+    font-weight: 400 !important;
+  }
+}
+
+// Styles pour les boutons MINIMALISTES dans les dialogues
+.mat-dialog-container .mat-mdc-dialog-actions {
+  background: #fafafa !important;
+  border-top: 1px solid #e5e7eb !important;
+  padding: 24px 40px !important;
+  
+  button {
+    padding: 12px 32px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    
+    &[mat-button] {
+      color: #6b7280 !important;
+      background: transparent !important;
+      
+      &:hover {
+        background: #f3f4f6 !important;
+        color: #374151 !important;
+      }
+    }
+    
+    &[mat-raised-button] {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+      
+      &:hover:not(:disabled) {
+        opacity: 0.9 !important;
+      }
+      
+      &:active {
+        opacity: 0.8 !important;
+      }
+    }
+  }
+}
+
+// Styles pour les checkboxes dans les dialogues
+.mat-dialog-container .mat-mdc-checkbox {
+  margin: 8px 0 !important;
+  
+  .mat-mdc-checkbox-label {
+    font-size: 15px !important;
+    color: #374151 !important;
+    font-weight: 500 !important;
+  }
+  
+  .mat-mdc-checkbox-input:hover ~ .mat-mdc-checkbox-frame {
+    border-color: #7e6aff !important;
+  }
+  
+  .mat-mdc-checkbox-input:checked ~ .mat-mdc-checkbox-frame {
+    background-color: #7e6aff !important;
+    border-color: #7e6aff !important;
+  }
+}
+
+// Styles pour les options de select (dropdown menu)
+.mat-mdc-select-panel {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e5e7eb !important;
+  
+  .mat-mdc-option {
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    color: #1f2937 !important;
+    transition: all 0.2s ease !important;
+    
+    &:hover {
+      background-color: #f3f4f6 !important;
+    }
+    
+    &.mdc-list-item--selected {
+      background-color: #f3e8ff !important;
+      color: #7e6aff !important;
+      font-weight: 600 !important;
+      
+      &:hover {
+        background-color: #e9d5ff !important;
+      }
+    }
+  }
+}
+
+
+

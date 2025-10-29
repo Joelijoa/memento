@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>{{ isEdit ? 'Modifier le planning' : 'Nouveau planning' }}</h2>
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEdit ? 'edit' : 'event_note' }}</mat-icon>
+  <span>{{ isEdit ? 'Modifier le planning' : 'Nouveau planning' }}</span>
+</h2>
 
 <mat-dialog-content>
   <form [formGroup]="scheduleForm" class="schedule-form">

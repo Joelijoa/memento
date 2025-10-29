@@ -1,12 +1,15 @@
 com\personaltaskmanager\service\ScheduleService.class
+com\personaltaskmanager\controller\CommentController.class
 com\personaltaskmanager\service\TaskService.class
 com\personaltaskmanager\repository\TaskRepository.class
+com\personaltaskmanager\service\AuthService.class
 com\personaltaskmanager\config\SecurityConfig.class
 com\personaltaskmanager\PersonalTaskManagerApplication.class
 com\personaltaskmanager\model\Schedule.class
 com\personaltaskmanager\service\StatisticsService.class
 com\personaltaskmanager\controller\NoteController.class
 com\personaltaskmanager\model\Statistics.class
+com\personaltaskmanager\model\User.class
 com\personaltaskmanager\repository\ScheduleRepository.class
 com\personaltaskmanager\service\NoteService.class
 com\personaltaskmanager\model\Task.class
@@ -17,6 +20,7 @@ com\personaltaskmanager\service\CommentService.class
 com\personaltaskmanager\model\Comment.class
 com\personaltaskmanager\controller\ScheduleController.class
 com\personaltaskmanager\repository\StatisticsRepository.class
+com\personaltaskmanager\controller\AuthController.class
 com\personaltaskmanager\controller\TaskController.class
 com\personaltaskmanager\enums\TaskStatus.class
 com\personaltaskmanager\controller\StatisticsController.class
@@ -24,3 +28,4 @@ com\personaltaskmanager\enums\TaskDifficulty.class
 com\personaltaskmanager\model\Note.class
 com\personaltaskmanager\repository\NoteRepository.class
 com\personaltaskmanager\repository\CommentRepository.class
+com\personaltaskmanager\repository\UserRepository.class

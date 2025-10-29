@@ -62,7 +62,8 @@ export class ScheduleViewComponent implements OnInit {
 
   openAddScheduleDialog(): void {
     const dialogRef = this.dialog.open(ScheduleDialogComponent, {
-      width: '600px',
+      width: '650px',
+      panelClass: 'schedule-dialog',
       data: { isEdit: false } as ScheduleDialogData
     });
 
@@ -75,7 +76,8 @@ export class ScheduleViewComponent implements OnInit {
 
   editSchedule(schedule: Schedule): void {
     const dialogRef = this.dialog.open(ScheduleDialogComponent, {
-      width: '600px',
+      width: '650px',
+      panelClass: 'schedule-dialog',
       data: { schedule: schedule, isEdit: true } as ScheduleDialogData
     });
 

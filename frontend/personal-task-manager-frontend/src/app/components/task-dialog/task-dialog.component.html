@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>{{ isEdit ? 'Modifier la tâche' : 'Nouvelle tâche' }}</h2>
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEdit ? 'edit' : 'add_task' }}</mat-icon>
+  <span>{{ isEdit ? 'Modifier la tâche' : 'Nouvelle tâche' }}</span>
+</h2>
 
 <mat-dialog-content>
   <form [formGroup]="taskForm" class="task-form">
