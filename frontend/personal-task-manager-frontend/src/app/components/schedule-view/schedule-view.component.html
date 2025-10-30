@@ -8,14 +8,38 @@
   </div>
 
   <div class="schedule-content">
-    <div class="week-view">
-      <div *ngFor="let day of weekDays" class="day-column">
-        <h3>{{ day.name }}</h3>
+    <div class="calendar-layout">
+      <div class="calendar-panel">
+        <mat-calendar #calendar [(selected)]="selectedDate" (selectedChange)="onDateSelected($event)" [dateClass]="$any(dateClass)"></mat-calendar>
+        <div class="calendar-actions">
+          <button mat-stroked-button color="primary" (click)="openAddScheduleDialog()">
+            Planifier le {{ selectedDate | date: 'EEEE d MMMM' }}
+          </button>
+        </div>
+      </div>
+      <div class="day-panel">
+        <h3>Plannings du {{ selectedDate | date: 'EEEE d MMMM' }}</h3>
         <div class="day-schedules">
-          <mat-card *ngFor="let schedule of getSchedulesForDay(day.value)" class="schedule-card">
+          <div *ngIf="getSchedulesForDate(selectedDate).length === 0" class="no-schedules">
+            <mat-icon>event_busy</mat-icon>
+            <p>Aucun planning prévu pour {{ selectedDate | date: 'EEEE d MMMM' }}</p>
+          </div>
+          <mat-card *ngFor="let schedule of getSchedulesForDate(selectedDate)" 
+                    class="schedule-card"
+                    [ngClass]="{'work-schedule': schedule.isWorkSchedule, 'personal-schedule': !schedule.isWorkSchedule}">
             <mat-card-content>
-              <div class="schedule-time">
-                {{ schedule.startTime }} - {{ schedule.endTime }}
+              <div class="schedule-header-row">
+                <div class="schedule-time">
+                  {{ formatTime(schedule.startTime) }} - {{ formatTime(schedule.endTime) }}
+                </div>
+                <div class="schedule-actions-inline">
+                  <button mat-icon-button (click)="editSchedule(schedule)" class="inline-action-btn">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="deleteSchedule(schedule)" color="warn" class="inline-action-btn">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
               </div>
               <div class="schedule-title">{{ schedule.title }}</div>
               <div *ngIf="schedule.description" class="schedule-description">
@@ -23,14 +47,6 @@
               </div>
               <mat-chip *ngIf="schedule.isWorkSchedule" class="work-chip">Travail</mat-chip>
             </mat-card-content>
-            <mat-card-actions>
-              <button mat-icon-button (click)="editSchedule(schedule)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button (click)="deleteSchedule(schedule)" color="warn">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </mat-card-actions>
           </mat-card>
         </div>
       </div>

@@ -7,12 +7,12 @@ import { Schedule } from '../models/schedule.model';
 
 export interface Notification {
   id: string;
-  type: 'task' | 'schedule';
+  type: 'task' | 'schedule' | 'SCHEDULE' | 'TASK' | string;
   title: string;
   message: string;
   priority: 'low' | 'medium' | 'high';
   timestamp: Date;
-  entityId: number;
+  entityId?: number;
   read: boolean;
 }
 
@@ -289,6 +289,27 @@ export class NotificationService {
     } catch (error) {
       console.error('Erreur lors de la sauvegarde des notifications:', error);
     }
+  }
+
+  createNotification(notification: Omit<Notification, 'id' | 'timestamp'>): Observable<Notification> {
+    const newNotification: Notification = {
+      ...notification,
+      id: `custom-${Date.now()}-${Math.random()}`,
+      timestamp: new Date()
+    };
+    
+    const existingNotifications = this.notificationsSubject.value;
+    const allNotifications = [newNotification, ...existingNotifications]
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .slice(0, 50);
+    
+    this.notificationsSubject.next(allNotifications);
+    this.saveNotifications();
+    
+    return new Observable(observer => {
+      observer.next(newNotification);
+      observer.complete();
+    });
   }
 
   destroy(): void {

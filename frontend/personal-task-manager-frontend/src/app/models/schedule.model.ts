@@ -11,6 +11,7 @@ export enum DayOfWeek {
 export interface Schedule {
   id?: number;
   dayOfWeek: DayOfWeek;
+  date?: string; // Date au format YYYY-MM-DD
   startTime: string;
   endTime: string;
   title: string;
