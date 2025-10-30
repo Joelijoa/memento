@@ -18,12 +18,36 @@
   }
 }
 
+// Mode sombre pour les filtres des notes
+.dark-mode .filters-card mat-form-field,
+[data-theme="dark"] .filters-card mat-form-field,
+:host-context(.dark-mode) .filters-card mat-form-field,
+:host-context([data-theme="dark"]) .filters-card mat-form-field {
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: rgba(30,27,75,0.7) !important;
+    border: 1px solid rgba(139,92,246,0.29) !important;
+  }
+  &:hover ::ng-deep .mat-mdc-text-field-wrapper {
+    background: rgba(49,46,129,0.92) !important;
+    border-color: #7c3aed !important;
+  }
+  &.mdc-text-field--focused ::ng-deep .mat-mdc-text-field-wrapper,
+  ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: #a78bfa !important;
+    background: rgba(56,45,133,0.95) !important;
+    box-shadow: 0 0 0 3px rgba(139,92,246,0.2), 0 10px 22px rgba(30,27,75,0.26) !important;
+  }
+  ::ng-deep .mat-mdc-form-field-label { color: #a5b4fc !important; font-weight: 500; }
+  ::ng-deep .mat-mdc-input-element { color: #e0e7ff !important; }
+}
+
 .filters-card {
-  margin-bottom: var(--spacing-xl);
-  background-color: white;
-  border: 1px solid var(--primary-200);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-sm);
+  margin-top: clamp(var(--spacing-md), 2vw, var(--spacing-xl));
+  margin-bottom: clamp(var(--spacing-xl), 3vw, var(--spacing-2xl));
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
   
   .filters-row {
     display: flex;
@@ -33,7 +57,29 @@
     
     mat-form-field {
       flex: 1;
-      min-width: 200px;
+      min-width: 240px;
+      --field-radius: 14px;
+      
+      // style filled moderne
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        background: #f9fafb !important;
+        border: 1px solid var(--primary-200) !important;
+        border-radius: var(--field-radius) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.03);
+        transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      }
+      ::ng-deep .mat-mdc-form-field-focus-overlay { opacity: 0 !important; }
+      ::ng-deep .mdc-notched-outline { display: none !important; opacity: 0 !important; border: none !important; }
+      ::ng-deep .mdc-notched-outline__leading,
+      ::ng-deep .mdc-notched-outline__notch,
+      ::ng-deep .mdc-notched-outline__trailing { border: none !important; }
+      ::ng-deep .mat-mdc-form-field-infix { padding: 12px 14px !important; min-height: 46px; }
+      ::ng-deep .mat-mdc-icon-button, ::ng-deep .mat-mdc-form-field-icon-suffix, ::ng-deep .mat-mdc-form-field-icon-prefix { color: var(--primary-500) !important; }
+      &:hover ::ng-deep .mat-mdc-text-field-wrapper { background: #f6f7fb !important; border-color: var(--primary-300) !important; box-shadow: 0 6px 16px rgba(17,24,39,0.06); }
+      &.mdc-text-field--focused ::ng-deep .mat-mdc-text-field-wrapper,
+      ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused { background: #f4f3ff !important; border-color: #7c3aed !important; box-shadow: 0 0 0 3px rgba(124,58,237,0.15), 0 10px 22px rgba(17,24,39,0.08) !important; }
+      ::ng-deep .mat-mdc-form-field-label { color: var(--primary-500) !important; font-weight: 500; }
+      ::ng-deep .mat-mdc-input-element { color: var(--primary-700) !important; }
     }
     
     mat-checkbox {
@@ -47,6 +93,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: var(--spacing-lg);
+  margin-top: clamp(var(--spacing-md), 1.5vw, var(--spacing-md));
   margin-bottom: var(--spacing-xl);
 }
 
@@ -96,6 +143,79 @@
       line-height: 1;
     }
   }
+}
+
+// Style accentué pour les notes vocales
+.note-card.voice-note {
+  border-left: 4px solid var(--accent-blue);
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+  
+  .mat-mdc-card-header {
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+    border-bottom-color: var(--primary-200);
+  }
+  
+  app-audio-player {
+    display: block;
+    margin-top: var(--spacing-sm);
+    border: 1px solid var(--primary-200);
+    border-radius: 12px;
+    padding: var(--spacing-sm);
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(17,24,39,0.06);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  // Empêche tout dépassement horizontal du lecteur
+  .mat-mdc-card-content { overflow: hidden; }
+  ::ng-deep app-audio-player audio { width: 100% !important; max-width: 100% !important; display: block; }
+  ::ng-deep app-audio-player .audio-controls, 
+  ::ng-deep app-audio-player .controls, 
+  ::ng-deep app-audio-player .progress, 
+  ::ng-deep app-audio-player input[type="range"] { max-width: 100% !important; width: 100% !important; box-sizing: border-box; }
+  ::ng-deep app-audio-player .time, ::ng-deep app-audio-player .duration { white-space: nowrap; }
+  // Volume: limiter la largeur et éviter le dépassement
+  ::ng-deep app-audio-player .volume,
+  ::ng-deep app-audio-player .volume-control,
+  ::ng-deep app-audio-player [class*="volume"] {
+    max-width: 120px !important;
+    width: 120px !important;
+    flex: 0 0 auto !important;
+    overflow: hidden !important;
+  }
+  ::ng-deep app-audio-player .controls { gap: 10px; flex-wrap: wrap; overflow: hidden; }
+  ::ng-deep app-audio-player .progress { flex: 1 1 180px !important; }
+
+  // Coupe toute extension du slider/progress et des éléments absolus
+  ::ng-deep app-audio-player { overflow: hidden; position: relative; }
+  ::ng-deep app-audio-player, ::ng-deep app-audio-player * { box-sizing: border-box; max-width: 100%; }
+  ::ng-deep app-audio-player .progress { margin-right: 8px !important; }
+  ::ng-deep app-audio-player input[type="range"] { display: block; }
+  ::ng-deep app-audio-player [style*="position: absolute"],
+  ::ng-deep app-audio-player .knob, 
+  ::ng-deep app-audio-player .thumb {
+    max-inline-size: 100% !important;
+    inset-inline-end: auto !important;
+  }
+}
+
+// Mode sombre pour notes vocales
+.dark-mode .note-card.voice-note,
+[data-theme="dark"] .note-card.voice-note {
+  border-left-color: #93c5fd;
+  background: linear-gradient(180deg, rgba(30,27,75,0.7) 0%, rgba(30,27,75,0.6) 100%) !important;
+}
+.dark-mode .note-card.voice-note .mat-mdc-card-header,
+[data-theme="dark"] .note-card.voice-note .mat-mdc-card-header {
+  background: rgba(30,27,75,0.6) !important;
+  border-bottom-color: rgba(139,92,246,0.28) !important;
+}
+.dark-mode .note-card.voice-note app-audio-player,
+[data-theme="dark"] .note-card.voice-note app-audio-player {
+  background: rgba(30,27,75,0.6);
+  border-color: rgba(139,92,246,0.28);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
 }
 
 // En-tête de note minimaliste

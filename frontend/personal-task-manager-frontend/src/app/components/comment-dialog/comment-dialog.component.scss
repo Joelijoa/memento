@@ -2,7 +2,17 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-width: 400px;
+  min-width: 440px;
+}
+
+// Titre du modal avec fond
+::ng-deep .comment-dialog .mat-mdc-dialog-title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: white !important;
+  padding: 20px 24px 16px 24px !important;
+  margin: 0 !important;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed) !important;
 }
 
 .full-width {
@@ -17,23 +27,28 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
+  padding: 14px 16px;
+  border: 2px dashed var(--primary-300);
+  border-radius: 14px;
   cursor: pointer;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(17, 24, 39, 0.06);
   
   &:hover {
-    border-color: #1976d2;
+    border-color: var(--primary-400);
+    background: #faf5ff;
+    box-shadow: 0 10px 24px rgba(17, 24, 39, 0.10);
   }
   
   mat-icon {
-    color: #666;
+    color: var(--primary-500);
   }
   
   span {
-    color: #666;
+    color: var(--primary-600);
     font-size: 14px;
+    font-weight: 600;
   }
 }
 
@@ -53,6 +68,32 @@ mat-dialog-actions {
   }
 }
 
+// Inputs style "dashed arrondi" comme l'upload
+.comment-form .mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    border: 2px dashed var(--primary-300) !important;
+    border-radius: 14px !important;
+    background: #ffffff !important;
+    box-shadow: 0 6px 18px rgba(17, 24, 39, 0.06);
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  &:hover .mat-mdc-text-field-wrapper {
+    border-color: var(--primary-400) !important;
+    background: #faf5ff !important;
+    box-shadow: 0 10px 24px rgba(17, 24, 39, 0.10);
+  }
+
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: var(--primary-500) !important;
+    background: #f3e8ff !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15), 0 10px 24px rgba(17, 24, 39, 0.10) !important;
+  }
+
+  .mat-mdc-form-field-infix { padding: 10px 12px !important; }
+  textarea.mat-mdc-input-element { padding-top: 8px; }
+}
+
 .file-preview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -63,15 +104,15 @@ mat-dialog-actions {
 
 .file-preview-item {
   position: relative;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid var(--primary-200);
+  border-radius: 12px;
   padding: 12px;
-  background: #fafafa;
+  background: #ffffff;
   transition: all 0.2s ease;
   
   &:hover {
-    border-color: #1976d2;
-    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.1);
+    border-color: var(--primary-300);
+    box-shadow: 0 8px 20px rgba(17, 24, 39, 0.10);
   }
 }
 
@@ -101,14 +142,14 @@ mat-dialog-actions {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f5f5f5;
-    border-radius: 8px;
+    background: #f5f5ff;
+    border-radius: 10px;
     
     mat-icon {
       font-size: 32px;
       width: 32px;
       height: 32px;
-      color: #666;
+      color: var(--primary-500);
     }
   }
   
@@ -147,7 +188,7 @@ mat-dialog-actions {
   height: 24px;
   min-width: 24px;
   padding: 0;
-  background: rgba(244, 67, 54, 0.1);
+  background: rgba(244, 67, 54, 0.12);
   color: #f44336;
   
   mat-icon {
@@ -157,6 +198,48 @@ mat-dialog-actions {
   }
   
   &:hover {
-    background: rgba(244, 67, 54, 0.2);
+    background: rgba(244, 67, 54, 0.22);
   }
+}
+
+// Mode sombre
+.dark-mode .comment-form,
+[data-theme="dark"] .comment-form {
+  .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+    background: rgba(30, 27, 75, 0.6) !important;
+    border-color: rgba(139, 92, 246, 0.28) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    background: rgba(30, 27, 75, 0.8) !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25), 0 10px 24px rgba(0,0,0,0.45) !important;
+  }
+
+  .file-upload-label {
+    background: rgba(30, 27, 75, 0.6);
+    border-color: rgba(139, 92, 246, 0.28);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    
+    &:hover {
+      background: rgba(30, 27, 75, 0.8);
+      border-color: rgba(139, 92, 246, 0.38);
+    }
+    span { color: #c7d2fe; }
+    mat-icon { color: #a78bfa; }
+  }
+
+  .file-preview-item {
+    background: rgba(30, 27, 75, 0.6);
+    border-color: rgba(139, 92, 246, 0.28);
+  }
+
+  .pdf-preview .pdf-icon,
+  .generic-preview .file-icon {
+    background: rgba(139, 92, 246, 0.12);
+    mat-icon { color: #a78bfa; }
+  }
+
+  .file-info .file-name { color: #e9d5ff; }
+  .file-info .file-size { color: #a5b4fc; }
 }

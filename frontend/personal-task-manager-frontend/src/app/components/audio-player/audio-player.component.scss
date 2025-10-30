@@ -30,13 +30,9 @@
       color: var(--primary-700);
     }
   }
-  
-  .loading-indicator {
-    mat-icon {
-      color: var(--primary-500);
-      animation: spin 1s linear infinite;
-    }
-  }
+  .header-right { display: flex; align-items: center; gap: var(--spacing-md); }
+  .loading-indicator { order: 2; }
+  .loading-indicator mat-icon { color: var(--primary-500); animation: spin 1s linear infinite; }
 }
 
 @keyframes spin {
@@ -168,7 +164,7 @@
   }
   
   .volume-slider {
-    width: 60px;
+    width: 120px;
     
     .volume-range {
       width: 100%;

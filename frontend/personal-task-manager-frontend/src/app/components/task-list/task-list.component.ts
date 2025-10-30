@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskService } from '../../services/task.service';
 import { Task, TaskStatus, TaskDifficulty, TaskPriority, Comment } from '../../models/task.model';
@@ -31,7 +32,8 @@ import { CommentService } from '../../services/comment.service';
     MatSelectModule,
     MatInputModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -85,6 +87,7 @@ export class TaskListComponent implements OnInit {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '600px',
       panelClass: 'task-dialog',
+      backdropClass: 'app-dialog-backdrop',
       data: { isEdit: false } as TaskDialogData
     });
 
@@ -99,6 +102,7 @@ export class TaskListComponent implements OnInit {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: '600px',
       panelClass: 'task-dialog',
+      backdropClass: 'app-dialog-backdrop',
       data: { task: task, isEdit: true } as TaskDialogData
     });
 
@@ -141,31 +145,38 @@ export class TaskListComponent implements OnInit {
   }
 
   toggleTaskStatus(task: Task): void {
-    let newStatus: TaskStatus;
-    switch (task.status) {
-      case TaskStatus.PENDING:
-        newStatus = TaskStatus.IN_PROGRESS;
-        break;
-      case TaskStatus.IN_PROGRESS:
-        newStatus = TaskStatus.COMPLETED;
-        break;
-      case TaskStatus.COMPLETED:
-        newStatus = TaskStatus.PENDING;
-        break;
-      default:
-        newStatus = TaskStatus.PENDING;
-    }
+    const cycle = {
+      [TaskStatus.PENDING]: TaskStatus.IN_PROGRESS,
+      [TaskStatus.IN_PROGRESS]: TaskStatus.COMPLETED,
+      [TaskStatus.COMPLETED]: TaskStatus.PENDING
+    } as const;
+    const nextStatus = cycle[task.status] ?? TaskStatus.PENDING;
+    this.setStatus(task, nextStatus);
+  }
 
-    this.taskService.updateTaskStatus(task.id!, newStatus).subscribe({
+  setStatus(task: Task, status: TaskStatus | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'): void {
+    const previousStatus = task.status;
+    // Optimistic UI
+    task.status = status as TaskStatus;
+    this.filterTasks();
+
+    this.taskService.updateTaskStatus(task.id!, status as TaskStatus).subscribe({
       next: (updatedTask) => {
         const index = this.tasks.findIndex(t => t.id === task.id);
         if (index !== -1) {
           this.tasks[index] = updatedTask;
           this.filterTasks();
         }
-        this.snackBar.open('Statut mis à jour', 'Fermer', { duration: 2000 });
+        const ref = this.snackBar.open('Statut mis à jour', 'Annuler', { duration: 4000 });
+        ref.onAction().subscribe(() => {
+          // Undo
+          this.setStatus(task, previousStatus);
+        });
       },
       error: (error) => {
+        // Rollback on error
+        task.status = previousStatus;
+        this.filterTasks();
         console.error('Erreur lors de la mise à jour:', error);
         this.snackBar.open('Erreur lors de la mise à jour', 'Fermer', { duration: 3000 });
       }
@@ -250,6 +261,8 @@ export class TaskListComponent implements OnInit {
   openCommentDialog(task: Task): void {
     const dialogRef = this.dialog.open(CommentDialogComponent, {
       width: '500px',
+      panelClass: 'comment-dialog',
+      backdropClass: 'app-dialog-backdrop',
       data: { taskId: task.id } as CommentDialogData
     });
 
@@ -284,6 +297,8 @@ export class TaskListComponent implements OnInit {
       width: '90vw',
       maxWidth: '800px',
       maxHeight: '90vh',
+      panelClass: 'task-detail-dialog',
+      backdropClass: 'app-dialog-backdrop',
       data: { task } as TaskDetailData
     });
   }

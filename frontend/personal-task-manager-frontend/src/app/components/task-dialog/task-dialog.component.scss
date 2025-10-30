@@ -22,14 +22,14 @@
   }
 }
 
-// En-tête coloré pour les tâches (comme note-dialog)
+// En-tête coloré (aligné avec CommentDialog)
 ::ng-deep .task-dialog .mat-mdc-dialog-title {
   font-size: 22px !important;
   font-weight: 700 !important;
   color: white !important;
   padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg) var(--spacing-xl) !important;
   margin: 0 !important;
-  background: var(--gradient-warning) !important;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed) !important;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -46,7 +46,7 @@
   padding: var(--spacing-xl) !important;
   max-height: 70vh !important;
   overflow-y: auto !important;
-  background: linear-gradient(180deg, white, var(--primary-50));
+  background: linear-gradient(180deg, #ffffff, #fafbff);
 }
 
 .task-dialog .mat-mdc-dialog-actions {
@@ -116,21 +116,24 @@
   width: 100%;
 }
 
-// Champs de formulaire améliorés
+// Champs de formulaire style dashed arrondi
 .mat-mdc-form-field {
   .mat-mdc-text-field-wrapper {
-    border-radius: var(--border-radius-md) !important;
-    border: 1px solid var(--primary-300) !important;
-    background-color: white !important;
+    border-radius: 14px !important;
+    border: 2px dashed var(--primary-300) !important;
+    background-color: #ffffff !important;
     transition: all 0.2s ease !important;
     
     &:hover {
       border-color: var(--primary-400) !important;
+      background: #faf5ff !important;
+      box-shadow: 0 10px 24px rgba(17, 24, 39, 0.10) !important;
     }
     
     &.mdc-text-field--focused {
-      border-color: var(--accent-blue) !important;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+      border-color: var(--primary-500) !important;
+      background: #f3e8ff !important;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15) !important;
     }
   }
   
@@ -159,6 +162,31 @@
     font-size: 12px !important;
   }
 }
+
+// Mode sombre
+.dark-mode .task-dialog .mat-mdc-dialog-title,
+[data-theme="dark"] .task-dialog .mat-mdc-dialog-title {
+  background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
+}
+
+.dark-mode .task-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .task-dialog .mat-mdc-dialog-content {
+  background: linear-gradient(180deg, rgba(30,27,75,0.8), rgba(30,27,75,0.6));
+}
+
+.dark-mode .task-dialog .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+[data-theme="dark"] .task-dialog .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background: rgba(30, 27, 75, 0.6) !important;
+  border-color: rgba(139, 92, 246, 0.28) !important;
+  border-width: 2px !important;
+}
+
+.dark-mode .task-dialog .mat-mdc-form-field-label,
+[data-theme="dark"] .task-dialog .mat-mdc-form-field-label { color: #c7d2fe !important; }
+.dark-mode .task-dialog .mat-mdc-input-element,
+[data-theme="dark"] .task-dialog .mat-mdc-input-element { color: #eef2ff !important; }
+.dark-mode .task-dialog .mat-mdc-input-element::placeholder,
+[data-theme="dark"] .task-dialog .mat-mdc-input-element::placeholder { color: #a5b4fc !important; }
 
 // Selects améliorés
 .mat-mdc-select {

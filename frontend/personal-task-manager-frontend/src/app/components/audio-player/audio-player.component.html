@@ -4,8 +4,29 @@
       <mat-icon>audiotrack</mat-icon>
       <span class="file-name">{{ fileName || 'Enregistrement vocal' }}</span>
     </div>
-    <div class="loading-indicator" *ngIf="isLoading">
-      <mat-icon class="spinning">refresh</mat-icon>
+    <div class="header-right">
+      <div class="loading-indicator" *ngIf="isLoading">
+        <mat-icon class="spinning">refresh</mat-icon>
+      </div>
+      <!-- Contrôles de volume placés dans l'en-tête -->
+      <div class="volume-controls">
+        <button 
+          mat-icon-button 
+          (click)="toggleMute()"
+          class="mute-button">
+          <mat-icon>{{ isMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
+        </button>
+        <div class="volume-slider">
+          <input 
+            type="range" 
+            min="0" 
+            max="1" 
+            step="0.1" 
+            [value]="volume"
+            (input)="setVolume($event)"
+            class="volume-range">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -50,25 +71,6 @@
       </div>
     </div>
 
-    <!-- Contrôles de volume -->
-    <div class="volume-controls">
-      <button 
-        mat-icon-button 
-        (click)="toggleMute()"
-        class="mute-button">
-        <mat-icon>{{ isMuted ? 'volume_off' : 'volume_up' }}</mat-icon>
-      </button>
-      
-      <div class="volume-slider">
-        <input 
-          type="range" 
-          min="0" 
-          max="1" 
-          step="0.1" 
-          [value]="volume"
-          (input)="setVolume($event)"
-          class="volume-range">
-      </div>
-    </div>
+    
   </div>
 </div>

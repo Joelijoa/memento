@@ -47,13 +47,16 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.audio.addEventListener('loadedmetadata', () => {
-      this.duration = this.audio!.duration;
+      const d = this.audio!.duration;
+      this.duration = Number.isFinite(d) && d > 0 ? d : 0;
       this.isLoading = false;
     });
 
     this.audio.addEventListener('timeupdate', () => {
       this.currentTime = this.audio!.currentTime;
-      this.progress = (this.currentTime / this.duration) * 100;
+      this.progress = (this.duration && isFinite(this.duration) && this.duration > 0)
+        ? (this.currentTime / this.duration) * 100
+        : 0;
     });
 
     this.audio.addEventListener('ended', () => {
@@ -116,6 +119,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   seek(event: any) {
     if (!this.audio) return;
 
+    if (!this.duration || !isFinite(this.duration) || this.duration <= 0) return;
+
     const rect = event.target.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const width = rect.width;
@@ -145,7 +150,9 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
     this.progressInterval = setInterval(() => {
       if (this.audio) {
         this.currentTime = this.audio.currentTime;
-        this.progress = (this.currentTime / this.duration) * 100;
+        this.progress = (this.duration && isFinite(this.duration) && this.duration > 0)
+          ? (this.currentTime / this.duration) * 100
+          : 0;
       }
     }, 100);
   }
@@ -166,7 +173,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
   }
 
   formatTime(seconds: number): string {
-    if (isNaN(seconds)) return '0:00';
+    if (!isFinite(seconds) || isNaN(seconds) || seconds <= 0) return '0:00';
     
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);

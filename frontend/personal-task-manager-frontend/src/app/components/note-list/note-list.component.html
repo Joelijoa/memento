@@ -1,7 +1,7 @@
 <div class="note-container">
   <!-- Header avec bouton d'ajout -->
   <div class="note-header">
-    <h2>Mes Notes</h2>
+    <h2>Gestions des Notes</h2>
     <button mat-raised-button color="primary" (click)="openAddNoteDialog()">
       <mat-icon>add</mat-icon>
       Nouvelle Note
@@ -37,7 +37,7 @@
 
   <!-- Liste des notes -->
   <div class="notes-grid">
-    <mat-card *ngFor="let note of filteredNotes" class="note-card" [ngClass]="{'pinned': note.isPinned}">
+    <mat-card *ngFor="let note of filteredNotes" class="note-card" [ngClass]="{'pinned': note.isPinned, 'voice-note': note.type === 'VOICE'}">
       <mat-card-header>
         <mat-card-title>
           <mat-icon *ngIf="note.isPinned" class="pin-icon">push_pin</mat-icon>
