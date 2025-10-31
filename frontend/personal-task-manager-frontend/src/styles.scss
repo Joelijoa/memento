@@ -51,7 +51,7 @@
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
-  --spacing-lg: 24px;
+  --spacing-lg: 18px;
   --spacing-xl: 32px;
   --spacing-2xl: 48px;
 
@@ -336,9 +336,45 @@ h6 { font-size: 0.875rem; }
   }
 }
 
-// Animation pour les tooltips
+// Styles modernes pour les tooltips
 .mat-mdc-tooltip {
   animation: fadeIn 0.2s ease-out;
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+  border-radius: 8px !important;
+  background-color: rgba(30, 27, 75, 0.95) !important;
+  color: #e9d5ff !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(139, 92, 246, 0.2) !important;
+  max-width: 200px !important;
+  line-height: 1.4 !important;
+  backdrop-filter: blur(8px) !important;
+  letter-spacing: 0.01em !important;
+}
+
+// Mode clair pour les tooltips
+body:not(.dark-mode):not([data-theme="dark"]) .mat-mdc-tooltip {
+  background-color: rgba(231, 202, 236, 0.95) !important;
+  color: #9846f0 !important;
+  border-color: rgba(186, 58, 237, 0.25) !important;
+  box-shadow: 0 4px 12px rgba(32, 17, 39, 0.2) !important;
+}
+
+// Mode sombre pour les tooltips
+.dark-mode .mat-mdc-tooltip,
+[data-theme="dark"] .mat-mdc-tooltip,
+body.dark-mode .mat-mdc-tooltip,
+body[data-theme="dark"] .mat-mdc-tooltip {
+  background-color: rgba(30, 27, 75, 0.98) !important;
+  color: #e9d5ff !important;
+  border-color: rgba(139, 92, 246, 0.35) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+// Tooltip avec flèche (si Material utilise une flèche)
+.mat-mdc-tooltip::before {
+  border-color: inherit !important;
 }
 
 // Animation pour les menus

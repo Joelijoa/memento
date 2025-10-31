@@ -1,7 +1,8 @@
 .profile-container {
-  padding: 24px;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
 }
 
 .profile-card {
@@ -14,18 +15,23 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 24px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
   border-bottom: 1px solid #e0e0e0;
 
   h1 {
     margin: 0;
+    padding: 0;
+    line-height: 1.2;
     font-size: 28px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
   }
 }
 
 .profile-image-section {
-  padding: 32px 24px;
+  padding: var(--spacing-md);
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #e0e0e0;

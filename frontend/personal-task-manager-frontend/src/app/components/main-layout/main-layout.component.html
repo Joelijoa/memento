@@ -60,22 +60,31 @@
           <span class="online-indicator"></span>
         </div>
       </button>
-      <mat-menu #userMenu="matMenu">
-        <div class="user-info" *ngIf="currentUser">
-          <div class="user-name">{{ getDisplayName() }}</div>
-          <div class="user-email">{{ currentUser.email }}</div>
+      <mat-menu #userMenu="matMenu" class="user-profile-menu">
+        <div class="user-info-header" *ngIf="currentUser">
+          <div class="user-avatar-large">
+            <img *ngIf="getProfileImageUrl()" [src]="getProfileImageUrl()" alt="Photo de profil" class="user-avatar-image">
+            <div *ngIf="!getProfileImageUrl()" class="user-avatar-placeholder">
+              <span class="user-avatar-initials">{{ getInitials() }}</span>
+            </div>
+            <span class="online-indicator-large"></span>
+          </div>
+          <div class="user-details">
+            <div class="user-name">{{ getDisplayName() }}</div>
+            <div class="user-email">{{ currentUser.email }}</div>
+          </div>
         </div>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onProfileClick()">
+        <mat-divider class="menu-divider"></mat-divider>
+        <button mat-menu-item (click)="onProfileClick()" class="menu-item">
           <mat-icon>person</mat-icon>
           <span>Profil</span>
         </button>
-        <button mat-menu-item (click)="onSettingsClick()">
+        <button mat-menu-item (click)="onSettingsClick()" class="menu-item">
           <mat-icon>settings</mat-icon>
           <span>Paramètres</span>
         </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="onLogout()">
+        <mat-divider class="menu-divider"></mat-divider>
+        <button mat-menu-item (click)="onLogout()" class="menu-item logout-item">
           <mat-icon>logout</mat-icon>
           <span>Déconnexion</span>
         </button>

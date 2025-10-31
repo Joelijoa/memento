@@ -1,7 +1,8 @@
 .settings-container {
-  padding: 24px;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
 }
 
 .settings-card {
@@ -14,7 +15,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 24px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
   border-bottom: 1px solid #e0e0e0;
 
   .settings-icon {
@@ -26,13 +28,17 @@
 
   h1 {
     margin: 0;
+    padding: 0;
+    line-height: 1.2;
     font-size: 28px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
   }
 }
 
 .settings-section-card {
-  margin: 24px;
+  margin: var(--spacing-sm) 0;
 
   mat-card-header {
     margin-bottom: 16px;

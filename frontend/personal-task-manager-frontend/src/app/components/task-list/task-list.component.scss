@@ -1,35 +1,51 @@
 .task-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .task-container > .task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: clamp(var(--spacing-lg), 3vw, var(--spacing-2xl));
+  margin-bottom: var(--spacing-sm);
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
   
   h2 {
     margin: 0;
+    padding: 0;
+    line-height: 1.2;
     color: var(--primary-800);
     font-weight: 600;
     font-size: 24px;
     letter-spacing: -0.025em;
     background: transparent !important;
+    display: flex;
+    align-items: center;
+  }
+  
+  button {
+    display: flex;
+    align-items: center;
+    height: 40px;
   }
 }
 
 .filters-card {
-  margin-top: clamp(var(--spacing-md), 2vw, var(--spacing-xl));
-  margin-bottom: clamp(var(--spacing-xl), 3vw, var(--spacing-2xl));
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  
+  mat-card-content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
   
   .filters-row {
     display: flex;
@@ -37,15 +53,29 @@
     column-gap: clamp(var(--spacing-md), 2vw, var(--spacing-xl));
     row-gap: clamp(var(--spacing-sm), 1.5vw, var(--spacing-lg));
     flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
     
     mat-form-field {
       flex: 1;
       min-width: 240px;
+      margin: 0 !important;
+      padding: 0 !important;
       --field-bg: #ffffff;
       --field-border: var(--primary-200);
       --field-border-hover: var(--primary-300);
       --field-shadow: 0 8px 20px rgba(17, 24, 39, 0.06);
       --field-radius: 14px;
+      
+      ::ng-deep .mat-mdc-form-field-wrapper {
+        margin: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
       
       // Style "filled" moderne
       ::ng-deep .mat-mdc-text-field-wrapper {
@@ -95,9 +125,9 @@
 .tasks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: clamp(var(--spacing-md), 2vw, var(--spacing-2xl));
-  margin-top: clamp(var(--spacing-md), 1.5vw, var(--spacing-md)); // réduit pour rapprocher
-  margin-bottom: clamp(var(--spacing-xl), 3vw, var(--spacing-3xl));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
 }
 
 .task-card {
@@ -545,5 +575,162 @@
   }
   ::ng-deep .mat-mdc-form-field-label { color: #a5b4fc !important; font-weight: 500; }
   ::ng-deep .mat-mdc-input-element { color: #e0e7ff !important; }
+}
+
+// Mode sombre complet pour les cartes de tâches
+.dark-mode .task-card,
+[data-theme="dark"] .task-card,
+:host-context(.dark-mode) .task-card,
+:host-context([data-theme="dark"]) .task-card {
+  background-color: rgba(30,27,75,0.7) !important;
+  border-color: rgba(139,92,246,0.25) !important;
+  
+  &:hover {
+    background-color: rgba(30,27,75,0.85) !important;
+    border-color: rgba(139,92,246,0.4) !important;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4) !important;
+  }
+}
+
+.dark-mode .task-card > .task-header,
+[data-theme="dark"] .task-card > .task-header,
+:host-context(.dark-mode) .task-card > .task-header,
+:host-context([data-theme="dark"]) .task-card > .task-header {
+  background: linear-gradient(135deg, rgba(30,27,75,0.6) 0%, rgba(30,27,75,0.5) 100%) !important;
+  border-bottom-color: rgba(139,92,246,0.28) !important;
+  
+  &.header-pending {
+    background: linear-gradient(135deg, rgba(124,58,237,0.2) 0%, rgba(124,58,237,0.1) 100%) !important;
+    border-bottom-color: rgba(245,158,11,0.4) !important;
+  }
+  
+  &.header-in_progress {
+    background: linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0.1) 100%) !important;
+    border-bottom-color: rgba(59,130,246,0.4) !important;
+  }
+  
+  &.header-completed {
+    background: linear-gradient(135deg, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0.1) 100%) !important;
+    border-bottom-color: rgba(16,185,129,0.4) !important;
+  }
+}
+
+.dark-mode .task-title,
+[data-theme="dark"] .task-title,
+:host-context(.dark-mode) .task-title,
+:host-context([data-theme="dark"]) .task-title {
+  color: #e9d5ff !important;
+}
+
+.dark-mode .info-item,
+[data-theme="dark"] .info-item,
+:host-context(.dark-mode) .info-item,
+:host-context([data-theme="dark"]) .info-item {
+  color: #c7d2fe !important;
+  
+  mat-icon {
+    color: #a78bfa !important;
+  }
+}
+
+.dark-mode .description,
+[data-theme="dark"] .description,
+:host-context(.dark-mode) .description,
+:host-context([data-theme="dark"]) .description {
+  color: #c7d2fe !important;
+}
+
+.dark-mode .task-actions,
+[data-theme="dark"] .task-actions,
+:host-context(.dark-mode) .task-actions,
+:host-context([data-theme="dark"]) .task-actions {
+  background-color: rgba(30,27,75,0.5) !important;
+  border-top-color: rgba(139,92,246,0.28) !important;
+  
+  button {
+    color: #e9d5ff !important;
+    
+    &:hover {
+      background-color: rgba(139,92,246,0.2) !important;
+      color: #f3e8ff !important;
+    }
+    
+    mat-icon {
+      color: #a78bfa !important;
+    }
+  }
+}
+
+.dark-mode .task-container > .task-header h2,
+[data-theme="dark"] .task-container > .task-header h2,
+:host-context(.dark-mode) .task-container > .task-header h2,
+:host-context([data-theme="dark"]) .task-container > .task-header h2 {
+  color: #e9d5ff !important;
+}
+
+.dark-mode .comment,
+[data-theme="dark"] .comment,
+:host-context(.dark-mode) .comment,
+:host-context([data-theme="dark"]) .comment {
+  background-color: rgba(30,27,75,0.5) !important;
+  border-color: rgba(139,92,246,0.25) !important;
+}
+
+.dark-mode .comment-author,
+[data-theme="dark"] .comment-author,
+:host-context(.dark-mode) .comment-author,
+:host-context([data-theme="dark"]) .comment-author {
+  color: #e9d5ff !important;
+}
+
+.dark-mode .comment-content,
+[data-theme="dark"] .comment-content,
+:host-context(.dark-mode) .comment-content,
+:host-context([data-theme="dark"]) .comment-content {
+  color: #c7d2fe !important;
+}
+
+.dark-mode .comment-date,
+[data-theme="dark"] .comment-date,
+:host-context(.dark-mode) .comment-date,
+:host-context([data-theme="dark"]) .comment-date {
+  color: #a78bfa !important;
+}
+
+.dark-mode .no-tasks,
+[data-theme="dark"] .no-tasks,
+:host-context(.dark-mode) .no-tasks,
+:host-context([data-theme="dark"]) .no-tasks {
+  color: #a78bfa !important;
+  
+  mat-icon {
+    color: #7c3aed !important;
+  }
+  
+  h3 {
+    color: #c7d2fe !important;
+  }
+  
+  p {
+    color: #a78bfa !important;
+  }
+}
+
+.dark-mode .comments-section,
+[data-theme="dark"] .comments-section,
+:host-context(.dark-mode) .comments-section,
+:host-context([data-theme="dark"]) .comments-section {
+  border-top-color: rgba(139,92,246,0.28) !important;
+  
+  h4 {
+    color: #c7d2fe !important;
+  }
+}
+
+.dark-mode .task-card.task-completed,
+[data-theme="dark"] .task-card.task-completed,
+:host-context(.dark-mode) .task-card.task-completed,
+:host-context([data-theme="dark"]) .task-card.task-completed {
+  background: linear-gradient(to right, rgba(16,185,129,0.1), rgba(30,27,75,0.7)) !important;
 }
 

@@ -1,64 +1,72 @@
 .note-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .note-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-sm);
   
   h2 {
     margin: 0;
+    padding: 0;
+    line-height: 1.2;
     color: var(--primary-800);
     font-weight: 600;
     font-size: 24px;
     letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
   }
-}
-
-// Mode sombre pour les filtres des notes
-.dark-mode .filters-card mat-form-field,
-[data-theme="dark"] .filters-card mat-form-field,
-:host-context(.dark-mode) .filters-card mat-form-field,
-:host-context([data-theme="dark"]) .filters-card mat-form-field {
-  ::ng-deep .mat-mdc-text-field-wrapper {
-    background: rgba(30,27,75,0.7) !important;
-    border: 1px solid rgba(139,92,246,0.29) !important;
+  
+  button {
+    display: flex;
+    align-items: center;
+    height: 40px;
   }
-  &:hover ::ng-deep .mat-mdc-text-field-wrapper {
-    background: rgba(49,46,129,0.92) !important;
-    border-color: #7c3aed !important;
-  }
-  &.mdc-text-field--focused ::ng-deep .mat-mdc-text-field-wrapper,
-  ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
-    border-color: #a78bfa !important;
-    background: rgba(56,45,133,0.95) !important;
-    box-shadow: 0 0 0 3px rgba(139,92,246,0.2), 0 10px 22px rgba(30,27,75,0.26) !important;
-  }
-  ::ng-deep .mat-mdc-form-field-label { color: #a5b4fc !important; font-weight: 500; }
-  ::ng-deep .mat-mdc-input-element { color: #e0e7ff !important; }
 }
 
 .filters-card {
-  margin-top: clamp(var(--spacing-md), 2vw, var(--spacing-xl));
-  margin-bottom: clamp(var(--spacing-xl), 3vw, var(--spacing-2xl));
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  
+  mat-card-content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
   
   .filters-row {
     display: flex;
     gap: var(--spacing-md);
     flex-wrap: wrap;
     align-items: center;
+    margin: 0;
+    padding: 0;
     
     mat-form-field {
       flex: 1;
       min-width: 240px;
+      margin: 0 !important;
+      padding: 0 !important;
       --field-radius: 14px;
+      
+      ::ng-deep .mat-mdc-form-field-wrapper {
+        margin: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
       
       // style filled moderne
       ::ng-deep .mat-mdc-text-field-wrapper {
@@ -89,12 +97,123 @@
   }
 }
 
+// Mode sombre pour la checkbox
+:host-context(.dark-mode) .filters-card .filters-row mat-checkbox,
+:host-context([data-theme="dark"]) .filters-card .filters-row mat-checkbox {
+  ::ng-deep .mdc-form-field {
+    color: #c7d2fe !important;
+  }
+  
+  ::ng-deep .mdc-checkbox {
+    --mdc-checkbox-selected-checkmark-color: #e0e7ff !important;
+    --mdc-checkbox-selected-focus-icon-color: #a78bfa !important;
+    --mdc-checkbox-selected-hover-icon-color: #a78bfa !important;
+    --mdc-checkbox-selected-icon-color: #a78bfa !important;
+    --mdc-checkbox-selected-pressed-icon-color: #c7d2fe !important;
+  }
+}
+
+::ng-deep .dark-mode .filters-card mat-checkbox,
+::ng-deep [data-theme="dark"] .filters-card mat-checkbox,
+::ng-deep .dark-mode app-note-list .filters-card mat-checkbox,
+::ng-deep [data-theme="dark"] app-note-list .filters-card mat-checkbox {
+  .mdc-form-field {
+    color: #c7d2fe !important;
+  }
+  
+  .mdc-checkbox {
+    --mdc-checkbox-selected-checkmark-color: #e0e7ff !important;
+    --mdc-checkbox-selected-focus-icon-color: #a78bfa !important;
+    --mdc-checkbox-selected-hover-icon-color: #a78bfa !important;
+    --mdc-checkbox-selected-icon-color: #a78bfa !important;
+    --mdc-checkbox-selected-pressed-icon-color: #c7d2fe !important;
+  }
+}
+
+// Mode sombre pour les filtres des notes - Après les styles de base pour plus de spécificité
+:host-context(.dark-mode) .filters-card .filters-row mat-form-field,
+:host-context([data-theme="dark"]) .filters-card .filters-row mat-form-field,
+.dark-mode :host .filters-card .filters-row mat-form-field,
+[data-theme="dark"] :host .filters-card .filters-row mat-form-field {
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background: rgba(30,27,75,0.7) !important;
+    border: 1px solid rgba(139,92,246,0.29) !important;
+  }
+  
+  &:hover ::ng-deep .mat-mdc-text-field-wrapper {
+    background: rgba(49,46,129,0.92) !important;
+    border-color: #7c3aed !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3) !important;
+  }
+  
+  &.mdc-text-field--focused ::ng-deep .mat-mdc-text-field-wrapper,
+  ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: #a78bfa !important;
+    background: rgba(56,45,133,0.95) !important;
+    box-shadow: 0 0 0 3px rgba(139,92,246,0.2), 0 10px 22px rgba(30,27,75,0.26) !important;
+  }
+  
+  ::ng-deep .mat-mdc-form-field-label {
+    color: #a5b4fc !important;
+    font-weight: 500;
+  }
+  
+  ::ng-deep .mat-mdc-input-element {
+    color: #e0e7ff !important;
+  }
+  
+  ::ng-deep .mat-mdc-icon-button,
+  ::ng-deep .mat-mdc-form-field-icon-suffix,
+  ::ng-deep .mat-mdc-form-field-icon-prefix {
+    color: #a78bfa !important;
+  }
+}
+
+// Styles globaux via ::ng-deep pour forcer l'application
+::ng-deep .dark-mode .filters-card mat-form-field,
+::ng-deep [data-theme="dark"] .filters-card mat-form-field,
+::ng-deep .dark-mode app-note-list .filters-card mat-form-field,
+::ng-deep [data-theme="dark"] app-note-list .filters-card mat-form-field {
+  .mat-mdc-text-field-wrapper {
+    background: rgba(30,27,75,0.7) !important;
+    border: 1px solid rgba(139,92,246,0.29) !important;
+  }
+  
+  &:hover .mat-mdc-text-field-wrapper {
+    background: rgba(49,46,129,0.92) !important;
+    border-color: #7c3aed !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3) !important;
+  }
+  
+  &.mdc-text-field--focused .mat-mdc-text-field-wrapper,
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+    border-color: #a78bfa !important;
+    background: rgba(56,45,133,0.95) !important;
+    box-shadow: 0 0 0 3px rgba(139,92,246,0.2), 0 10px 22px rgba(30,27,75,0.26) !important;
+  }
+  
+  .mat-mdc-form-field-label {
+    color: #a5b4fc !important;
+    font-weight: 500;
+  }
+  
+  .mat-mdc-input-element {
+    color: #e0e7ff !important;
+  }
+  
+  .mat-mdc-icon-button,
+  .mat-mdc-form-field-icon-suffix,
+  .mat-mdc-form-field-icon-prefix {
+    color: #a78bfa !important;
+  }
+}
+
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: var(--spacing-lg);
-  margin-top: clamp(var(--spacing-md), 1.5vw, var(--spacing-md));
-  margin-bottom: var(--spacing-xl);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
 }
 
 .note-card {
@@ -200,22 +319,130 @@
   }
 }
 
-// Mode sombre pour notes vocales
-.dark-mode .note-card.voice-note,
-[data-theme="dark"] .note-card.voice-note {
-  border-left-color: #93c5fd;
-  background: linear-gradient(180deg, rgba(30,27,75,0.7) 0%, rgba(30,27,75,0.6) 100%) !important;
+// Mode sombre complet pour les notes
+.dark-mode .note-card,
+[data-theme="dark"] .note-card,
+:host-context(.dark-mode) .note-card,
+:host-context([data-theme="dark"]) .note-card {
+  background-color: rgba(30,27,75,0.7) !important;
+  border-color: rgba(139,92,246,0.25) !important;
+  
+  &:hover {
+    background-color: rgba(30,27,75,0.85) !important;
+    border-color: rgba(139,92,246,0.4) !important;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4) !important;
+  }
 }
-.dark-mode .note-card.voice-note .mat-mdc-card-header,
-[data-theme="dark"] .note-card.voice-note .mat-mdc-card-header {
-  background: rgba(30,27,75,0.6) !important;
+
+.dark-mode .mat-mdc-card-header,
+[data-theme="dark"] .mat-mdc-card-header,
+:host-context(.dark-mode) .mat-mdc-card-header,
+:host-context([data-theme="dark"]) .mat-mdc-card-header {
+  background-color: rgba(30,27,75,0.6) !important;
   border-bottom-color: rgba(139,92,246,0.28) !important;
 }
+
+.dark-mode .mat-mdc-card-title,
+[data-theme="dark"] .mat-mdc-card-title,
+:host-context(.dark-mode) .mat-mdc-card-title,
+:host-context([data-theme="dark"]) .mat-mdc-card-title {
+  color: #e9d5ff !important;
+}
+
+.dark-mode .note-content,
+[data-theme="dark"] .note-content,
+:host-context(.dark-mode) .note-content,
+:host-context([data-theme="dark"]) .note-content {
+  color: #c7d2fe !important;
+}
+
+.dark-mode .mat-mdc-card-actions,
+[data-theme="dark"] .mat-mdc-card-actions,
+:host-context(.dark-mode) .mat-mdc-card-actions,
+:host-context([data-theme="dark"]) .mat-mdc-card-actions {
+  background-color: rgba(30,27,75,0.5) !important;
+  border-top-color: rgba(139,92,246,0.28) !important;
+  
+  button {
+    &:hover {
+      background-color: rgba(139,92,246,0.2) !important;
+    }
+    
+    mat-icon {
+      color: #a78bfa !important;
+    }
+  }
+}
+
+.dark-mode .mat-mdc-card-footer,
+[data-theme="dark"] .mat-mdc-card-footer,
+:host-context(.dark-mode) .mat-mdc-card-footer,
+:host-context([data-theme="dark"]) .mat-mdc-card-footer {
+  background-color: rgba(30,27,75,0.5) !important;
+  border-top-color: rgba(139,92,246,0.28) !important;
+}
+
+.dark-mode .note-date,
+[data-theme="dark"] .note-date,
+:host-context(.dark-mode) .note-date,
+:host-context([data-theme="dark"]) .note-date {
+  color: #a78bfa !important;
+}
+
+// Mode sombre pour notes vocales
+.dark-mode .note-card.voice-note,
+[data-theme="dark"] .note-card.voice-note,
+:host-context(.dark-mode) .note-card.voice-note,
+:host-context([data-theme="dark"]) .note-card.voice-note {
+  border-left-color: #93c5fd !important;
+  background: linear-gradient(180deg, rgba(30,27,75,0.8) 0%, rgba(30,27,75,0.7) 100%) !important;
+  
+  &:hover {
+    background: linear-gradient(180deg, rgba(30,27,75,0.95) 0%, rgba(30,27,75,0.85) 100%) !important;
+  }
+}
+
+.dark-mode .note-card.voice-note .mat-mdc-card-header,
+[data-theme="dark"] .note-card.voice-note .mat-mdc-card-header,
+:host-context(.dark-mode) .note-card.voice-note .mat-mdc-card-header,
+:host-context([data-theme="dark"]) .note-card.voice-note .mat-mdc-card-header {
+  background: linear-gradient(135deg, rgba(30,27,75,0.7) 0%, rgba(30,27,75,0.6) 100%) !important;
+  border-bottom-color: rgba(139,92,246,0.35) !important;
+}
+
 .dark-mode .note-card.voice-note app-audio-player,
-[data-theme="dark"] .note-card.voice-note app-audio-player {
-  background: rgba(30,27,75,0.6);
-  border-color: rgba(139,92,246,0.28);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+[data-theme="dark"] .note-card.voice-note app-audio-player,
+:host-context(.dark-mode) .note-card.voice-note app-audio-player,
+:host-context([data-theme="dark"]) .note-card.voice-note app-audio-player {
+  background: rgba(30,27,75,0.75) !important;
+  border-color: rgba(139,92,246,0.35) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4) !important;
+}
+
+.dark-mode .note-header h2,
+[data-theme="dark"] .note-header h2,
+:host-context(.dark-mode) .note-header h2,
+:host-context([data-theme="dark"]) .note-header h2 {
+  color: #e9d5ff !important;
+}
+
+.dark-mode .no-notes,
+[data-theme="dark"] .no-notes,
+:host-context(.dark-mode) .no-notes,
+:host-context([data-theme="dark"]) .no-notes {
+  color: #a78bfa !important;
+  
+  mat-icon {
+    color: #7c3aed !important;
+  }
+  
+  h3 {
+    color: #c7d2fe !important;
+  }
+  
+  p {
+    color: #a78bfa !important;
+  }
 }
 
 // En-tête de note minimaliste
