@@ -1,0 +1,218 @@
+<div class="documents-container">
+  <!-- En-tête -->
+  <div class="documents-header">
+    <h2>
+      <mat-icon>folder</mat-icon>
+      Documents
+    </h2>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        <mat-icon>upload_file</mat-icon>
+        Importer
+      </button>
+      <input #fileInput type="file" (change)="uploadFile($event)" style="display: none;" multiple>
+      <button mat-raised-button color="primary" (click)="createFile()" [disabled]="!newFileName.trim()">
+        <mat-icon>note_add</mat-icon>
+        Nouveau fichier
+      </button>
+      <button mat-raised-button color="primary" (click)="createFolder()" [disabled]="!newFolderName.trim()">
+        <mat-icon>create_new_folder</mat-icon>
+        Nouveau dossier
+      </button>
+    </div>
+  </div>
+
+  <!-- Formulaire de création rapide -->
+  <div class="quick-create">
+    <mat-form-field appearance="outline" class="create-input">
+      <mat-label>Nom du dossier</mat-label>
+      <input matInput [(ngModel)]="newFolderName" placeholder="Nom du dossier" (keyup.enter)="createFolder()">
+      <mat-icon matPrefix>folder</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="create-input">
+      <mat-label>Nom du fichier</mat-label>
+      <input matInput [(ngModel)]="newFileName" placeholder="Nom du fichier.txt" (keyup.enter)="createFile()">
+      <mat-icon matPrefix>description</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Navigation breadcrumb -->
+  <div class="breadcrumb" *ngIf="currentFolderId">
+    <button mat-icon-button (click)="navigateUp()" matTooltip="Retour">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="breadcrumb-path">{{ currentFolder?.name || 'Dossier' }}</span>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="documents-content">
+    <!-- Liste des documents (gauche) -->
+    <div class="documents-list">
+      <div *ngIf="documents.length === 0" class="empty-state">
+        <mat-icon>folder_open</mat-icon>
+        <p>Aucun document</p>
+        <p class="empty-hint">Créez un dossier ou importez un fichier pour commencer</p>
+      </div>
+
+      <div class="document-item" *ngFor="let doc of documents" 
+           [class.selected]="selectedDocument?.id === doc.id"
+           (click)="doc.type === DocumentType.FOLDER ? navigateToFolder(doc) : selectDocument(doc)">
+        <mat-icon [matTooltip]="doc.type === DocumentType.FOLDER ? 'Dossier' : 'Fichier'">
+          {{ doc.type === DocumentType.FOLDER ? 'folder' : getFileIcon(doc.fileType) }}
+        </mat-icon>
+        <div class="document-info">
+          <div class="document-name">{{ doc.name }}</div>
+          <div class="document-meta" *ngIf="doc.type === DocumentType.FILE">
+            <span>{{ formatFileSize(doc.size) }}</span>
+            <span *ngIf="doc.updatedAt">{{ doc.updatedAt | date:'short' }}</span>
+          </div>
+        </div>
+        <button mat-icon-button [matMenuTriggerFor]="docMenu" (click)="$event.stopPropagation()">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #docMenu="matMenu">
+          <button mat-menu-item (click)="deleteDocument(doc)">
+            <mat-icon>delete</mat-icon>
+            <span>Supprimer</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <!-- Panneau de visualisation (droite) -->
+    <div class="preview-panel" *ngIf="showPreview && selectedDocument">
+      <div class="preview-header">
+        <div class="preview-title">
+          <mat-icon>{{ selectedDocument.type === DocumentType.FOLDER ? 'folder' : getFileIcon(selectedDocument.fileType) }}</mat-icon>
+          <span>{{ selectedDocument.name }}</span>
+        </div>
+        <div class="preview-actions">
+          <button mat-icon-button (click)="isEditing = !isEditing" *ngIf="canEdit(selectedDocument)" matTooltip="Modifier">
+            <mat-icon>{{ isEditing ? 'close' : 'edit' }}</mat-icon>
+          </button>
+          <button mat-icon-button (click)="saveFile()" *ngIf="isEditing && canEdit(selectedDocument)" matTooltip="Enregistrer">
+            <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button (click)="showPreview = false; selectedDocument = undefined" matTooltip="Fermer">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="preview-content">
+        <!-- Fichier texte éditable -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.TEXT">
+          <textarea 
+            *ngIf="isEditing"
+            [(ngModel)]="fileContent"
+            class="file-editor"
+            placeholder="Écrivez votre contenu ici..."></textarea>
+          <div *ngIf="!isEditing" class="file-viewer">
+            <pre>{{ fileContent || selectedDocument.content || '(fichier vide)' }}</pre>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.IMAGE && selectedDocument.fileUrl">
+          <div class="preview-media-container">
+            <img [src]="getPreviewUrl(selectedDocument)" [alt]="selectedDocument.name" class="preview-image">
+            <div class="preview-actions-bar">
+              <a [href]="getDownloadUrl(selectedDocument)" download [matTooltip]="'Télécharger'">
+                <button mat-raised-button color="primary">
+                  <mat-icon>download</mat-icon>
+                  Télécharger
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PDF -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.PDF && selectedDocument.fileUrl">
+          <div class="preview-media-container">
+            <div class="pdf-viewer-container">
+              <iframe 
+                [src]="getSafePreviewUrl(selectedDocument)" 
+                class="preview-iframe" 
+                type="application/pdf"
+                (load)="onPdfLoad($event)"
+                (error)="onPdfError($event)">
+              </iframe>
+              <div *ngIf="pdfLoadError" class="pdf-error-message">
+                <mat-icon class="error-icon">error_outline</mat-icon>
+                <p>Impossible d'afficher le PDF dans le navigateur</p>
+                <p class="error-hint">Utilisez le bouton "Ouvrir" pour l'afficher dans un nouvel onglet</p>
+              </div>
+            </div>
+            <div class="preview-actions-bar">
+              <a [href]="getDownloadUrl(selectedDocument)" download [matTooltip]="'Télécharger'">
+                <button mat-raised-button color="primary">
+                  <mat-icon>download</mat-icon>
+                  Télécharger
+                </button>
+              </a>
+              <a [href]="getPreviewUrl(selectedDocument)" target="_blank" [matTooltip]="'Ouvrir dans un nouvel onglet'">
+                <button mat-raised-button color="accent">
+                  <mat-icon>open_in_new</mat-icon>
+                  Ouvrir
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vidéo -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.VIDEO && selectedDocument.fileUrl">
+          <div class="preview-media-container">
+            <video [src]="getPreviewUrl(selectedDocument)" controls class="preview-video"></video>
+            <div class="preview-actions-bar">
+              <a [href]="getDownloadUrl(selectedDocument)" download [matTooltip]="'Télécharger'">
+                <button mat-raised-button color="primary">
+                  <mat-icon>download</mat-icon>
+                  Télécharger
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.AUDIO && selectedDocument.fileUrl">
+          <div class="preview-media-container">
+            <div class="audio-player-container">
+              <mat-icon class="audio-icon">audiotrack</mat-icon>
+              <audio [src]="getPreviewUrl(selectedDocument)" controls class="preview-audio"></audio>
+            </div>
+            <div class="preview-actions-bar">
+              <a [href]="getDownloadUrl(selectedDocument)" download [matTooltip]="'Télécharger'">
+                <button mat-raised-button color="primary">
+                  <mat-icon>download</mat-icon>
+                  Télécharger
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Autres types de fichiers -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.OTHER">
+          <div class="file-info">
+            <mat-icon class="large-icon">insert_drive_file</mat-icon>
+            <p class="file-name">{{ selectedDocument.name }}</p>
+            <p class="file-details">
+              Taille: {{ formatFileSize(selectedDocument.size) }}<br>
+              Type: {{ selectedDocument.mimeType || 'Non spécifié' }}
+            </p>
+            <a *ngIf="selectedDocument.fileUrl" [href]="getDownloadUrl(selectedDocument)" download [matTooltip]="'Télécharger'">
+              <button mat-raised-button color="primary">
+                <mat-icon>download</mat-icon>
+                Télécharger
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

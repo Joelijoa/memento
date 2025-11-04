@@ -68,7 +68,7 @@ export class NotificationService {
 
       // Vérifier les tâches
       tasks.forEach(task => {
-        if (task.dueDate && task.status !== 'COMPLETED' && task.id) {
+        if (task.dueDate && task.status !== 'Terminé' && task.id) {
           const dueDate = new Date(task.dueDate);
           const timeDiff = dueDate.getTime() - now.getTime();
           const isToday = this.isSameDay(dueDate, now);

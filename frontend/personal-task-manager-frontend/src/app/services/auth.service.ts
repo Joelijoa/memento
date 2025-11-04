@@ -83,5 +83,24 @@ export class AuthService {
     const token = this.getToken();
     return token ? { 'Authorization': `Bearer ${token}` } : {};
   }
+
+  forgotPassword(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/auth/forgot-password`, { email });
+  }
+
+  verifyResetCode(email: string, resetCode: string): Observable<{ valid: boolean; message?: string; error?: string }> {
+    return this.http.post<{ valid: boolean; message?: string; error?: string }>(`${this.apiUrl}/auth/verify-code`, {
+      email,
+      resetCode
+    });
+  }
+
+  resetPassword(email: string, resetCode: string, newPassword: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}/auth/reset-password`, {
+      email,
+      resetCode,
+      newPassword
+    });
+  }
 }
 

@@ -168,11 +168,161 @@ h6 { font-size: 0.875rem; }
   }
 }
 
-// Styles pour les formulaires Material
+// Styles globaux pour tous les inputs Material - Design minimaliste et intuitif
 .mat-mdc-form-field {
-  .mat-mdc-text-field-wrapper {
-    border-radius: var(--border-radius-md) !important;
+  width: 100%;
+  
+  // Masquer complètement l'outline Material pour éviter les bordures en double
+  .mat-mdc-form-field-focus-overlay {
+    opacity: 0 !important;
+    display: none !important;
   }
+  
+  .mdc-notched-outline {
+    display: none !important;
+    opacity: 0 !important;
+    border: none !important;
+  }
+  
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border: none !important;
+    display: none !important;
+  }
+  
+  .mat-mdc-text-field-wrapper {
+    border-radius: 12px !important;
+    border: 1px solid #e5e7eb !important;
+    background-color: #ffffff !important;
+    transition: all 0.2s ease !important;
+    min-height: 48px !important;
+    box-shadow: none !important;
+    
+    &:hover {
+      border-color: #d1d5db !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+    
+    &.mdc-text-field--focused {
+      border-color: #7e6aff !important;
+      box-shadow: 0 0 0 3px rgba(126, 106, 255, 0.1) !important;
+      background-color: #ffffff !important;
+    }
+  }
+  
+  .mat-mdc-form-field-infix {
+    padding: 12px 16px !important;
+    min-height: 48px !important;
+    border: none !important;
+  }
+  
+  .mat-mdc-input-element {
+    padding: 0 !important;
+    padding-left: 0 !important;
+    font-size: 15px !important;
+    color: #111827 !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    border: none !important;
+    background: transparent !important;
+    
+    &::placeholder {
+      color: #9ca3af !important;
+      opacity: 1 !important;
+    }
+  }
+  
+  .mat-mdc-floating-label {
+    padding-left: 16px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    color: #6b7280 !important;
+  }
+  
+  &.mdc-text-field--focused .mat-mdc-floating-label {
+    color: #7e6aff !important;
+  }
+  
+  .mat-mdc-form-field-error {
+    font-size: 12px !important;
+    color: #ef4444 !important;
+    margin-top: 4px !important;
+  }
+  
+  textarea.mat-mdc-input-element {
+    min-height: 100px !important;
+    line-height: 1.6 !important;
+    resize: vertical !important;
+    padding-top: 12px !important;
+  }
+}
+
+// Styles pour les inputs HTML natifs - Design minimaliste et intuitif
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 16px !important;
+  padding-left: 16px !important;
+  font-size: 15px !important;
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  font-family: inherit !important;
+  box-sizing: border-box !important;
+  
+  &:hover {
+    border-color: #d1d5db !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  }
+  
+  &:focus {
+    outline: none !important;
+    border-color: #7e6aff !important;
+    box-shadow: 0 0 0 3px rgba(126, 106, 255, 0.1) !important;
+    background-color: #ffffff !important;
+  }
+  
+  &::placeholder {
+    color: #9ca3af !important;
+    opacity: 1 !important;
+  }
+  
+  &:disabled {
+    background-color: #f3f4f6 !important;
+    color: #9ca3af !important;
+    cursor: not-allowed !important;
+    border-color: #e5e7eb !important;
+  }
+}
+
+textarea {
+  min-height: 100px !important;
+  line-height: 1.6 !important;
+  resize: vertical !important;
+}
+
+select {
+  cursor: pointer !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 16px center !important;
+  padding-right: 40px !important;
 }
 
 // Scrollbar personnalisée
@@ -396,7 +546,9 @@ body[data-theme="dark"] .mat-mdc-tooltip {
 // Surfaces des modales (clair)
 .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
 .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
-.mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-surface {
+.mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-surface,
+.mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+.mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface {
   border-radius: 16px !important;
   background: linear-gradient(135deg, #ffffff 0%, #faf8ff 100%) !important;
   border: 1px solid rgba(139, 92, 246, 0.16) !important;
@@ -420,35 +572,86 @@ body[data-theme="dark"] .mat-mdc-tooltip {
   border-top: 1px solid rgba(139, 92, 246, 0.12) !important;
 }
 
-// Mode sombre
+// Mode sombre - Surfaces des modales (priorité maximale)
 .dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
-[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
 .dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
-[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
 .dark-mode .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-surface,
-[data-theme="dark"] .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-surface {
-  background: linear-gradient(135deg, #1e1b4b 0%, #2a265f 100%) !important;
-  border: 1px solid rgba(139, 92, 246, 0.28) !important;
+[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
+[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
+[data-theme="dark"] .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-surface,
+html.dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+html.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+html.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
+html.dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
+html[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+html[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+html[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
+html[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
+body.dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+body.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+body.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
+body.dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface,
+body[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+body[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+body[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
+body[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface {
+  background: var(--primary-100) !important;
+  border: 1px solid var(--primary-300) !important;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45) !important;
 }
 
 .dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-title,
-[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-title,
+.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-title,
+.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-title,
 .dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-title,
-[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-title,
 .dark-mode .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-title,
+[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-title,
+[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-title,
+[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-title,
+[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-title,
 [data-theme="dark"] .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-title {
-  color: #e9d5ff !important;
+  color: white !important;
+  background: var(--gradient-primary) !important;
+}
+
+.dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-content,
+html.dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+html.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+html.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+html.dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content {
+  background: var(--primary-100) !important;
+  color: #e0e0e0 !important;
 }
 
 .dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-actions,
-[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-actions,
+.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-actions,
+.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-actions,
 .dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-actions,
-[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-actions,
 .dark-mode .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-actions,
+[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-actions,
+[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-actions,
+[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-actions,
+[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-actions,
 [data-theme="dark"] .mat-mdc-dialog-container.task-detail-dialog .mat-mdc-dialog-actions {
-  background: rgba(30, 27, 75, 0.6) !important;
-  border-top-color: rgba(139, 92, 246, 0.28) !important;
+  background: linear-gradient(180deg, var(--primary-100), var(--primary-50)) !important;
+  border-top-color: var(--primary-300) !important;
 }
 
 // Animation pour les snackbars
@@ -670,7 +873,8 @@ body {
 // Styles globaux pour les dialogues modernisés
 .task-dialog .mat-mdc-dialog-container,
 .note-dialog .mat-mdc-dialog-container,
-.schedule-dialog .mat-mdc-dialog-container {
+.schedule-dialog .mat-mdc-dialog-container,
+.comment-dialog .mat-mdc-dialog-container {
   border-radius: var(--border-radius-xl) !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 0.2) !important;
   border: none !important;
@@ -681,26 +885,89 @@ body {
 // Style pour le contenu des dialogues (MINIMALISTE)
 .task-dialog .mat-mdc-dialog-content,
 .note-dialog .mat-mdc-dialog-content,
-.schedule-dialog .mat-mdc-dialog-content {
+.schedule-dialog .mat-mdc-dialog-content,
+.comment-dialog .mat-mdc-dialog-content {
   background: white !important;
   padding: 40px !important;
 }
 
-.dark-mode .task-dialog .mat-mdc-dialog-container,
-.dark-mode .note-dialog .mat-mdc-dialog-container,
-.dark-mode .schedule-dialog .mat-mdc-dialog-container,
-[data-theme="dark"] .task-dialog .mat-mdc-dialog-container,
-[data-theme="dark"] .note-dialog .mat-mdc-dialog-container,
-[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-container {
-  background: var(--primary-100) !important;
-}
-
+// Mode sombre - Forcer le fond sombre pour le contenu (spécificité maximale)
 .dark-mode .task-dialog .mat-mdc-dialog-content,
 .dark-mode .note-dialog .mat-mdc-dialog-content,
 .dark-mode .schedule-dialog .mat-mdc-dialog-content,
+.dark-mode .comment-dialog .mat-mdc-dialog-content,
 [data-theme="dark"] .task-dialog .mat-mdc-dialog-content,
 [data-theme="dark"] .note-dialog .mat-mdc-dialog-content,
-[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-content {
+[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .comment-dialog .mat-mdc-dialog-content,
+html.dark-mode .task-dialog .mat-mdc-dialog-content,
+html.dark-mode .note-dialog .mat-mdc-dialog-content,
+html.dark-mode .schedule-dialog .mat-mdc-dialog-content,
+html.dark-mode .comment-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .task-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .note-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-content,
+html[data-theme="dark"] .comment-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+.dark-mode .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content {
+  background: var(--primary-100) !important;
+  color: #e0e0e0 !important;
+}
+
+// Mode sombre - Conteneurs des dialogues
+.dark-mode .task-dialog .mat-mdc-dialog-container,
+.dark-mode .note-dialog .mat-mdc-dialog-container,
+.dark-mode .schedule-dialog .mat-mdc-dialog-container,
+.dark-mode .comment-dialog .mat-mdc-dialog-container,
+.dark-mode ::ng-deep .task-dialog .mat-mdc-dialog-container,
+.dark-mode ::ng-deep .note-dialog .mat-mdc-dialog-container,
+.dark-mode ::ng-deep .schedule-dialog .mat-mdc-dialog-container,
+.dark-mode ::ng-deep .comment-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] .task-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] .note-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] .comment-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] ::ng-deep .task-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] ::ng-deep .note-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] ::ng-deep .schedule-dialog .mat-mdc-dialog-container,
+[data-theme="dark"] ::ng-deep .comment-dialog .mat-mdc-dialog-container {
+  background: var(--primary-100) !important;
+}
+
+.dark-mode .task-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+.dark-mode .note-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+.dark-mode .schedule-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+.dark-mode .comment-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+[data-theme="dark"] .task-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+[data-theme="dark"] .note-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+[data-theme="dark"] .comment-dialog .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+  background: var(--primary-100) !important;
+}
+
+// Mode sombre - Contenu des dialogues
+.dark-mode .task-dialog .mat-mdc-dialog-content,
+.dark-mode .note-dialog .mat-mdc-dialog-content,
+.dark-mode .schedule-dialog .mat-mdc-dialog-content,
+.dark-mode .comment-dialog .mat-mdc-dialog-content,
+.dark-mode ::ng-deep .task-dialog .mat-mdc-dialog-content,
+.dark-mode ::ng-deep .note-dialog .mat-mdc-dialog-content,
+.dark-mode ::ng-deep .schedule-dialog .mat-mdc-dialog-content,
+.dark-mode ::ng-deep .comment-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .task-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .note-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] .comment-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] ::ng-deep .task-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] ::ng-deep .note-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] ::ng-deep .schedule-dialog .mat-mdc-dialog-content,
+[data-theme="dark"] ::ng-deep .comment-dialog .mat-mdc-dialog-content {
   background: var(--primary-100) !important;
   color: #e0e0e0 !important;
 }
@@ -708,19 +975,23 @@ body {
 .dark-mode .task-dialog .mat-mdc-dialog-actions,
 .dark-mode .note-dialog .mat-mdc-dialog-actions,
 .dark-mode .schedule-dialog .mat-mdc-dialog-actions,
+.dark-mode .comment-dialog .mat-mdc-dialog-actions,
 [data-theme="dark"] .task-dialog .mat-mdc-dialog-actions,
 [data-theme="dark"] .note-dialog .mat-mdc-dialog-actions,
-[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-actions {
-  background: var(--primary-200) !important;
-  border-color: var(--primary-300) !important;
+[data-theme="dark"] .schedule-dialog .mat-mdc-dialog-actions,
+[data-theme="dark"] .comment-dialog .mat-mdc-dialog-actions {
+  background: linear-gradient(180deg, var(--primary-100), var(--primary-50)) !important;
+  border-top-color: var(--primary-300) !important;
 }
 
 .dark-mode .task-dialog .mat-mdc-form-field,
 .dark-mode .note-dialog .mat-mdc-form-field,
 .dark-mode .schedule-dialog .mat-mdc-form-field,
+.dark-mode .comment-dialog .mat-mdc-form-field,
 [data-theme="dark"] .task-dialog .mat-mdc-form-field,
 [data-theme="dark"] .note-dialog .mat-mdc-form-field,
-[data-theme="dark"] .schedule-dialog .mat-mdc-form-field {
+[data-theme="dark"] .schedule-dialog .mat-mdc-form-field,
+[data-theme="dark"] .comment-dialog .mat-mdc-form-field {
   .mat-mdc-text-field-wrapper {
     background-color: var(--primary-200) !important;
     border-color: var(--primary-300) !important;
@@ -803,38 +1074,68 @@ body {
   }
 }
 
-// Style MINIMALISTE pour les inputs (bordures invisibles, focus discret)
+// Style MINIMALISTE pour les inputs dans les dialogues (bordures arrondies, padding à gauche)
 .mat-dialog-container {
   .mat-mdc-form-field {
     margin-bottom: 28px !important;
     
-    .mat-mdc-text-field-wrapper {
-      border-radius: 0 !important;
+    // Masquer complètement l'outline Material pour éviter les bordures en double
+    .mat-mdc-form-field-focus-overlay {
+      opacity: 0 !important;
+      display: none !important;
+    }
+    
+    .mdc-notched-outline {
+      display: none !important;
+      opacity: 0 !important;
       border: none !important;
-      border-bottom: 2px solid #e5e7eb !important;
-      background-color: transparent !important;
-      padding: 0 0 8px 0 !important;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      min-height: 56px !important;
+    }
+    
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border: none !important;
+      display: none !important;
+    }
+    
+    .mat-mdc-text-field-wrapper {
+      border-radius: 12px !important;
+      border: 1px solid #e5e7eb !important;
+      background-color: #ffffff !important;
+      transition: all 0.2s ease !important;
+      min-height: 48px !important;
+      box-shadow: none !important;
+      
+      // Supprimer toute bordure supplémentaire
+      &::before,
+      &::after {
+        display: none !important;
+      }
       
       &:hover {
-        border-bottom-color: #d1d5db !important;
+        border-color: #d1d5db !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
       }
       
       &.mdc-text-field--focused {
-        border-bottom-color: #7e6aff !important;
-        box-shadow: none !important;
-        background: transparent !important;
+        border-color: #7e6aff !important;
+        box-shadow: 0 0 0 3px rgba(126, 106, 255, 0.1) !important;
+        background-color: #ffffff !important;
       }
+    }
+    
+    .mat-mdc-form-field-infix {
+      padding: 12px 16px !important;
+      min-height: 48px !important;
+      border: none !important;
     }
     
     // Label minimaliste
     .mat-mdc-floating-label {
-      background-color: transparent !important;
-      padding: 0 !important;
+      padding-left: 16px !important;
       font-weight: 500 !important;
-      font-size: 13px !important;
-      color: #9ca3af !important;
+      font-size: 14px !important;
+      color: #6b7280 !important;
     }
     
     // Label au focus
@@ -843,13 +1144,17 @@ body {
     }
     
     .mat-mdc-input-element {
-      font-size: 16px !important;
+      font-size: 15px !important;
       color: #111827 !important;
-      padding: 12px 0 8px 0 !important;
+      padding: 0 !important;
+      padding-left: 0 !important;
       font-weight: 400 !important;
+      line-height: 1.5 !important;
+      border: none !important;
+      background: transparent !important;
       
       &::placeholder {
-        color: #d1d5db !important;
+        color: #9ca3af !important;
         opacity: 1 !important;
       }
     }
@@ -858,11 +1163,12 @@ body {
       min-height: 100px !important;
       line-height: 1.6 !important;
       resize: vertical !important;
+      padding-top: 12px !important;
     }
     
     // Erreur minimaliste
     .mat-mdc-form-field-error {
-      font-size: 13px !important;
+      font-size: 12px !important;
       color: #ef4444 !important;
       margin-top: 4px !important;
     }
@@ -872,29 +1178,31 @@ body {
 // Styles pour les selects MINIMALISTES (même style que les inputs)
 .mat-dialog-container .mat-mdc-form-field {
   .mat-mdc-select-trigger {
-    border-radius: 0 !important;
-    border: none !important;
-    border-bottom: 2px solid #e5e7eb !important;
-    background-color: transparent !important;
-    padding: 12px 0 8px 0 !important;
-    min-height: 56px !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-radius: 12px !important;
+    border: 1px solid #e5e7eb !important;
+    background-color: #ffffff !important;
+    padding: 12px 16px !important;
+    padding-left: 16px !important;
+    min-height: 48px !important;
+    transition: all 0.2s ease !important;
     
     &:hover {
-      border-bottom-color: #d1d5db !important;
+      border-color: #d1d5db !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
     }
   }
   
   &.mdc-text-field--focused .mat-mdc-select-trigger {
-    border-bottom-color: #7e6aff !important;
-    box-shadow: none !important;
-    background: transparent !important;
+    border-color: #7e6aff !important;
+    box-shadow: 0 0 0 3px rgba(126, 106, 255, 0.1) !important;
+    background-color: #ffffff !important;
   }
   
   .mat-mdc-select-value {
-    font-size: 16px !important;
+    font-size: 15px !important;
     color: #111827 !important;
     font-weight: 400 !important;
+    padding-left: 0 !important;
   }
 }
 
@@ -1223,6 +1531,38 @@ body {
   --primary-700: #b373f0;
   --primary-800: #c29aec;
   --primary-900: #d1b8e8;
+  
+  // Styles globaux pour les modales en mode sombre (priorité absolue)
+  .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-surface,
+  .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-surface,
+  .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-surface,
+  .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-surface {
+    background: var(--primary-100) !important;
+  }
+  
+  .task-dialog .mat-mdc-dialog-content,
+  .note-dialog .mat-mdc-dialog-content,
+  .schedule-dialog .mat-mdc-dialog-content,
+  .comment-dialog .mat-mdc-dialog-content,
+  .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-content,
+  .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-content,
+  .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-content,
+  .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-content {
+    background: var(--primary-100) !important;
+    color: #e0e0e0 !important;
+  }
+  
+  .task-dialog .mat-mdc-dialog-actions,
+  .note-dialog .mat-mdc-dialog-actions,
+  .schedule-dialog .mat-mdc-dialog-actions,
+  .comment-dialog .mat-mdc-dialog-actions,
+  .mat-mdc-dialog-container.task-dialog .mat-mdc-dialog-actions,
+  .mat-mdc-dialog-container.note-dialog .mat-mdc-dialog-actions,
+  .mat-mdc-dialog-container.schedule-dialog .mat-mdc-dialog-actions,
+  .mat-mdc-dialog-container.comment-dialog .mat-mdc-dialog-actions {
+    background: linear-gradient(180deg, var(--primary-100), var(--primary-50)) !important;
+    border-top-color: var(--primary-300) !important;
+  }
 
   body {
     background: linear-gradient(180deg, #0f0f1e 0%, var(--primary-100) 50%, #0f0f1e 100%) !important;
@@ -1258,9 +1598,123 @@ body {
   .mat-mdc-form-field {
     .mat-mdc-text-field-wrapper {
       background-color: var(--primary-200) !important;
+      border-color: var(--primary-300) !important;
       
-      .mat-mdc-form-field-input-control input {
+      &:hover {
+        border-color: var(--primary-400) !important;
+      }
+      
+      &.mdc-text-field--focused {
+        border-color: var(--primary-600) !important;
+        box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2) !important;
+      }
+      
+      .mat-mdc-form-field-input-control input,
+      .mat-mdc-form-field-input-control textarea {
         color: #e0e0e0 !important;
+      }
+    }
+    
+    .mat-mdc-floating-label {
+      color: #b0b0b0 !important;
+    }
+    
+    &.mdc-text-field--focused .mat-mdc-floating-label {
+      color: var(--primary-600) !important;
+    }
+    
+    .mat-mdc-input-element {
+      color: #e0e0e0 !important;
+      
+      &::placeholder {
+        color: #6b7280 !important;
+      }
+    }
+  }
+  
+  // Styles pour les inputs HTML natifs en mode sombre
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  textarea,
+  select {
+    background-color: var(--primary-200) !important;
+    border-color: var(--primary-300) !important;
+    color: #e0e0e0 !important;
+    
+    &:hover {
+      border-color: var(--primary-400) !important;
+    }
+    
+    &:focus {
+      border-color: var(--primary-600) !important;
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2) !important;
+      background-color: var(--primary-200) !important;
+    }
+    
+    &::placeholder {
+      color: #6b7280 !important;
+    }
+    
+    &:disabled {
+      background-color: var(--primary-100) !important;
+      color: #6b7280 !important;
+      border-color: var(--primary-200) !important;
+    }
+  }
+  
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23b0b0b0' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+  }
+  
+  // Styles pour les inputs dans les dialogues en mode sombre
+  .mat-dialog-container {
+    .mat-mdc-form-field {
+      .mat-mdc-text-field-wrapper {
+        background-color: var(--primary-200) !important;
+        border-color: var(--primary-300) !important;
+        
+        &:hover {
+          border-color: var(--primary-400) !important;
+        }
+        
+        &.mdc-text-field--focused {
+          border-color: var(--primary-600) !important;
+          box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2) !important;
+        }
+      }
+      
+      .mat-mdc-input-element {
+        color: #e0e0e0 !important;
+        
+        &::placeholder {
+          color: #6b7280 !important;
+        }
+      }
+      
+      .mat-mdc-floating-label {
+        color: #b0b0b0 !important;
+      }
+      
+      &.mdc-text-field--focused .mat-mdc-floating-label {
+        color: var(--primary-600) !important;
+      }
+    }
+    
+    .mat-mdc-select-trigger {
+      background-color: var(--primary-200) !important;
+      border-color: var(--primary-300) !important;
+      color: #e0e0e0 !important;
+      
+      &:hover {
+        border-color: var(--primary-400) !important;
       }
     }
   }

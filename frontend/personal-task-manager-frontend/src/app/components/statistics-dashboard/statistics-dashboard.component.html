@@ -1,6 +1,9 @@
 <div class="statistics-container">
   <div class="statistics-header">
-    <h2>Tableau de Bord</h2>
+    <h2>
+      <mat-icon>dashboard</mat-icon>
+      Tableau de Bord
+    </h2>
     <button mat-raised-button color="primary" (click)="refreshData()">
       <mat-icon>refresh</mat-icon>
       Actualiser
@@ -11,7 +14,10 @@
     <!-- Cartes de statistiques -->
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-card-title>Tâches Complétées</mat-card-title>
+        <mat-card-title>
+          <mat-icon>check_circle</mat-icon>
+          Tâches Complétées
+        </mat-card-title>
         <mat-card-subtitle>Aujourd'hui</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -21,7 +27,10 @@
 
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-card-title>Temps Productif</mat-card-title>
+        <mat-card-title>
+          <mat-icon>schedule</mat-icon>
+          Temps Productif
+        </mat-card-title>
         <mat-card-subtitle>Minutes</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -31,7 +40,10 @@
 
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-card-title>Notes Créées</mat-card-title>
+        <mat-card-title>
+          <mat-icon>note</mat-icon>
+          Notes Créées
+        </mat-card-title>
         <mat-card-subtitle>Aujourd'hui</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -41,7 +53,10 @@
 
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-card-title>Efficacité</mat-card-title>
+        <mat-card-title>
+          <mat-icon>trending_up</mat-icon>
+          Efficacité
+        </mat-card-title>
         <mat-card-subtitle>Score</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>

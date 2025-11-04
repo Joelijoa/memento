@@ -1,0 +1,89 @@
+<div class="code-verification-container">
+  <div class="code-verification-card">
+    <div class="code-verification-header">
+      <h1>Vérification du code</h1>
+      <p class="email-info">Un code de vérification a été envoyé sur le mail <strong>{{ email }}</strong></p>
+    </div>
+
+    <div class="code-input-container">
+      <div class="code-inputs">
+        <input
+          #codeInput0
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [(ngModel)]="code[0]"
+          (input)="onCodeInput(0, $event)"
+          (keydown)="onKeyDown(0, $event)"
+          (paste)="onPaste($event)"
+          class="code-input"
+          [disabled]="isLoading"
+        >
+        <input
+          #codeInput1
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [(ngModel)]="code[1]"
+          (input)="onCodeInput(1, $event)"
+          (keydown)="onKeyDown(1, $event)"
+          class="code-input"
+          [disabled]="isLoading"
+        >
+        <input
+          #codeInput2
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [(ngModel)]="code[2]"
+          (input)="onCodeInput(2, $event)"
+          (keydown)="onKeyDown(2, $event)"
+          class="code-input"
+          [disabled]="isLoading"
+        >
+        <input
+          #codeInput3
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [(ngModel)]="code[3]"
+          (input)="onCodeInput(3, $event)"
+          (keydown)="onKeyDown(3, $event)"
+          class="code-input"
+          [disabled]="isLoading"
+        >
+        <input
+          #codeInput4
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [(ngModel)]="code[4]"
+          (input)="onCodeInput(4, $event)"
+          (keydown)="onKeyDown(4, $event)"
+          class="code-input"
+          [disabled]="isLoading"
+        >
+        <input
+          #codeInput5
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          [(ngModel)]="code[5]"
+          (input)="onCodeInput(5, $event)"
+          (keydown)="onKeyDown(5, $event)"
+          class="code-input"
+          [disabled]="isLoading"
+        >
+      </div>
+      <div *ngIf="isLoading" class="loading-indicator">
+        <p>Vérification en cours...</p>
+      </div>
+    </div>
+
+    <div class="code-verification-footer">
+      <p>Vous n'avez pas reçu le code ? <a (click)="navigateToForgotPassword()" class="link">Renvoyer</a></p>
+      <p>Vous vous souvenez de votre mot de passe ? <a (click)="navigateToLogin()" class="link">Se connecter</a></p>
+    </div>
+  </div>
+</div>
+

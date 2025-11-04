@@ -1,20 +1,20 @@
 export enum TaskStatus {
-  PENDING = 'PENDING',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED'
+  PENDING = 'En attente',
+  IN_PROGRESS = 'En cours',
+  COMPLETED = 'Terminé'
 }
 
 export enum TaskDifficulty {
-  EASY = 'EASY',
-  MEDIUM = 'MEDIUM',
-  HARD = 'HARD'
+  EASY = 'Facile',
+  MEDIUM = 'Moyen',
+  HARD = 'Difficile'
 }
 
 export enum TaskPriority {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
-  URGENT = 'URGENT'
+  LOW = 'Faible',
+  MEDIUM = 'Moyen',
+  HIGH = 'Élevé',
+  URGENT = 'Urgent'
 }
 
 export interface Comment {

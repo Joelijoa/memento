@@ -5,9 +5,14 @@ D:\To do list perso\src\main\java\com\personaltaskmanager\repository\ScheduleRep
 D:\To do list perso\src\main\java\com\personaltaskmanager\model\Schedule.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\controller\ScheduleController.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\model\Statistics.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\model\Document.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\enums\FileType.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\controller\CommentController.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\service\NoteService.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\repository\DocumentRepository.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\controller\DocumentController.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\service\ScheduleService.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\enums\DocumentType.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\repository\UserRepository.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\PersonalTaskManagerApplication.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\repository\CommentRepository.java
@@ -16,6 +21,7 @@ D:\To do list perso\src\main\java\com\personaltaskmanager\model\Task.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\controller\TaskController.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\repository\NoteRepository.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\model\User.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\service\DocumentService.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\service\AuthService.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\repository\TaskRepository.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\service\StatisticsService.java
@@ -28,3 +34,4 @@ D:\To do list perso\src\main\java\com\personaltaskmanager\service\CommentService
 D:\To do list perso\src\main\java\com\personaltaskmanager\enums\NoteType.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\controller\StatisticsController.java
 D:\To do list perso\src\main\java\com\personaltaskmanager\repository\StatisticsRepository.java
+D:\To do list perso\src\main\java\com\personaltaskmanager\service\EmailService.java

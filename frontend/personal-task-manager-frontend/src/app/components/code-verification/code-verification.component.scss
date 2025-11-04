@@ -1,0 +1,143 @@
+.code-verification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #7e6aff 0%, #a855f7 50%, #ec4899 100%);
+  padding: 20px;
+}
+
+.code-verification-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 500px;
+  padding: 48px;
+  animation: fadeIn 0.5s ease;
+}
+
+.code-verification-header {
+  text-align: center;
+  margin-bottom: 40px;
+  
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 16px 0;
+  }
+  
+  .email-info {
+    color: #6b7280;
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.6;
+    
+    strong {
+      color: #7e6aff;
+      font-weight: 600;
+    }
+  }
+}
+
+.code-input-container {
+  margin-bottom: 32px;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.code-input {
+  width: 56px;
+  height: 64px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: #1f2937;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: #7e6aff;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(126, 106, 255, 0.1);
+  }
+  
+  &:disabled {
+    background: #f3f4f6;
+    cursor: not-allowed;
+  }
+  
+  &::placeholder {
+    color: #d1d5db;
+  }
+}
+
+.loading-indicator {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.code-verification-footer {
+  margin-top: 32px;
+  text-align: center;
+  
+  p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  .link {
+    color: #7e6aff;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .code-verification-card {
+    padding: 32px 24px;
+  }
+  
+  .code-verification-header h1 {
+    font-size: 28px;
+  }
+  
+  .code-input {
+    width: 48px;
+    height: 56px;
+    font-size: 28px;
+  }
+  
+  .code-inputs {
+    gap: 8px;
+  }
+}
+

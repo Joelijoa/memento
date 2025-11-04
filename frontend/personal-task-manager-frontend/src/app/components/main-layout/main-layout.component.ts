@@ -67,6 +67,9 @@ export class MainLayoutComponent implements OnInit {
       case '/schedule':
         this.currentPageTitle = 'Planning';
         break;
+      case '/documents':
+        this.currentPageTitle = 'Documents';
+        break;
       case '/statistics':
         this.currentPageTitle = 'Statistiques';
         break;

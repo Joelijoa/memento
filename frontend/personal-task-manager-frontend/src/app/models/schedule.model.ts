@@ -1,11 +1,11 @@
 export enum DayOfWeek {
-  MONDAY = 'MONDAY',
-  TUESDAY = 'TUESDAY',
-  WEDNESDAY = 'WEDNESDAY',
-  THURSDAY = 'THURSDAY',
-  FRIDAY = 'FRIDAY',
-  SATURDAY = 'SATURDAY',
-  SUNDAY = 'SUNDAY'
+  MONDAY = 'Lundi',
+  TUESDAY = 'Mardi',
+  WEDNESDAY = 'Mercredi',
+  THURSDAY = 'Jeudi',
+  FRIDAY = 'Vendredi',
+  SATURDAY = 'Samedi',
+  SUNDAY = 'Dimanche'
 }
 
 export interface Schedule {
