@@ -49,6 +49,7 @@ export class DocumentsComponent implements OnInit {
   fileContent = '';
   isEditing = false;
   pdfLoadError = false;
+  documentLoadError = false;
   
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -195,6 +196,7 @@ export class DocumentsComponent implements OnInit {
     this.showPreview = true;
     this.isEditing = false;
     this.pdfLoadError = false; // Réinitialiser l'erreur PDF
+    this.documentLoadError = false; // Réinitialiser l'erreur document
 
     if (document.type === DocumentType.FILE && document.fileType === FileType.TEXT) {
       // Toujours recharger le document depuis l'API pour obtenir le contenu complet
@@ -372,9 +374,38 @@ export class DocumentsComponent implements OnInit {
         return 'video_library';
       case FileType.AUDIO:
         return 'audiotrack';
+      case FileType.DOCUMENT:
+        return 'description';
       default:
         return 'insert_drive_file';
     }
+  }
+
+  isImageFile(document: Document): boolean {
+    if (document.fileType === FileType.IMAGE) {
+      return true;
+    }
+    // Vérifier aussi par extension ou mimeType si c'est classé comme OTHER
+    if (document.fileType === FileType.OTHER && document.fileUrl) {
+      const name = document.name.toLowerCase();
+      const mimeType = document.mimeType?.toLowerCase() || '';
+      return name.endsWith('.png') || name.endsWith('.jpg') || name.endsWith('.jpeg') || 
+             name.endsWith('.gif') || name.endsWith('.bmp') || name.endsWith('.svg') ||
+             name.endsWith('.webp') || mimeType.startsWith('image/');
+    }
+    return false;
+  }
+
+  isDocumentFile(document: Document): boolean {
+    if (document.fileType === FileType.DOCUMENT) {
+      return true;
+    }
+    // Vérifier aussi par extension si c'est classé comme OTHER
+    if (document.fileType === FileType.OTHER && document.fileUrl) {
+      const name = document.name.toLowerCase();
+      return name.endsWith('.docx') || name.endsWith('.doc');
+    }
+    return false;
   }
 
   getPreviewUrl(document: Document): string {
@@ -416,6 +447,27 @@ export class DocumentsComponent implements OnInit {
   onPdfError(event: Event): void {
     console.error('Erreur lors du chargement du PDF dans l\'iframe:', event);
     this.pdfLoadError = true;
+  }
+
+  getDocumentViewerUrl(document: Document): SafeResourceUrl {
+    // Utiliser Google Docs Viewer pour afficher les fichiers .docx
+    const fileUrl = this.getPreviewUrl(document);
+    if (!fileUrl) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl('');
+    }
+    // Google Docs Viewer nécessite une URL accessible publiquement
+    // Pour localhost, on peut utiliser l'URL complète du serveur
+    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(viewerUrl);
+  }
+
+  onDocumentLoad(event: Event): void {
+    this.documentLoadError = false;
+  }
+
+  onDocumentError(event: Event): void {
+    console.error('Erreur lors du chargement du document dans l\'iframe:', event);
+    this.documentLoadError = true;
   }
 
   canEdit(document: Document): boolean {

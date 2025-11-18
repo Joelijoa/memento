@@ -113,7 +113,7 @@
         </div>
 
         <!-- Image -->
-        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.IMAGE && selectedDocument.fileUrl">
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && isImageFile(selectedDocument) && selectedDocument.fileUrl">
           <div class="preview-media-container">
             <img [src]="getPreviewUrl(selectedDocument)" [alt]="selectedDocument.name" class="preview-image">
             <div class="preview-actions-bar">
@@ -121,6 +121,45 @@
                 <button mat-raised-button color="primary">
                   <mat-icon>download</mat-icon>
                   Télécharger
+                </button>
+              </a>
+              <a [href]="getPreviewUrl(selectedDocument)" target="_blank" [matTooltip]="'Ouvrir dans un nouvel onglet'">
+                <button mat-raised-button color="accent">
+                  <mat-icon>open_in_new</mat-icon>
+                  Ouvrir
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Document Word (.docx, .doc) -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && isDocumentFile(selectedDocument) && selectedDocument.fileUrl">
+          <div class="preview-media-container">
+            <div class="document-viewer-container">
+              <iframe 
+                [src]="getDocumentViewerUrl(selectedDocument)" 
+                class="preview-iframe" 
+                (load)="onDocumentLoad($event)"
+                (error)="onDocumentError($event)">
+              </iframe>
+              <div *ngIf="documentLoadError" class="pdf-error-message">
+                <mat-icon class="error-icon">error_outline</mat-icon>
+                <p>Impossible d'afficher le document dans le navigateur</p>
+                <p class="error-hint">Utilisez le bouton "Télécharger" pour ouvrir le fichier avec Microsoft Word</p>
+              </div>
+            </div>
+            <div class="preview-actions-bar">
+              <a [href]="getDownloadUrl(selectedDocument)" download [matTooltip]="'Télécharger'">
+                <button mat-raised-button color="primary">
+                  <mat-icon>download</mat-icon>
+                  Télécharger
+                </button>
+              </a>
+              <a [href]="getPreviewUrl(selectedDocument)" target="_blank" [matTooltip]="'Ouvrir dans un nouvel onglet'">
+                <button mat-raised-button color="accent">
+                  <mat-icon>open_in_new</mat-icon>
+                  Ouvrir
                 </button>
               </a>
             </div>
@@ -194,8 +233,8 @@
           </div>
         </div>
 
-        <!-- Autres types de fichiers -->
-        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.OTHER">
+        <!-- Autres types de fichiers (exclure les images et documents détectés) -->
+        <div *ngIf="selectedDocument.type === DocumentType.FILE && selectedDocument.fileType === FileType.OTHER && !isImageFile(selectedDocument) && !isDocumentFile(selectedDocument)">
           <div class="file-info">
             <mat-icon class="large-icon">insert_drive_file</mat-icon>
             <p class="file-name">{{ selectedDocument.name }}</p>

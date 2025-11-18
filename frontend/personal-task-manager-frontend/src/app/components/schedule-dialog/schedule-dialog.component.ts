@@ -114,10 +114,25 @@ export class ScheduleDialogComponent implements OnInit {
       if (scheduleData.date instanceof Date) {
         scheduleData.date = this.formatDateForBackend(scheduleData.date);
         // Calculer aussi dayOfWeek pour compatibilité backend si nécessaire
-        scheduleData.dayOfWeek = this.getDayOfWeekFromDate(scheduleData.date);
+        const dayOfWeekFr = this.getDayOfWeekFromDate(scheduleData.date);
+        // Convertir le jour français en anglais pour le backend
+        scheduleData.dayOfWeek = this.convertDayOfWeekToEnglish(dayOfWeekFr);
       }
       this.dialogRef.close(scheduleData);
     }
+  }
+
+  private convertDayOfWeekToEnglish(dayOfWeekFr: DayOfWeek): string {
+    const map: Record<DayOfWeek, string> = {
+      [DayOfWeek.MONDAY]: 'MONDAY',
+      [DayOfWeek.TUESDAY]: 'TUESDAY',
+      [DayOfWeek.WEDNESDAY]: 'WEDNESDAY',
+      [DayOfWeek.THURSDAY]: 'THURSDAY',
+      [DayOfWeek.FRIDAY]: 'FRIDAY',
+      [DayOfWeek.SATURDAY]: 'SATURDAY',
+      [DayOfWeek.SUNDAY]: 'SUNDAY'
+    };
+    return map[dayOfWeekFr] || 'MONDAY';
   }
 
   private getDayOfWeekFromDate(dateStr: string): DayOfWeek {

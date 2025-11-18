@@ -4,6 +4,8 @@ import com.personaltaskmanager.model.Document;
 import com.personaltaskmanager.enums.DocumentType;
 import com.personaltaskmanager.enums.FileType;
 import com.personaltaskmanager.repository.DocumentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.util.UUID;
 
 @Service
 public class DocumentService {
+
+    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -51,7 +55,7 @@ public class DocumentService {
         document.setCreatedAt(LocalDateTime.now());
         document.setUpdatedAt(LocalDateTime.now());
         Document saved = documentRepository.save(document);
-        System.out.println("Document sauvegardé en base avec ID: " + saved.getId() + ", userId: " + saved.getUserId());
+        logger.info("Document sauvegardé en base avec ID: {}, userId: {}", saved.getId(), saved.getUserId());
         return saved;
     }
 
@@ -85,7 +89,7 @@ public class DocumentService {
                     Path filePath = Paths.get(document.getFilePath());
                     Files.deleteIfExists(filePath);
                 } catch (IOException e) {
-                    System.err.println("Erreur lors de la suppression du fichier: " + e.getMessage());
+                    logger.error("Erreur lors de la suppression du fichier: {}", document.getFilePath(), e);
                 }
             }
             
@@ -149,9 +153,9 @@ public class DocumentService {
             try {
                 String content = new String(Files.readAllBytes(filePath), "UTF-8");
                 document.setContent(content);
-                System.out.println("Contenu du fichier texte stocké, taille: " + content.length() + " caractères");
+                logger.info("Contenu du fichier texte stocké, taille: {} caractères", content.length());
             } catch (IOException e) {
-                System.err.println("Erreur lors de la lecture du contenu du fichier texte: " + e.getMessage());
+                logger.error("Erreur lors de la lecture du contenu du fichier texte", e);
             }
         }
 
@@ -185,7 +189,7 @@ public class DocumentService {
                 })
                 .orElse(null);
         } catch (IOException e) {
-            System.err.println("Erreur lors de la recherche du fichier: " + e.getMessage());
+            logger.error("Erreur lors de la recherche du fichier: {}", filename, e);
             return null;
         }
     }
@@ -205,6 +209,10 @@ public class DocumentService {
             return FileType.AUDIO;
         } else if (mimeType.startsWith("text/")) {
             return FileType.TEXT;
+        } else if (mimeType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document") ||
+                   mimeType.equals("application/msword") ||
+                   mimeType.equals("application/vnd.ms-word")) {
+            return FileType.DOCUMENT;
         }
         return FileType.OTHER;
     }
@@ -238,6 +246,8 @@ public class DocumentService {
         } else if (lowerFilename.endsWith(".mp3") || lowerFilename.endsWith(".wav") ||
                    lowerFilename.endsWith(".ogg") || lowerFilename.endsWith(".flac")) {
             return FileType.AUDIO;
+        } else if (lowerFilename.endsWith(".docx") || lowerFilename.endsWith(".doc")) {
+            return FileType.DOCUMENT;
         }
         return FileType.OTHER;
     }

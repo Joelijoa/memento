@@ -95,6 +95,11 @@ export class ScheduleViewComponent implements OnInit, AfterViewInit {
         this.datesWithSchedules.clear(); // Réinitialiser le cache
         
         schedules.forEach(schedule => {
+          // Convertir dayOfWeek de l'anglais vers le français si nécessaire
+          if (schedule.dayOfWeek && typeof schedule.dayOfWeek === 'string') {
+            schedule.dayOfWeek = this.convertDayOfWeekFromEnglish(schedule.dayOfWeek) as any;
+          }
+          
           if (schedule.id) {
             const storedDate = this.getStoredScheduleDate(schedule.id);
             if (storedDate) {
@@ -112,13 +117,36 @@ export class ScheduleViewComponent implements OnInit, AfterViewInit {
         // Forcer la mise à jour du calendrier après un petit délai
         setTimeout(() => {
           this.updateCalendar();
-          this.cdr.detectChanges();
+          // Forcer le rafraîchissement de dateClass en changeant temporairement la date active
+          if (this.calendar) {
+            const currentDate = new Date(this.calendar.activeDate || this.selectedDate);
+            this.calendar.activeDate = new Date(currentDate);
+            this.cdr.detectChanges();
+          }
         }, 100);
       },
       error: (error) => {
         console.error('Erreur lors du chargement des plannings:', error);
       }
     });
+  }
+
+  private convertDayOfWeekFromEnglish(dayOfWeekEn: string): DayOfWeek {
+    const map: Record<string, DayOfWeek> = {
+      'MONDAY': DayOfWeek.MONDAY,
+      'TUESDAY': DayOfWeek.TUESDAY,
+      'WEDNESDAY': DayOfWeek.WEDNESDAY,
+      'THURSDAY': DayOfWeek.THURSDAY,
+      'FRIDAY': DayOfWeek.FRIDAY,
+      'SATURDAY': DayOfWeek.SATURDAY,
+      'SUNDAY': DayOfWeek.SUNDAY
+    };
+    // Si déjà en français (valeur de l'enum), retourner tel quel
+    if (Object.values(DayOfWeek).includes(dayOfWeekEn as DayOfWeek)) {
+      return dayOfWeekEn as DayOfWeek;
+    }
+    // Sinon, convertir depuis l'anglais
+    return map[dayOfWeekEn.toUpperCase()] || DayOfWeek.MONDAY;
   }
 
 
@@ -219,19 +247,28 @@ export class ScheduleViewComponent implements OnInit, AfterViewInit {
     const dateStr = this.formatDateForFilter(d);
     const hasSpecificSchedule = this.datesWithSchedules.has(dateStr);
     
+    if (hasSpecificSchedule) {
+      return 'has-schedule';
+    }
+    
     // Si pas dans le cache, vérifier dans les schedules (au cas où le cache n'est pas à jour)
-    if (!hasSpecificSchedule && this.schedules.length > 0) {
+    // IMPORTANT: On ne marque que les plannings avec une date spécifique, pas les plannings récurrents
+    if (this.schedules.length > 0) {
       const found = this.schedules.some(schedule => {
         if (!schedule.id) return false;
+        
+        // Vérifier uniquement si le planning a une date spécifique (stockée ou dans le modèle)
         const storedDate = this.getStoredScheduleDate(schedule.id);
         const modelDate = schedule.date;
         const planningDate = modelDate || storedDate;
         
+        // Ne marquer que si on a une date spécifique qui correspond exactement
         if (planningDate && planningDate === dateStr) {
           // Mettre à jour le cache
           this.datesWithSchedules.add(dateStr);
           return true;
         }
+        
         return false;
       });
       
@@ -240,7 +277,7 @@ export class ScheduleViewComponent implements OnInit, AfterViewInit {
       }
     }
     
-    return hasSpecificSchedule ? 'has-schedule' : '';
+    return '';
   }
 
   checkUpcomingSchedules(): void {
@@ -386,6 +423,11 @@ export class ScheduleViewComponent implements OnInit, AfterViewInit {
     
     this.scheduleService.createSchedule(scheduleData).subscribe({
       next: (newSchedule) => {
+        // Convertir dayOfWeek de l'anglais vers le français si nécessaire
+        if (newSchedule.dayOfWeek && typeof newSchedule.dayOfWeek === 'string') {
+          newSchedule.dayOfWeek = this.convertDayOfWeekFromEnglish(newSchedule.dayOfWeek) as any;
+        }
+        
         // Sauvegarder la date dans localStorage si elle existe
         if (dateToStore) {
           // Essayer plusieurs fois car l'ID peut ne pas être disponible immédiatement
@@ -442,6 +484,11 @@ export class ScheduleViewComponent implements OnInit, AfterViewInit {
     
     this.scheduleService.updateSchedule(id, scheduleData).subscribe({
       next: (updatedSchedule) => {
+        // Convertir dayOfWeek de l'anglais vers le français si nécessaire
+        if (updatedSchedule.dayOfWeek && typeof updatedSchedule.dayOfWeek === 'string') {
+          updatedSchedule.dayOfWeek = this.convertDayOfWeekFromEnglish(updatedSchedule.dayOfWeek) as any;
+        }
+        
         // Si une date est fournie, la sauvegarder dans localStorage
         if (scheduleData.date && updatedSchedule.id) {
           this.storeScheduleDate(updatedSchedule.id, scheduleData.date);

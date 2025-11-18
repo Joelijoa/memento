@@ -2,6 +2,8 @@ package com.personaltaskmanager.controller;
 
 import com.personaltaskmanager.model.Document;
 import com.personaltaskmanager.service.DocumentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -19,16 +21,15 @@ import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200", "http://192.168.1.34:4200"})
 public class DocumentController {
 
+    private static final Logger logger = LoggerFactory.getLogger(DocumentController.class);
+
     @Autowired
     private DocumentService documentService;
 
     @GetMapping("/user/{userId}")
     public List<Document> getAllDocumentsByUser(@PathVariable Long userId) {
         List<Document> documents = documentService.getAllDocumentsByUserId(userId);
-        System.out.println("Récupération de " + documents.size() + " documents pour l'utilisateur " + userId);
-        for (Document doc : documents) {
-            System.out.println("  - Document ID: " + doc.getId() + ", nom: " + doc.getName() + ", type: " + doc.getType());
-        }
+        logger.info("Récupération de {} documents pour l'utilisateur {}", documents.size(), userId);
         return documents;
     }
 
@@ -53,13 +54,13 @@ public class DocumentController {
     @PostMapping
     public ResponseEntity<Document> createDocument(@RequestBody Document document) {
         try {
-            System.out.println("Création d'un document: " + document.getName() + ", type: " + document.getType() + ", userId: " + document.getUserId());
+            logger.info("Création d'un document: {}, type: {}, userId: {}", 
+                document.getName(), document.getType(), document.getUserId());
             Document created = documentService.createDocument(document);
-            System.out.println("Document créé avec succès, ID: " + created.getId());
+            logger.info("Document créé avec succès, ID: {}", created.getId());
             return ResponseEntity.ok(created);
         } catch (Exception e) {
-            System.err.println("Erreur lors de la création du document: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erreur lors de la création du document", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -99,14 +100,14 @@ public class DocumentController {
     @GetMapping("/files/{filename}")
     public ResponseEntity<byte[]> getFile(@PathVariable String filename) {
         try {
-            System.out.println("Tentative de récupération du fichier: " + filename);
+            logger.debug("Tentative de récupération du fichier: {}", filename);
             byte[] fileContent = documentService.getFileContent(filename);
             if (fileContent != null) {
                 HttpHeaders headers = new HttpHeaders();
                 
                 // Déterminer le type MIME à partir du nom de fichier
                 String contentType = documentService.getContentTypeFromFilename(filename);
-                System.out.println("Type MIME détecté: " + contentType);
+                logger.debug("Type MIME détecté: {}", contentType);
                 headers.setContentType(MediaType.parseMediaType(contentType));
                 
                 // Ajouter les headers CORS pour permettre l'affichage dans l'iframe
@@ -127,14 +128,13 @@ public class DocumentController {
                     headers.setContentDispositionFormData("attachment", filename);
                 }
                 
-                System.out.println("Fichier trouvé, taille: " + fileContent.length + " bytes");
+                logger.debug("Fichier trouvé, taille: {} bytes", fileContent.length);
                 return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
             }
-            System.err.println("Fichier non trouvé: " + filename);
+            logger.warn("Fichier non trouvé: {}", filename);
             return ResponseEntity.notFound().build();
         } catch (IOException e) {
-            System.err.println("Erreur lors de la récupération du fichier: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erreur lors de la récupération du fichier: {}", filename, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

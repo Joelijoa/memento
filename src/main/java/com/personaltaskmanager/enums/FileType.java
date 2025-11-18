@@ -6,6 +6,7 @@ public enum FileType {
     PDF,
     VIDEO,
     AUDIO,
+    DOCUMENT,
     OTHER
 }
 

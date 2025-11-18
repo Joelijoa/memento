@@ -4,6 +4,8 @@ import com.personaltaskmanager.enums.TaskStatus;
 import com.personaltaskmanager.enums.TaskDifficulty;
 import com.personaltaskmanager.enums.TaskPriority;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
@@ -18,6 +20,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Le titre est obligatoire")
     @Column(nullable = false)
     private String title;
 
@@ -28,10 +31,12 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.PENDING;
 
+    @NotNull(message = "La difficulté est obligatoire")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskDifficulty difficulty;
 
+    @NotNull(message = "La priorité est obligatoire")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskPriority priority = TaskPriority.MEDIUM;
@@ -45,7 +50,7 @@ public class Task {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

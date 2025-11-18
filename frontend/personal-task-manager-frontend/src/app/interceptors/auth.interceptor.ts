@@ -9,15 +9,23 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
+    const user = this.authService.getCurrentUser();
     
+    let headers = req.headers;
+    
+    // Ajouter le token d'authentification
     if (token) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`)
-      });
-      return next.handle(cloned);
+      headers = headers.set('Authorization', `Bearer ${token}`);
     }
     
-    return next.handle(req);
+    // Ajouter l'ID de l'utilisateur dans le header
+    // TODO: Remplacer par extraction depuis le JWT token une fois JWT implémenté
+    if (user && user.id) {
+      headers = headers.set('X-User-Id', user.id.toString());
+    }
+    
+    const cloned = req.clone({ headers });
+    return next.handle(cloned);
   }
 }
 

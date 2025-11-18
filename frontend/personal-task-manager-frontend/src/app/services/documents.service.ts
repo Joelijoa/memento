@@ -71,7 +71,9 @@ export class DocumentsService {
       }),
       catchError((error) => {
         console.error('Erreur lors du chargement de tous les documents:', error);
-        return of(this.getMockDocuments());
+        // Retourner un tableau vide au lieu de mocks
+        this.documentsSubject.next([]);
+        return of([]);
       })
     );
   }
@@ -143,7 +145,7 @@ export class DocumentsService {
   createFolder(name: string, parentId?: string): Observable<Document> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
-      return of();
+      throw new Error('Utilisateur non connecté');
     }
 
     // Créer un objet compatible avec le backend (Long au lieu de string)
@@ -160,26 +162,14 @@ export class DocumentsService {
     return this.http.post<Document>(this.apiUrl, folderRequest).pipe(
       map(doc => {
         const mappedDoc = this.mapDocumentToFrontend(doc);
-        // Mettre à jour le subject même en cas de succès API
+        // Mettre à jour le subject avec le document sauvegardé en base
         this.updateDocumentsList(mappedDoc);
         return mappedDoc;
       }),
       catchError((error) => {
-        console.log('Erreur API, utilisation du mode mock:', error);
-        // Mock response
-        const mockFolder: Document = {
-          id: Date.now().toString(),
-          name,
-          type: DocumentType.FOLDER,
-          parentId,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          userId: currentUser.id.toString()
-        };
-        this.updateDocumentsList(mockFolder);
-        // Rafraîchir pour que le composant se mette à jour
-        this.refreshDocuments(parentId);
-        return of(mockFolder);
+        console.error('Erreur lors de la création du dossier:', error);
+        // Propager l'erreur au lieu de créer un mock
+        throw error;
       })
     );
   }
@@ -187,7 +177,7 @@ export class DocumentsService {
   createFile(name: string, content: string, parentId?: string): Observable<Document> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
-      return of();
+      throw new Error('Utilisateur non connecté');
     }
 
     // Créer un objet compatible avec le backend (Long au lieu de string)
@@ -206,28 +196,14 @@ export class DocumentsService {
     return this.http.post<Document>(this.apiUrl, fileRequest).pipe(
       map(doc => {
         const mappedDoc = this.mapDocumentToFrontend(doc);
-        // Mettre à jour le subject même en cas de succès API
+        // Mettre à jour le subject avec le document sauvegardé en base
         this.updateDocumentsList(mappedDoc);
         return mappedDoc;
       }),
       catchError((error) => {
-        console.log('Erreur API, utilisation du mode mock:', error);
-        // Mock response
-        const mockFile: Document = {
-          id: Date.now().toString(),
-          name,
-          type: DocumentType.FILE,
-          fileType: FileType.TEXT,
-          content,
-          parentId,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          userId: currentUser.id.toString()
-        };
-        this.updateDocumentsList(mockFile);
-        // Rafraîchir pour que le composant se mette à jour
-        this.refreshDocuments(parentId);
-        return of(mockFile);
+        console.error('Erreur lors de la création du fichier:', error);
+        // Propager l'erreur au lieu de créer un mock
+        throw error;
       })
     );
   }
@@ -235,7 +211,7 @@ export class DocumentsService {
   uploadFile(file: File, parentId?: string): Observable<Document> {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
-      return of();
+      throw new Error('Utilisateur non connecté');
     }
 
     const formData = new FormData();
@@ -248,31 +224,14 @@ export class DocumentsService {
     return this.http.post<Document>(`${this.apiUrl}/upload`, formData).pipe(
       map(doc => {
         const mappedDoc = this.mapDocumentToFrontend(doc);
-        // Mettre à jour le subject même en cas de succès API
+        // Mettre à jour le subject avec le document sauvegardé en base
         this.updateDocumentsList(mappedDoc);
         return mappedDoc;
       }),
       catchError((error) => {
-        console.log('Erreur API, utilisation du mode mock:', error);
-        // Mock response
-        const fileType = this.getFileTypeFromMime(file.type);
-        const mockFile: Document = {
-          id: Date.now().toString(),
-          name: file.name,
-          type: DocumentType.FILE,
-          fileType,
-          fileUrl: URL.createObjectURL(file),
-          size: file.size,
-          mimeType: file.type,
-          parentId,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          userId: currentUser.id.toString()
-        };
-        this.updateDocumentsList(mockFile);
-        // Rafraîchir pour que le composant se mette à jour
-        this.refreshDocuments(parentId);
-        return of(mockFile);
+        console.error('Erreur lors de l\'upload du fichier:', error);
+        // Propager l'erreur au lieu de créer un mock
+        throw error;
       })
     );
   }
@@ -375,24 +334,5 @@ export class DocumentsService {
     });
   }
 
-  private getMockDocuments(): Document[] {
-    return [
-      {
-        id: '1',
-        name: 'Documents',
-        type: DocumentType.FOLDER,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        userId: '1'
-      }
-    ];
-  }
-
-  private getMockDocumentsByParent(parentId?: string): Document[] {
-    if (!parentId) {
-      return this.getMockDocuments();
-    }
-    return [];
-  }
 }
 

@@ -9,6 +9,7 @@ export enum FileType {
   PDF = 'PDF',
   VIDEO = 'VIDEO',
   AUDIO = 'AUDIO',
+  DOCUMENT = 'DOCUMENT',
   OTHER = 'OTHER'
 }
 

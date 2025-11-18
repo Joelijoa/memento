@@ -1,0 +1,40 @@
+# Fichiers sensibles
+*.env
+.env.local
+.env.*.local
+application-local.properties
+application-prod.properties
+
+# Fichiers de configuration avec secrets
+**/application-prod.properties
+**/application-local.properties
+
+# Logs
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# Build
+target/
+dist/
+*.class
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (peut contenir des données sensibles)
+uploads/
+!uploads/.gitkeep
+

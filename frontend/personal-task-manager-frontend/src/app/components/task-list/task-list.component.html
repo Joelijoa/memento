@@ -126,7 +126,7 @@
         <button mat-button 
                 (click)="openCommentDialog(task)" 
                 matTooltip="Ajouter un commentaire"
-                *ngIf="task.status === 'COMPLETED'"
+                *ngIf="task.status === 'Terminé'"
                 class="comment-button">
           <mat-icon>comment</mat-icon>
           Ajouter un commentaire
@@ -135,7 +135,7 @@
         <button mat-button 
                 (click)="openTaskDetail(task)" 
                 matTooltip="Voir les détails"
-                *ngIf="task.status === 'COMPLETED' && task.comments && task.comments.length > 0"
+                *ngIf="task.status === 'Terminé' && task.comments && task.comments.length > 0"
                 class="detail-button">
           <mat-icon>visibility</mat-icon>
           Voir les détails
